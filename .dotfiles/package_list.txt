@@ -1,0 +1,124 @@
+# programming
+python3
+python3-pip
+
+clang
+gcc
+
+hyperfine   # benchmarking tool
+valgrind    # profiling tool
+perf        # profiling tool
+meld        # git merging tool
+
+make
+git
+
+
+
+# terminal programs
+tmux          # terminal multiplexer
+kakoune       # editor
+
+renameutils   # bulk renaming
+ripgrep       # faster alternative to grep
+exa           # better alternative to ls
+fd            # better alternative to find
+bat           # cat with syntax highlighting
+bc            # calculator
+jq            # json manipulation
+
+ncdu          # disk usage monitor
+fzf           # fuzzy finder for files
+nnn           # terminal file manager
+
+pass          # password manager
+sct           # blue light filter
+
+dtrx          # handy tool for extracting archives
+unzip
+tar
+
+curl
+wget
+
+htop
+cpupower
+lm_sensors    # monitor thermals
+
+
+
+bspwm
+sxhkd
+picom    # compositor (fork of compton)
+dunst    # notification daemon
+polybar  # statusbar
+
+
+
+unclutter   # hide the mouse after a period of inactivity
+zenity      # show gui popups for scripts
+ntfs-3g     # work with ntfs filesystems
+udisks2     # work with removeable drives as normal user
+
+
+
+pulseaudio
+pamixer
+
+
+
+ImageMagick
+mpv
+sxiv
+mypaint
+spacefm
+firefox
+spotify
+pavucontrol
+transmission-gtk
+
+
+
+zathura
+zathura-ps
+zathura-pdf-mupdf
+
+
+
+
+
+# x stuff & gui
+lxappearance
+lxinput
+arandr
+autorandr
+xinput
+xorg-minimal
+xmodmap
+xset
+xsel
+xwallpaper
+xrandr
+setxkbmap
+xkbcomp
+xdotool
+xsetroot
+xclip
+xprop
+
+
+
+# drivers
+xf86-input-synaptics
+xf86-input-wacom
+
+
+
+# services
+iwd
+bluez
+tlp
+thinkfan
+powertop
+chrony
+

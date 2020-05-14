@@ -2,7 +2,7 @@
 
 [[ $- != *i* ]] && return
 
-export PATH="$PATH:$(du "$HOME/scripts/" | cut -f2 | tr '\n' ':' | sed 's/:*$//'):~/.local/bin"
+export PATH="$PATH:$(find "$HOME/scripts/" -type f | paste -s -d ':'):~/.local/bin"
 
 export TMPDIR="/tmp"
 export FILE_TODO="$HOME/notes/todo"
@@ -124,7 +124,6 @@ alias v="zathura"
 alias goto='cd "$(find_dir)"'
 
 alias dots='git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
-alias dots_clone='git clone --bare https://github.com/Jackojc/dots $HOME/.dotfiles/.git'
 
 
 function cm {
