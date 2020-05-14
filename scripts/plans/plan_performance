@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+run_once picom --experimental-backends
+run_once pulseaudio --start
+
+
+xbacklight =100 &
+networking_wifi_enable &
+
+sudo cpupower frequency-set -g performance &
+echo "1" | sudo tee "/sys/class/leds/tpacpi::power/brightness" &
+
+wakeup_enable
+usb_enable

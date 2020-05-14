@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+
+echo "START"
+shown=0
+sleep 8
+
+while true; do
+	echo "[*] performing checks..."
+
+	if networking_is_wifi && ! networking_is_eth; then
+		shown=0
+		echo "	[!] wifi up, eth down"
+
+	elif ! networking_is_wifi && networking_is_eth; then
+		shown=0
+		echo "	[!] wifi down, eth up"
+
+	elif ! networking_is_wifi && ! networking_is_eth; then
+		networking_wifi_enable
+		echo "	[!] wifi down, eth down, enabling wifi"
+
+	elif networking_is_wifi && networking_is_eth; then
+		networking_wifi_disable
+		echo "	[!] wifi up, eth up, disabling wifi"
+
+	fi
+
+	sleep 4
+
+	echo "[*] checking net status..."
+	if ! networking_isup > /dev/null; then
+		echo "	[!] no network"
+
+		if [ "$shown" = "0" ]; then
+			notify_network "$(networking_isup)"
+			shown=1
+		fi
+
+	else
+		echo "	[!] online"
+	fi
+
+	sleep 4
+
+done
+

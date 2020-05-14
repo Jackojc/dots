@@ -1,0 +1,315 @@
+# kakrc
+colorscheme lugh
+
+
+# Options
+set-option global tabstop 4          # represent tabs as 4 spaces
+set-option global indentwidth 0      # self explanatory
+set-option global scrolloff 3,0      # space around cursor when scrolling
+set-option global ui_options ncurses_assistant=none # dont show clippy in popups
+set-option global aligntab false
+set-option global grepcmd 'rg --column'   # use ripgrep instead of normal grep
+set-option global autoinfo command|onkey|normal
+set-option global startup_info_version 99999999999
+set-option global idle_timeout 100
+
+
+
+source "%val{config}/rc/easymotion.kak"  # allows for jumping around text
+source "%val{config}/rc/inc-dec.kak"
+source "%val{config}/rc/idsession.kak"
+
+
+
+
+
+
+# Highlighters
+add-highlighter global/ show-whitespaces              # show whitespace
+add-highlighter global/ show-matching                 # highlight matching braces etc
+add-highlighter global/ number-lines -relative -hlcursor -min-digits 3
+
+
+
+# Set `st` as default terminal.
+declare-option str termcmd %sh{
+	printf %s\\n "st -e sh -c"
+}
+
+
+
+# Percent way through file
+declare-option str modeline_pos_percent '0'
+
+hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
+	echo "set window modeline_pos_percent '$(($kak_cursor_line * 100 / $kak_buf_line_count))'"
+} } }
+
+
+
+# Statusbar
+set global modelinefmt '%val{bufname} [%opt{filetype}] %val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column} %opt{modeline_pos_percent}%%{{context_info}} {{mode_info}} %val{client}|%val{session}'
+
+
+
+hook global FocusIn .* %{
+	set-face window FocusedLine        FocusedLine
+	set-face window Default            Default
+	set-face window BufferPadding      BufferPadding
+	set-face window PrimarySelection   PrimarySelection
+	set-face window SecondarySelection SecondarySelection
+	set-face window PrimaryCursor      PrimaryCursor
+	set-face window SecondaryCursor    SecondaryCursor
+	set-face window PrimaryCursorEol   PrimaryCursorEol
+	set-face window SecondaryCursorEol SecondaryCursorEol
+	set-face window MenuForeground     MenuForeground
+	set-face window MenuBackground     MenuBackground
+	set-face window MenuInfo           MenuInfo
+	set-face window StatusLine         StatusLine
+	set-face window StatusLineMode     StatusLineMode
+	set-face window StatusLineInfo     StatusLineInfo
+	set-face window StatusLineValue    StatusLineValue
+	set-face window StatusCursor       StatusCursor
+	set-face window Information        Information
+	set-face window Error              Error
+	set-face window Prompt             Prompt
+}
+
+
+hook global FocusOut .* %{
+	set-face window FocusedLine        InactiveFocusedLine
+	set-face window Default            InactiveDefault
+	set-face window BufferPadding      InactiveBufferPadding
+	set-face window PrimarySelection   InactivePrimarySelection
+	set-face window SecondarySelection InactiveSecondarySelection
+	set-face window PrimaryCursor      InactivePrimaryCursor
+	set-face window SecondaryCursor    InactiveSecondaryCursor
+	set-face window PrimaryCursorEol   InactivePrimaryCursorEol
+	set-face window SecondaryCursorEol InactiveSecondaryCursorEol
+	set-face window MenuForeground     InactiveMenuForeground
+	set-face window MenuBackground     InactiveMenuBackground
+	set-face window MenuInfo           InactiveMenuInfo
+	set-face window StatusLine         InactiveStatusLine
+	set-face window StatusLineMode     InactiveStatusLineMode
+	set-face window StatusLineInfo     InactiveStatusLineInfo
+	set-face window StatusLineValue    InactiveStatusLineValue
+	set-face window StatusCursor       InactiveStatusCursor
+	set-face window Information        InactiveInformation
+	set-face window Error              InactiveError
+	set-face window Prompt             InactivePrompt
+}
+
+
+# Remove trailing whitespaces on file save
+hook global BufWritePre .* %{ try %{
+	execute-keys -draft '%s[\h\v]+$<ret><a-d>'
+} }
+
+
+
+# Highlight the currently focused line.
+hook global -group crosshairs RawKey .+ %{
+	try %{ remove-highlighter window/crosshairs-line }
+	try %{ add-highlighter window/crosshairs-line line %val{cursor_line} FocusedLine }
+}
+
+
+
+# Add some highlighters for Rust and C++
+hook global WinSetOption filetype=(c|cpp|rust) %{
+	add-highlighter buffer/namespace regex [a-zA-Z](\w+)?(\h+)?(::) 0:namespace
+	add-highlighter buffer/functions regex \w+(\h+)?(?=\() 0:function
+}
+
+
+
+
+# Colour make output
+hook global BufCreate '\*make\*' %{
+	hook buffer BufReadFifo '.*' 'ansi-render'
+	hook buffer BufCloseFifo '.*' 'ansi-render'
+}
+
+
+
+
+# rename session to something more human readable
+hook global KakBegin .* %{
+	idsession
+}
+
+
+# delete the *scratch* buffer as soon as another is created, but only if it's empty
+hook global BufCreate '^\*scratch\*$' %{
+	exec '%d'
+}
+
+
+
+
+
+# tab to cycle autocomplete matches
+hook global InsertCompletionShow .* %{ try %{
+	execute-keys -draft 'h<a-K>\h<ret>'
+	map window insert <tab> <c-n>
+	map window insert <s-tab> <c-p>
+} }
+
+hook global InsertCompletionHide .* %{
+	unmap window insert <tab> <c-n>
+	unmap window insert <s-tab> <c-p>
+}
+
+
+
+
+# pasting and copying
+hook global NormalKey y|d|c %{ nop %sh{
+	printf %s "$kak_main_reg_dquote" | xsel -ib
+} }
+
+
+
+
+
+
+
+
+# Move lines
+define-command move-line-above -params 0..1 -docstring 'move-line-above [count]: Select full lines and move line above' %{
+	execute-keys -itersel "<a-x>yd%arg{1}k<a-P>"
+}
+
+define-command move-line-below -params 0..1 -docstring 'move-line-below [count]: Select full lines and move line below' %{
+	execute-keys -itersel "<a-x>yd%arg{1}j<a-P>"
+}
+
+
+
+define-command -docstring "vsplit [<commands>]: split tmux vertically" vsplit -params .. -command-completion %{
+	tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
+}
+
+define-command -docstring "split [<commands>]: split tmux horizontally" split -params .. -command-completion %{
+	tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
+}
+
+define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -params .. -command-completion %{
+	tmux-terminal-window kak -c %val{session} -e "%arg{@}"
+}
+
+
+
+
+define-command -params 1 filetype %{
+	eval "set-option buffer filetype %arg{1}"
+}
+
+
+
+
+# allow you to select lines going up aswell as down.
+define-command -params 1 extend-line-down %{
+	exec "<a-:>%arg{1}X"
+}
+
+
+define-command -params 1 extend-line-up %{
+	exec "<a-:><a-;>%arg{1}K<a-;>"
+
+	try %{
+		exec -draft ';<a-K>\n<ret>'
+		exec X
+	}
+
+	exec '<a-;><a-X>'
+}
+
+
+
+
+# Move lines
+map global normal <c-down> ': move-line-below %val{count}<ret>' -docstring "move line down"
+map global normal <c-up>   ': move-line-above %val{count}<ret>' -docstring "move line up"
+
+
+# Home/End
+map global normal <end>  'gll'
+map global normal <home> 'gh'
+
+
+# Do not yank when using d,c
+map global normal d <a-d>
+map global normal c <a-c>
+
+
+# remap b to q
+map global normal = q
+map global normal <a-=> Q
+
+map global normal q b
+map global normal Q B
+map global normal <a-q> <a-b>
+map global normal <a-Q> <a-B>
+
+map global normal b ': fzf-mode<ret>'
+
+
+
+
+# backspace in normal mode works like in insert mode
+map global normal <backspace> 'i<backspace><esc>'
+
+# same for return
+map global normal <ret> 'i<ret><esc>'
+map global normal <del> 'd'
+
+
+
+
+
+# these popup when pressing ','
+map global user q ': easy-motion-b<ret>' -docstring 'jump to words behind'
+map global user w ': easy-motion-w<ret>' -docstring 'jump to words ahead'
+
+map global normal \' ': easy-motion-w<ret>'
+map global normal <a-'> ': easy-motion-b<ret>'
+
+
+
+
+# commenting shit
+map global normal '#' :comment-line<ret>
+map global normal '<a-#>' :comment-block<ret>
+
+
+# incr and decr
+map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
+map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
+
+
+
+
+
+
+
+
+map global normal <c-p> 'p'
+map global normal <c-P> 'P'
+
+map global normal P '<a-!>xsel -ob<ret>'
+map global normal p '!xsel -ob<ret>'
+map global normal <a-p> '<a-o>!xsel -ob<ret>'
+map global normal <a-P> '<a-O>!xsel -ob<ret>'
+
+
+# press tab to cycle buffers
+map global normal <tab> ': buffer-next<ret>'
+map global normal <s-tab> ': buffer-previous<ret>'
+
+
+
+map global normal x ': extend-line-down %val{count}<ret>'
+map global normal X ': extend-line-up %val{count}<ret>'
+
+

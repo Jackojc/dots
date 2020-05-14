@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+args="$@"
+
+if [ -z "$args" ]; then
+	file="$(fd -tf | fzf)"
+else
+	file="$(fd -tf | fzf -q "$@")"
+fi
+
+if [ -z "$file" ]; then
+	exit 1
+fi
+
+$EDITOR "$file"
+
+

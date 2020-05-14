@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+input=$(cat)
+echo "$input" | xsel -ib
+echo "$input"
+

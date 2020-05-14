@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+
+args="$(echo "$@" | tr ' ' '|' | sed 's/\./\\./g')"
+
+
+if [ -z "$args" ]; then
+	files="$(fd -tf)"
+
+else
+	files="$(fd -tf "($args)")"
+fi
+
+
+if [ -z "$files" ]; then
+	exit 1
+fi
+
+
+$EDITOR $files
+
+
+

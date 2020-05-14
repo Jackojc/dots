@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+bspc node -f $1.local || $(bspc monitor -f $1 && notify_monitor $(bspwm_monitor_name))
+
+
+

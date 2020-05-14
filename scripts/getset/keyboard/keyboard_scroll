@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+out="$(xset q | rg -o 'Scroll Lock:\s+(off|on)' | awk '{print $3}')"
+
+
+echo "$out"
+
+
+if [ "$out" = "off" ]; then
+	exit 1
+fi
+
+exit 0
+

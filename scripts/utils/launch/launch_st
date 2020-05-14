@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd $(focused_pwd)
+echo $PROG_TERMINAL $@ | sh &

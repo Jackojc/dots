@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+
+if class_get | rg -q "SCRATCHPAD[0-9]_.*"; then
+	scratch_pop
+	bspwm_node_center
+	scratch_push $1
+
+else
+	scratch_push $1
+	bspc node --state floating --layer above --flag locked=on --flag sticky=on --flag private=on
+	bspwm_node_center
+
+fi

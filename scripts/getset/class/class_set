@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+xdotool getactivewindow set_window --classname $@

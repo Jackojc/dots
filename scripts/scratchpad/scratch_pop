@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+
+current=$(class_get)
+
+if echo $current | rg -vq "SCRATCHPAD[0-9]_.*"; then
+	exit 1
+fi
+
+
+class_set $(echo $current | sed -E 's/SCRATCHPAD[0-9]_//')

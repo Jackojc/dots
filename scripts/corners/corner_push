@@ -1,0 +1,90 @@
+
+#!/usr/bin/env sh
+
+
+perc=27    # percentage of the screen the node will occupy
+offset=0   # percentage of screen gap around the outside
+
+
+# 0 = top left
+# 1 = top right
+# 2 = bottom right
+# 3 = bottom left
+
+
+corner=$1
+
+
+if [ -z $corner ]; then
+	exit 1
+
+elif [ $corner -gt 3 ]; then
+	exit 1
+fi
+
+
+
+
+set screen=$(bspc query -T -m | jq '.rectangle[]')
+screen_x=$1
+screen_y=$2
+screen_w=$3
+screen_h=$4
+
+
+# get shortest dimension
+shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
+
+
+
+# bspwm gaps for panels etc
+border_top=$(bspc config top_padding)
+border_right=$(bspc config right_padding)
+border_bottom=$(bspc config bottom_padding)
+border_left=$(bspc config left_padding)
+
+
+# compute minimum distance in pixels that nodes will be offset from the side
+border_gap=$(( (shortest * offset) / 100 ))
+
+# new size of node
+new_w=$(( (screen_w * perc) / 100 ))
+new_h=$(( (screen_h * perc) / 100 ))
+
+
+
+bspc node --flag locked=on --flag sticky=on --flag private=on --layer above --state floating
+
+xdotool getactivewindow windowsize $new_w $new_h
+
+
+
+
+# compute x and y for each corner
+if [ $corner = 0 ]; then
+	new_x=$(( border_left + border_gap ))
+	new_y=$(( border_top + border_gap ))
+
+
+elif [ $corner = 1 ]; then
+	new_x=$(( ((screen_w - new_w) - border_gap) - border_right ))
+	new_y=$(( border_top + border_gap ))
+
+
+elif [ $corner = 2 ]; then
+	new_x=$(( ((screen_w - new_w) - border_gap) - border_right ))
+	new_y=$(( ((screen_h - new_h) - border_gap) - border_bottom ))
+
+
+elif [ $corner = 3 ]; then
+	new_x=$(( border_gap + border_left ))
+	new_y=$(( ((screen_h - new_h) - border_gap) - border_bottom ))
+
+fi
+
+
+
+
+xdotool getactivewindow windowmove $(( (screen_x + new_x) - 1 )) $(( (screen_y + new_y) - 1 ))
+
+

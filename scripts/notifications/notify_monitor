@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+dunstify -u low -r 3333 "monitor" "$@"

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+
+x=30
+while [ $x -gt 0 ]; do
+
+	notify_power "going to sleep in $x seconds"
+
+	if power_ac > /dev/null; then
+		notify_power "abort countdown"
+		exit
+	fi
+
+	x=$(($x-1))
+
+	sleep 1
+done
+
+
+power_suspend
+
+exit 1

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+class_list "SCRATCHPAD$@_*"

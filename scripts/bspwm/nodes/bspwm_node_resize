@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+
+
+dir="$1"
+perc="$2"
+
+set $(bspc query -T -m | jq '[.rectangle[]] | .[2:4][]')
+screen_w=$1
+screen_h=$2
+
+shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
+resize_px=$(( (shortest * perc) / 100 ))
+
+
+if [ "$dir" = "left" ]; then
+	if [ -z "$(bspc query -N -n west.local.normal)" ]; then
+		bspc node -z right -$resize_px 0 && exit 0
+	else
+		bspc node -z left -$resize_px 0 && exit 0
+	fi
+
+
+
+elif [ "$dir" = "right" ]; then
+	if [ -z "$(bspc query -N -n east.local.normal)" ]; then
+		bspc node -z left $resize_px 0 && exit 0
+	else
+		bspc node -z right $resize_px 0 && exit 0
+	fi
+
+
+
+elif [ "$dir" = "bottom" ]; then
+	if [ -z "$(bspc query -N -n south.local.normal)" ]; then
+		bspc node -z top 0 $resize_px && exit 0
+	else
+		bspc node -z bottom 0 $resize_px && exit 0
+	fi
+
+
+
+elif [ "$dir" = "top" ]; then
+	if [ -z "$(bspc query -N -n north.local.normal)" ]; then
+		bspc node -z bottom 0 -$resize_px && exit 0
+	else
+		bspc node -z top 0 -$resize_px && exit 0
+	fi
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

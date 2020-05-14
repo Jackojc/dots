@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+state=$(workspace_state)
+
+if [ "$state" = "tiled" ]; then
+	echo " T"
+
+elif [ "$state" = "monocle" ]; then
+	echo " M"
+
+fi

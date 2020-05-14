@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+pkill -f WEBCAM || mpv --no-osc --no-input-default-bindings --input-conf=/dev/null --geometry=-0-0 --autofit=23% --x11-name=WEBCAM --title="WEBCAM" /dev/video0 &
+

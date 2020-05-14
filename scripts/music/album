@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+
+query="$(echo "$@" | tr ' ' '\ ')"
+selected=$(fd -td . $DIR_MUSIC | fzf -q "$query")
+
+
+if [ -z "$selected" ]; then
+	exit 1
+fi
+
+
+music_run_mpv "$selected"
+

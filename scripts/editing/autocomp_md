@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+pkill -f "entr mark2pdf"
+echo "$1" | entr mark2pdf "$1"

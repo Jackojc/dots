@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+
+getsource() {
+	pacmd list-sources |
+		awk '/index:/{i++} /* index:/{print i; exit}'
+}
+
+
+getmute() {
+	pacmd list-sources |
+		awk '/^\smuted:/{i++} i=='$(getsource)'{print $2; exit}'
+}
+
+
+
+muted="$(getmute)"
+
+
+case "$muted" in
+	yes) echo "on" && exit 0;;
+	no)  echo "off" && exit 1;;
+esac
+
+
+echo "unknown"
+exit 1

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+xprop -id $(bspc query -N -n) WM_CLASS | awk '{ print $3 }' | sed 's/[\",]//g'
+

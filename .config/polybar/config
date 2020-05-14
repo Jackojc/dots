@@ -1,0 +1,213 @@
+[colors]
+background = #080808
+background-alt = #151515
+modules-background = ${colors.background-alt}
+foreground = #FFF
+foreground-alt = #FFF
+
+primary = #252525
+secondary = #101010
+alert = #303030
+
+
+[global/wm]
+margin-bottom = 0
+margin-top = 0
+
+
+[settings]
+throttle-output = 5
+throttle-output-for = 10
+throttle-input-for = 100
+
+screenchange-reload = true
+
+
+[bar/main]
+monitor = ${env:MONITOR:}
+monitor-strict = true
+wm-restack = bspwm
+
+width = 100%
+height = 12
+
+bottom = true
+fixed-center = true
+
+enable-ipc = true
+
+modules-right = keyboard cpu memory custom_battery temperature
+modules-center = date
+modules-left = state bspwm
+
+separator = " "
+
+padding-left = 0
+padding-right = 0
+
+font-0 = "Terminus (TTF):pixelsize=9;2"
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+click-left =
+click-middle =
+click-right =
+scroll-up =
+scroll-down =
+double-click-left =
+double-click-middle =
+double-click-right =
+cursor-click =
+cursor-scroll =
+
+
+
+
+
+
+
+
+
+
+
+
+[module/bspwm]
+type = internal/bspwm
+
+pin-workspaces = true
+inline-mode = false
+
+enable-click = false
+enable-scroll = false
+reverse-scroll = false
+
+format = <label-state>
+
+label-focused = " %index% "
+label-focused-background = ${colors.primary}
+
+label-occupied = " %index% "
+label-occupied-background = ${colors.background-alt}
+
+label-urgent = " %index% "
+label-urgent-background = ${colors.alert}
+
+label-empty =
+label-empty-background = ${colors.background-alt}
+
+
+
+
+
+
+
+
+
+[module/keyboard]
+type = internal/xkeyboard
+
+# blacklist-0 = num lock
+# blacklist-1 = scroll lock
+
+label-indicator-padding = 1
+label-indicator = "%name%"
+label-indicator-background = ${colors.modules-background}
+
+label-layout-padding = 1
+label-layout =
+label-layout-background = ${colors.primary}
+
+
+
+
+
+
+
+
+[module/temperature]
+type = internal/temperature
+interval = 10
+
+thermal-zone = 0
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
+
+warn-temperature = 999
+units = true
+
+label = " %temperature-c% "
+label-warn = " %temperature-c% "
+
+label-background = ${colors.modules-background}
+label-warn-background = ${colors.modules-background}
+
+format = <label>
+format-warn = <label-warn>
+
+enable-click = false
+enable-scroll = false
+
+
+
+[module/date]
+type = internal/date
+
+interval = 60
+
+date = "%I:%M %p - %a, %d/%m/%Y (%b)"
+date-alt = "%I:%M %p - %a, %d/%m/%Y (%b)"
+
+label = " %date% "
+format = <label>
+
+label-background = ${colors.modules-background}
+
+
+
+
+[module/memory]
+type = internal/memory
+interval = 15
+
+format = <label>
+
+label = " MEM %percentage_used%% "
+label-background = ${colors.background-alt}
+
+
+
+
+[module/cpu]
+type = internal/cpu
+interval = 7
+
+format = <label>
+
+label = " CPU %percentage%% "
+label-background = ${colors.background-alt}
+
+
+
+[module/custom_battery]
+type = custom/script
+exec = power_human
+
+interval = 30
+
+label = " %output% "
+label-background = ${colors.background-alt}
+
+format = "<label>"
+
+
+
+
+[module/state]
+type = custom/ipc
+
+hook-0 = workspace_state_human
+initial = 1
+
+format = " <output> "
+format-background = ${colors.background-alt}
+

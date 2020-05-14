@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+
+monitor=$(bspc query -M -m)
+
+for node in `scratch_list "$1"`; do
+	if [ ! -z "$(bspc query -N -n $node.hidden)" ]; then
+		bspc node $node --flag hidden=off --to-monitor $monitor --follow
+		bspc node -f $node
+		bspwm_node_center
+
+	else
+		bspc node -f $node
+		bspc node $node --flag hidden=on
+	fi
+done

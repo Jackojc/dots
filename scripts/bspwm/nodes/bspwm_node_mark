@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+
+state=$(bspc query -T -n | jq .marked)
+
+if [ $state = "true" ]; then
+	bspc node --flag marked=off
+	notify_node unmarked
+
+elif [ $state = "false" ]; then
+	bspc node --flag marked=on
+	notify_node marked
+fi

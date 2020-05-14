@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+
+if [ -z $1 ]; then
+	echo "need workspace arg"
+	exit 1
+fi
+
+
+current=$(class_get)
+
+if echo $current | rg -q "SCRATCHPAD[0-9]_.*"; then
+	class_set $(echo $current | sed -E 's/SCRATCHPAD[0-9]_//')
+fi
+
+class_set "SCRATCHPAD$1_$(class_get)"

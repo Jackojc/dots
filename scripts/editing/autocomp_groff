@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+pkill -f "entr groff"
+echo "$1" | entr groff2pdf "$1"

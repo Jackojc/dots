@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+xbacklight =1 &
+wifi_disable &
+
+pulseaudio -k &
+sudo pkill picom &
+
+echo "0" | sudo tee "/sys/class/leds/tpacpi::power/brightness"
+sudo cpupower frequency-set -g powersave &
+sudo powertop --auto-tune &
+
+wakeup_disable
+usb_disable

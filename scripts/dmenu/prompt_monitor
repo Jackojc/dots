@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+choices="maptablet\nundock\ndock\nmonitor_connect"
+chosen=$(echo "$choices" | dmenu -p "monitors")
+
+
+case "$chosen" in
+
+	dock)            dock_plug;;
+	undock)          dock_unplug;;
+	monitor_connect) monitor_connect;;
+	maptablet)       maptablet;;
+
+esac

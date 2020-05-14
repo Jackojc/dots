@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+
+choices="session\nmonitors\nwallpapers"
+chosen=$(echo "$choices" | dmenu -p "tools")
+
+
+case "$chosen" in
+
+	session)    prompt_power;;
+	monitors)   prompt_monitor;;
+	wallpapers) prompt_wallpaper;;
+
+esac

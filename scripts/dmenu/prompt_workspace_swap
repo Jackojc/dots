@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+bspc desktop -s focused:^"$(seq 1 9 | dmenu -i -r)"

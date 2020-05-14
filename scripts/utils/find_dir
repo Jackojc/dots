@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+
+args="$(echo "$@" | tr ' ' '|')"
+
+
+if [ -z "$args" ]; then
+	dir="$(fd -td | fzf)"
+
+else
+	dir="$(fd -td "($args)" | fzf)"
+fi
+
+
+if [ -z "$dir" ]; then
+	exit 1
+fi
+
+
+echo "$dir"
+
+
+

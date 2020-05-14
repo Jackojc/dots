@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+
+ip addr | rg -o 'inet ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)' | sed -n '1!p' | cut -d' ' -f2
+

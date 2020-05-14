@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# Terminate already running bar instances
+pkill polybar
+
+sleep 0.3
+
+# Wait until the processes have been shut down
+#while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
+# bspc config bottom_padding 25
+
+for m in $(polybar --list-monitors | cut -d":" -f1); do
+	MONITOR=$m polybar --reload main &
+	#MONITOR=$m polybar --reload music &
+done

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+xwallpaper --zoom "$TMPDIR/bg.tmp"

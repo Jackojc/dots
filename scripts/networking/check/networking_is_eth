@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+ip addr show $(networking_eth_name) | grep 'inet ' > /dev/null && exit 0
+
+exit 1
+

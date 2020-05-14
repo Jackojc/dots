@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+
+current_monitor="$(bspc query -M -m --names)"
+current_desktop="$(bspc query -D -m --names)"
+all=""
+
+x=1
+
+
+all_nodes="$(bspc query -N)"
+
+
+for node in `echo "$all_nodes"`; do
+	title="$(xtitle $node)"
+
+	if [ -z "$title" ]; then
+		continue
+	fi
+
+	class="$(xprop -id $node WM_CLASS | awk '{ print $3 }' | sed 's/[\",]//g')"
+	short_title="$(xtitle -t 40 $node)"
+
+	app="$(echo $title | tr ' - ' '\n' | tail -n1)"
+
+	monitor="$(bspc query -M -n $node --names)"
+
+
+
+
+	if [ "$current_monitor" = "$monitor" ]; then
+		monitor="."
+	fi
+
+
+	all="$all$x ($monitor) [ $app, $class ] - $short_title\n"
+
+	x=$(( x + 1 ))
+done
+
+
+num="$(echo "$all" | head -n-1 | dmenu -i -r -p "node")"
+
+if [ -z "$num" ]; then
+	exit 1
+fi
+
+
+
+
+num="$(echo $num | awk '{ print $1 }')"
+
+
+bspc node -f $(echo "$all_nodes" | tail -n+$num | head -n1)
+

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+bangs="*\n!\ncpp\nstackoverflow\ngoogle\nwikipedia\nebay\nreddit"
+answer="$(echo $bangs | dmenu -i -r)"
+
+case "$answer" in
+	"" )              exit 1 ;;
+	"*" )             query="" ;;
+	"!" )             query="!" ;;
+	"cpp" )           query="!cppr" ;;
+	"stackoverflow" ) query="!stackoverflow" ;;
+	"google" )        query="!g" ;;
+	"wikipedia" )     query="!w" ;;
+	"ebay" )          query="!ebay" ;;
+	"reddit" )        query="!reddit" ;;
+	* ) ;;
+esac
+
+query="$query $(zenity --entry --text 'enter a search term')"
+
+firefox "https://duckduckgo.com/?q=$query"
+

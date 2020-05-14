@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# bspc quit
+pkill x

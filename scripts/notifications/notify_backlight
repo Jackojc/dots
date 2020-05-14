@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+dunstify -u low -r 1111 "backlight" "$@"

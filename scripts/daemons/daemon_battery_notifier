@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+
+crit=4   # starts countdown for sleep mode
+low=20   # starts showing battery notifications
+
+
+default=120         # default sleep time
+sleeptime=$default  # time spent sleeping each loop
+
+
+
+while true; do
+	sleep $sleeptime
+
+	perc="$(power_battery)"
+
+	if ! power_ac > /dev/null; then   # if ac is not connected
+		if [ $perc -le $crit ]; then  # if battery < crit
+			sleeptime=30              # set timeout to a smaller number
+			power_critical && sleeptime=$default  # run countdown, if countdown is aborted, reset sleeptime
+
+		elif [ $perc -le $low ]; then  # if battery < low
+			sleeptime=$default
+			notify_power "$perc%"
+		fi
+	fi
+
+done

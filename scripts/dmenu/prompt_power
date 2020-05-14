@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+choices="suspend\nshutdown\nrestart\nlogout"
+chosen=$(echo "$choices" | dmenu -p "power")
+
+
+case "$chosen" in
+    suspend)  power_suspend;;
+    shutdown) power_shutdown;;
+    restart)  power_restart;;
+    logout)   power_logout;;
+esac

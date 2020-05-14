@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+perf record -R --mmap-pages=100 $@
+perf report
+

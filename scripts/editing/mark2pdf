@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+
+file=$(readlink -f "$1")
+dir=$(dirname "$file")
+base="${file%.*}"
+
+
+cmark -t man < "$file" | groff -ms -T pdf >| "$base".pdf

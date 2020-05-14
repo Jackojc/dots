@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+THING=$(usb_get_unmounted)
+
+if [ -z "$THING" ]; then
+	notify_usb "no mountable drives!"
+    exit 1
+fi
+
+
+
+TARGET=$(echo "$THING" | dmenu -l 5 -p "mount")
+
+if [ -z "$TARGET" ]; then
+    exit 1
+fi
+
+
+
+
+BLOCKNAME=$(echo "$TARGET" | awk '{print $1}')
+
+
+
+usb_mount $BLOCKNAME && notify_usb "$TARGET is now mounted!"
+
+mount="$(lsblk -lnpo MOUNTPOINT $BLOCKNAME)"
+
+echo spacefm "$mount" | sh &

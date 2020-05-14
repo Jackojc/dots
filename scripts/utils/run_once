@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# run program if not already running.
+
+pgrep $1 > /dev/null || ($@ &)
+

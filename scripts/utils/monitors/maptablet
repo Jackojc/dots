@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+ids=$(xsetwacom --list | cut -f 2 | cut -d' ' -f 2)
+
+for i in $ids; do
+    xsetwacom --set $i MapToOutput "$(bspwm_monitor_name)"
+done

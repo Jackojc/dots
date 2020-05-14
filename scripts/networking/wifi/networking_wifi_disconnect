@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+
+iwctl station $(networking_wifi_name) disconnect
+

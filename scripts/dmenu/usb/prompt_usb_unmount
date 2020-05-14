@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+THING=$(usb_get_mounted)
+
+if [ -z "$THING" ]; then
+	notify_usb "no drives mounted!"
+    exit 1
+fi
+
+
+
+TARGET=$(echo "$THING" | dmenu -l 5 -p "unmount")
+
+if [ -z "$TARGET" ]; then
+    exit 1
+fi
+
+
+
+
+BLOCKNAME=$(echo "$TARGET" | awk '{print $1}')
+
+
+
+usb_umount $BLOCKNAME && notify_usb "$TARGET was unmounted!"

@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+input=$(zenity --entry --text input)
+
+
+if [ -z "$input" ]; then
+	zenity --error --text "input cannot be empty!"
+    _prompt_text
+fi
+
+
+echo "$input"

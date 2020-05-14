@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+choices="select\nwindow\nmonitor\nsave"
+chosen=$(echo "$choices" | dmenu -p "screenshot")
+
+
+case "$chosen" in
+
+    select)  sleep 0.5 && scrot_select;;
+    window)  sleep 0.5 && scrot_window;;
+    monitor) sleep 1 && scrot_monitor;;
+    save)    prompt_file .png;;
+
+esac

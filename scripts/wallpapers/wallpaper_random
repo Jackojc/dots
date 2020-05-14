@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+choice="$(ls -1 $DIR_WALLPAPERS | shuf | head -n1)"
+
+wallpaper_set "$DIR_WALLPAPERS/$choice"

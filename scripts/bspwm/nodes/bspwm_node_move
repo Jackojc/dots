@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+dir=$1
+
+set $(bspc query -T -m | jq '[.rectangle[]] | .[2:4][]')
+screen_w=$1
+screen_h=$2
+
+shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
+resize_px=$(( (shortest * 5) / 100 ))
+
+
+if [ "$(bspc query -T -n | jq -r .client.state)" = "floating" ]; then
+	case "$dir" in
+		"north") bspc node --move 0 -$resize_px ;;
+		"south") bspc node --move 0 $resize_px  ;;
+		"west")  bspc node --move -$resize_px 0 ;;
+		"east")  bspc node --move $resize_px  0 ;;
+	esac
+else
+	bspc node -s $dir.local || bspc node -m $dir --follow
+	update_workspace_state
+fi

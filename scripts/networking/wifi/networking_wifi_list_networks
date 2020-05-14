@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+run () {
+iwctl station wlp3s0 get-networks | tail -n +5 | head -n-1 | sed -E "s/.(\[[0-9]+;[0-9]+m)//" | sed -E "s/(>?\s.)?(\[[0-9]+m)//" | rg -o "(  )+[a-zA-Z0-9 -]+(        )" | sed -E "s/\s{2,}//"
+}
+
+
+thing="$(run)"
+echo "$thing"

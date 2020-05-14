@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+lvl="$(power_battery)"
+
+is_charging="$(power_ac)"
+
+case $is_charging in
+	connected) is_charging="+" ;;
+	disconnected) is_charging="-" ;;
+	*) exit 1 ;;
+esac
+
+
+if [ "$lvl" -ge 98 ]; then
+	if power_ac > /dev/null 2>&1; then
+		exit 1
+	else
+		echo "BAT FULL"
+	fi
+
+else
+	echo "BAT $lvl%[$is_charging]"
+
+fi
+
+

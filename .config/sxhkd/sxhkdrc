@@ -1,0 +1,308 @@
+#!/usr/bin/env sh
+
+super + F1
+	scratch_toggle 1
+
+F1
+	scratch_visibility 1
+
+super + F2
+	scratch_toggle 2
+
+F2
+	scratch_visibility 2
+
+
+
+super + BackSpace
+	scratch_pop && bspc node --state tiled --layer normal --flag locked=off --flag sticky=off --flag private=off
+
+
+super + control + c
+	webcam
+
+
+super + w
+	wallpaper_random
+
+# toggle screen backlight
+# super + o
+# 	if [ "$(xbacklight -get)" = "100.000000" ]; then xbacklight -set 0; else xbacklight -set 100; fi
+
+
+super + t
+	launch_st -e $EDITOR $FILE_TODO
+
+super + c
+	launch_st -e eva
+
+super + b
+	launch_st -e $EDITOR $FILE_SHOPPING
+
+super + Return
+	launch_st
+
+super + shift + Return
+	launch_st -e "attach_to_tmux"
+
+super + control + w
+	firefox
+
+super + control + r
+	prompt_dim
+
+super + control + f
+	spacefm
+
+super + u
+	prompt_usb
+
+super + Tab
+	dmenu_run -i
+
+super + shift + Tab
+	prompt_general
+
+super + control + Tab
+	nodeswitcher
+
+super + shift + slash
+	prompt_man
+
+super + d
+	ddg_search
+
+
+
+
+
+XF86AudioMute
+	muted_toggle && notify_mute "mute $(muted_get)"
+
+XF86AudioMicMute
+	mic_toggle && notify_mic "mute $(mic_get)"
+
+XF86AudioLowerVolume
+	volume_decr 5 && notify_volume $(volume_get)%
+
+XF86AudioRaiseVolume
+	volume_incr 5 && notify_volume $(volume_get)%
+
+shift + XF86AudioLowerVolume
+	volume_decr 1 && notify_volume $(volume_get)%
+
+shift + XF86AudioRaiseVolume
+	volume_incr 1 && notify_volume $(volume_get)%
+
+
+
+
+
+
+# Caps_Lock
+# 	notify_keyboard "caps" "$(keyboard_caps)"
+
+# ~Scroll_Lock
+# 	notify_keyboard "scroll" "$(keyboard_scroll)"
+
+# ~Num_Lock
+# 	notify_keyboard "num" "$(keyboard_num)"
+
+
+
+
+
+XF86PowerOff
+	prompt_power
+
+XF86Sleep
+	power_suspend
+
+XF86MonBrightnessDown
+	backlight_decr 10 && notify_backlight $(backlight_get)%
+
+XF86MonBrightnessUp
+	backlight_incr 10 && notify_backlight $(backlight_get)%
+
+Print
+	prompt_screenshot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+super + e
+	bspc desktop -f next.\!occupied.local && notify_workspace $(workspace_name); update_workspace_state
+
+super + shift + e
+	notify_node "moved to $(bspc query -D -d next.\!occupied --names)"; bspc node --to-desktop next.\!occupied
+
+
+
+super + r
+	bspc node @focused:/ -R 90
+
+super + q
+	bspc node -s biggest.local
+
+
+
+
+super + m
+	bspwm_node_mark
+
+super + grave
+	bspc node -f last; update_workspace_state
+
+# super + c
+# 	bspwm_node_center
+
+
+@super + x
+	id="$(pfw)"; prompt_yesno close? && bspc node "$id" -c
+
+@super + shift + x
+	id="$(pfw)"; prompt_yesno kill? && bspc node "$id" -k
+
+
+
+super + shift + Up
+	bspwm_node_move north
+
+super + shift + Down
+	bspwm_node_move south
+
+super + shift + Left
+	bspwm_node_move west
+
+super + shift + Right
+	bspwm_node_move east
+
+
+
+super + alt + {Left,Down,Up,Right}
+	bspwm_node_resize {left,bottom,top,right} 5
+
+# -- equalise size of all windows
+super + alt + r
+	for n in `bspc query -N -d`; do bspc node $n --equalize; done
+
+
+
+
+
+
+# Focus
+super + Up
+	bspwm_node_focus north; update_workspace_state
+
+super + Down
+	bspwm_node_focus south; update_workspace_state
+
+super + Left
+	bspwm_node_focus west; update_workspace_state
+
+super + Right
+	bspwm_node_focus east; update_workspace_state
+
+
+alt + {_,shift} + Tab
+	bspc node -f {next,prev}.local
+
+
+
+
+
+
+
+
+
+
+
+# Layouts
+super + shift + space
+	bspc node -t floating || bspc node -t tiled; $(bspc query -N -n && notify_node $(node_get))
+
+super + f
+	bspc node -t fullscreen || bspc node -t tiled; notify_node $(node_get)
+
+super + space
+	bspc desktop -l next; update_workspace_state; notify_workspace $(workspace_get)
+
+
+
+
+
+# Preselection
+super + {h,v}
+	bspc node -p \~{east,south}
+
+super + s
+	bspwm_node_presel
+
+
+
+
+
+
+
+
+
+
+
+# Desktop manipulation
+super + Escape
+	bspc desktop -f last.local; update_workspace_state
+
+super + shift + Escape
+	bspc node --to-desktop last.local --follow
+
+
+
+super + {1-9}
+	bspc desktop -f focused:^{1-9}; update_workspace_state
+
+super + shift + {1-9}
+	bspc node --to-desktop focused:^{1-9}.local
+
+
+
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local.occupied; update_workspace_state
+
+super + shift + bracket{left,right}
+	bspc node -d {prev,next}.local --follow
+
+
+
+super + shift + s
+	prompt_workspace_swap
+
+
+
+
+
+
+
+
+
+
+# Gaps
+super + equal
+	gaps_incr 5; notify_node $(( $(gaps_get) + 1 ))px
+
+super + minus
+	gaps_decr 5; notify_node $(( $(gaps_get) + 1 ))px
+
+super + 0
+	gaps_reset; notify_node "gap reset"

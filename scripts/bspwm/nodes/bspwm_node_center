@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+set $(bspc query -T -m | jq -r '[.rectangle[],.borderWidth][]')
+screen_x=$1
+screen_y=$2
+screen_w=$3
+screen_h=$4
+border=$5
+
+perc=5
+
+shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
+resize_px=$(( (shortest * perc ) / 100 ))
+
+new_w=$(( screen_w - (resize_px * 2) ))
+new_h=$(( screen_h - (resize_px * 2) ))
+
+new_x=$(( screen_x + resize_px - ( border / 2 ) ))
+new_y=$(( screen_y + resize_px - ( border / 2 ) ))
+
+xdotool getactivewindow windowsize $new_w $new_h windowmove $new_x $new_y

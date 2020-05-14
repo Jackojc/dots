@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+current=$(gaps_get)
+
+gaps_set $(( current - $1 ))

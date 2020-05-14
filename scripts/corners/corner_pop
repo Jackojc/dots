@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+bspwm_node_center
+bspc node --flag locked=off --flag sticky=off --flag private=off --state tiled --layer normal

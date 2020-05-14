@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+
+
+
+choice="$(man -k . | dmenu -i -r -l 18 -p "man" | cut -d'(' -f1)"
+
+if [ -z "$choice" ]; then
+	exit 1
+fi
+
+
+man -Tpdf "$choice" | zathura -

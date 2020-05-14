@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+
+file=$(readlink -f "$1")
+dir=$(dirname "$file")
+base="${file%.*}"
+
+groff -ms "$file" -Tps | ps2pdf - > "$base".pdf

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+
+valgrind --tool=cachegrind --branch-sim=yes --cache-sim=yes --cachegrind-out-file=cg.out $@
+
+echo kcachegrind cg.out | sh &

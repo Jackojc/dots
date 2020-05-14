@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+bspwm_monitor_dist
+
+bspwm_config &
+bspwm_rules &
+
+xsetroot -cursor_name left_ptr &
+keyboard_set &
+
+# synclient PalmDetect=1 PalmMinZ=85 PalmMinWidth=1
+
+run_once sxhkd
+run_once picom --experimental-backends
+run_once pulseaudio --start
+run_once dunst
+
+autorandr -c
+wallpaper_random
+launch_polybar &
+
+unclutter -idle 2 -jitter 1 -reset &
+
+pkill -f daemon_networking
+pkill -f daemon_battery_notifier
+
+daemon_battery_notifier &
+daemon_networking &

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+pamixer --toggle-mute

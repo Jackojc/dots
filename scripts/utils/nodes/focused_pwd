@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+
+pwdx $(focused_pid) | awk '{ print $2 }'
+

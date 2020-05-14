@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+labels="$(ls -1 /dev/disk/by-label/)"
+
+lsblk -lpo NAME,HOTPLUG,TYPE,MOUNTPOINT | rg "1 part ." | awk '{print $1}' | while read disk; do
+	has_label=0
+	info="$(lsblk -lnpo SIZE $disk)"
+
+	for label in `ls -1 /dev/disk/by-label/`; do
+		if [ "$disk" = "$(readlink -f /dev/disk/by-label/$label)" ]; then
+			echo "$disk ($label, $info)"
+			has_label=1
+			break
+		fi
+	done
+
+	if [ $has_label = 0 ]; then
+		echo "$disk ($info)"
+	fi
+done
+

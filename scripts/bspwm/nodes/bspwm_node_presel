@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+set $(bspc query -T -n | jq '[.rectangle[]] | .[2:4][]')
+
+if [ $2 -gt $1 ] ; then
+	bspc node -p \~south
+else
+	bspc node -p \~east
+fi

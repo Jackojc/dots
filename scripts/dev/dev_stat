@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+perf stat -ddd --repeat=10 -B $@

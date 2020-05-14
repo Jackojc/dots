@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+
+choices="normal\nlight\nmedium\nheavy"
+chosen=$(echo "$choices" | dmenu -p "dimmer")
+
+
+case "$chosen" in
+
+	normal) sct ;;
+	light)  sct 4700 ;;
+	medium) sct 3500 ;;
+	heavy)  sct 2000 ;;
+
+esac

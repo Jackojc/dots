@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+
+THEFILE="$TMPDIR/dimmer"
+touch $THEFILE
+
+
+val="$(cat $THEFILE)"
+
+
+if [ "$val" = "1" ]; then
+	sct
+	echo 0 > $THEFILE
+
+else
+	sct 4000
+	echo 1 > $THEFILE
+
+fi

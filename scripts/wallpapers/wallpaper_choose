@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+wallpaper_set "$(ls -1 $DIR_WALLPAPERS/* | sxiv -tioq | tail -n 1)"
+
