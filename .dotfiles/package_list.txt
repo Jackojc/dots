@@ -78,13 +78,7 @@ pavucontrol
 transmission-gtk
 
 
-
-zathura
-zathura-ps
-zathura-pdf-mupdf
-
-
-
+evince
 
 
 # x stuff & gui
