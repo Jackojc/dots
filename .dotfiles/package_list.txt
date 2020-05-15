@@ -7,6 +7,7 @@ gcc
 
 hyperfine   # benchmarking tool
 valgrind    # profiling tool
+nemiver     # gdb frontend
 perf        # profiling tool
 meld        # git merging tool
 
@@ -47,72 +48,76 @@ lm_sensors    # monitor thermals
 
 
 
-bspwm
-sxhkd
+# core desktop environment programs
+bspwm    # window manager
+sxhkd    # hotkey daemon
 picom    # compositor (fork of compton)
 dunst    # notification daemon
 polybar  # statusbar
 
 
 
+# audio
+pavucontrol # gui app for managing sound devices and apps
+pulseaudio
+pamixer     # manage pulseaudio
+
+
+
+# misc
 unclutter   # hide the mouse after a period of inactivity
 zenity      # show gui popups for scripts
 ntfs-3g     # work with ntfs filesystems
 udisks2     # work with removeable drives as normal user
-
-
-
-pulseaudio
-pamixer
-
-
-
+spacefm           # file manager
+transmission-gtk  # torrent client
+mpv               # video player
+sxiv              # image viewer
+evince            # pdf viewer
 ImageMagick
-mpv
-sxiv
 mypaint
-spacefm
 firefox
 spotify
-pavucontrol
-transmission-gtk
 
-
-evince
 
 
 # x stuff & gui
 lxappearance
 lxinput
-arandr
-autorandr
-xinput
-xorg-minimal
-xmodmap
-xset
-xsel
 xwallpaper
-xrandr
-setxkbmap
+
+xinput
 xkbcomp
+xmodmap
+setxkbmap
+
+xorg
+xrandr
+arandr      # gui for managing screens
+autorandr   # save/load profiles for various screen setups
+
+xset
 xdotool
 xsetroot
-xclip
 xprop
+
+xclip
+xsel
 
 
 
 # drivers
 xf86-input-synaptics
-xf86-input-wacom
+xf86-input-wacom      # wacom drawing tablet
 
 
 
 # services
-iwd
-bluez
-tlp
-thinkfan
-powertop
-chrony
+iwd        # wireless networking
+bluez      # bluetooth
+tlp        # power management
+powertop   # power management
+thinkfan   # fan management
+chrony     # network time
+dhcpcd     # dhcp manager
 
