@@ -1,0 +1,12 @@
+Defaults pwfeedback
+Defaults passprompt="[sudo] %p: "
+
+root ALL=(ALL) ALL
+%wheel ALL=(ALL) ALL
+
+%wheel ALL=(ALL) NOPASSWD: \
+	/usr/bin/halt, /usr/bin/poweroff, /usr/bin/reboot, \
+	/usr/bin/shutdown, /usr/bin/zzz, /usr/bin/ZZZ, \
+	/usr/bin/iwctl, /usr/bin/cpupower, /usr/bin/powertop, \
+	/usr/bin/rfkill, /usr/bin/tlp
+

@@ -52,3 +52,8 @@ sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
 
+# Copy system wide configs.
+sudo cp -rf etc/* /etc
+
+# Add sensors to thinkfan config.
+sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" >> /etc/thinkfan.conf

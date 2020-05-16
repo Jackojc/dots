@@ -25,6 +25,7 @@ exa           # better alternative to ls
 fd            # better alternative to find
 bat           # cat with syntax highlighting
 bc            # calculator
+eva
 jq            # json manipulation
 
 ncdu          # disk usage monitor
@@ -64,10 +65,13 @@ udisks2     # work with removeable drives as normal user
 
 pulseaudio
 pamixer
+apulse
 
 
 
+# misc
 ImageMagick
+syncthing
 mpv
 sxiv
 mypaint
@@ -76,12 +80,10 @@ firefox
 spotify
 pavucontrol
 transmission-gtk
+evince
+audacity
+lmms
 
-
-
-zathura
-zathura-ps
-zathura-pdf-mupdf
 
 
 
@@ -90,21 +92,24 @@ zathura-pdf-mupdf
 # x stuff & gui
 lxappearance
 lxinput
+
 arandr
 autorandr
-xinput
-xorg-minimal
-xmodmap
-xset
-xsel
-xwallpaper
 xrandr
-setxkbmap
+
+xinput
 xkbcomp
+xmodmap
+setxkbmap
+
+xorg
+xset
+xwallpaper
 xdotool
 xsetroot
-xclip
 xprop
+xclip
+xsel
 
 
 
@@ -121,4 +126,22 @@ tlp
 thinkfan
 powertop
 chrony
+
+
+
+# battery/power
+acpi_call-dkms
+tpacpi-bat
+
+
+
+# fonts
+noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-ttf
+noto-fonts-ttf-extra
+
+font-unifont-bdf
+
+fonts-droid-ttf
 
