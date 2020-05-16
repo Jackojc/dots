@@ -48,7 +48,15 @@ hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
 
 
 # Statusbar
-set global modelinefmt '%val{bufname} [%opt{filetype}] %val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column} %opt{modeline_pos_percent}%%{{context_info}} {{mode_info}} %val{client}|%val{session}'
+set global modelinefmt %{
+%val{bufname}
+[%opt{filetype}]
+%val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column}
+%opt{modeline_pos_percent}%%
+{{context_info}}
+{{mode_info}}
+%val{client}|%val{session}
+}
 
 
 
@@ -107,10 +115,19 @@ hook global BufWritePre .* %{ try %{
 
 
 
-# Highlight the currently focused line.
+# Highlight the currently focused line and columns 80 & 120.
 hook global -group crosshairs RawKey .+ %{
-	try %{ remove-highlighter window/crosshairs-line }
-	try %{ add-highlighter window/crosshairs-line line %val{cursor_line} FocusedLine }
+	# highlight focused line
+	try %{ remove-highlighter window/highlight_focused_line }
+	try %{ add-highlighter window/highlight_focused_line line %val{cursor_line} FocusedLine }
+
+	# highlight column 80
+	try %{ remove-highlighter window/highlight_column_80 }
+	try %{ add-highlighter window/highlight_column_80 column 80 FocusedLine }
+
+	# highlight column 120
+	try %{ remove-highlighter window/highlight_column_120 }
+	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
 }
 
 

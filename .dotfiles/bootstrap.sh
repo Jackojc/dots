@@ -20,7 +20,7 @@ sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-no
 
 # Install packages.
 notice "installing packages"
-sudo xbps-install -Syu $(tr '\n' ' ' < ./packages) || die
+sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die
 
 # Setup home directory structure.
 notice "setting up home directory structure"

@@ -119,7 +119,7 @@ alias c="clear"
 alias l="ls"
 alias s="fzf"
 alias b="bat"
-alias v="zathura"
+alias v="evince"
 
 alias goto='cd "$(find_dir)"'
 
