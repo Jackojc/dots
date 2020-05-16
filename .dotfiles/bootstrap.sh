@@ -12,8 +12,6 @@ notice() {
 }
 
 
-cd "$HOME"
-
 # Enable non-free and 32 bit repos.
 notice "adding repos"
 sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree || die
@@ -21,6 +19,8 @@ sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-no
 # Install packages.
 notice "installing packages"
 sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die
+
+cd $HOME
 
 # Setup home directory structure.
 notice "setting up home directory structure"
