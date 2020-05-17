@@ -4,16 +4,44 @@
 
 export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
 
-export TMPDIR="/tmp"
-export FILE_TODO="$HOME/notes/todo"
-export FILE_SHOPPING="$HOME/notes/shopping"
+export TODO="$HOME/notes/todo"
 export DIR_WALLPAPERS="$HOME/media/wallpapers"
-export DIR_CONFIG="$HOME/.config"
 
+export XDG_RUNTIME_DIR="/tmp"
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export XDG_PUBLICSHARE_DIR="/dev/null"
+export XDG_TEMPLATES_DIR="/dev/null"
+export XDG_DESKTOP_DIR="$HOME"
+
+export XDG_DOCUMENTS_DIR="$HOME/docs"
+export XDG_DOWNLOAD_DIR="$HOME/downloads"
+
+export XDG_MUSIC_DIR="$HOME/media/music"
+export XDG_PICTURES_DIR="$HOME/media/pictures"
+export XDG_VIDEOS_DIR="$HOME/media/videos"
+
+
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
+export TMUX_TMPDIR="${XDG_RUNTIME_DIR:-/tmp}"
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export LESSHISTFILE="-"
+
+
+export SUDO_ASKPASS="prompt_pass"
+export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
+
+
+export WINDOWMANAGER="bspwm"
+export TERMINAL="st"
+export BROWSER="firefox"
+export READER="evince"
 export EDITOR="kak"
-
-export PROG_WM="bspwm"
-export PROG_TERMINAL="st"
 
 
 
@@ -50,11 +78,15 @@ export HISTFILESIZE=100000
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="&:[ ]*:exit:ls:l:z:s:bg:fg:history:clear:c"
 
+
+# Set PWD of `st` after every command.
+# This lets us launch other instances of `st`
+# in the same directory.
 if [ "$DISPLAY" ]; then
 	export PROMPT_COMMAND='echo -en "\033_;${PWD}\007\033]2;\007"'
 fi
 
-
+# Append history after every command.
 export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
 
 
@@ -96,8 +128,7 @@ alias query="xbps-query -Rs"
 alias update="sudo xbps-install -Su"
 alias cleanup="sudo xbps-remove -Oo"
 
-alias todo="$EDITOR $FILE_TODO"
-alias shopping="$EDITOR $FILE_SHOPPING"
+alias todo="$EDITOR $TODO"
 
 # use sane flags
 alias uptime="uptime -p"
@@ -119,10 +150,9 @@ alias c="clear"
 alias l="ls"
 alias s="fzf"
 alias b="bat"
-alias v="evince"
+alias v="$READER"
 
-alias goto='cd "$(find_dir)"'
-
+alias jump='cd "$(find_dir)"'
 alias dots='git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
 
 
@@ -133,7 +163,7 @@ function cm {
 
 
 if [ "$(tty)" = "/dev/tty2" ]; then
-	pgrep -x $PROG_WM || exec startx $PROG_WM
+	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER
 fi
 
 
