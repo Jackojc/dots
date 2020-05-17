@@ -60,3 +60,16 @@ sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
 
+# Install st and dmenu.
+cd $TMP
+
+git clone https://github.com/Jackojc/st
+git clone https://github.com/Jackojc/dmenu
+
+cd st
+./build.sh
+sudo make install
+
+cd ../dmenu
+./build.sh
+sudo make install
