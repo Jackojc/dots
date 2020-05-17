@@ -56,7 +56,6 @@ notice "enable core services"
 sudo ln -s /etc/sv/dbus       /var/service
 sudo ln -s /etc/sv/chronyd    /var/service
 sudo ln -s /etc/sv/tlp        /var/service
-sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
 

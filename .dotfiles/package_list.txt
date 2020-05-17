@@ -148,3 +148,9 @@ font-unifont-bdf
 
 fonts-droid-ttf
 
+
+
+# themes
+io.elementary.icons
+gnome-themes-extra
+papirus-icon-theme
