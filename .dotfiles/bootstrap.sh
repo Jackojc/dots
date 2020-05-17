@@ -12,7 +12,12 @@ notice() {
 }
 
 
-cd "$HOME"
+# Copy system wide configs.
+sudo cp -rf etc/* /etc
+
+# Add sensors to thinkfan config.
+sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" | sudo tee -a /etc/thinkfan.conf
+
 
 # Enable non-free and 32 bit repos.
 notice "adding repos"
@@ -21,6 +26,9 @@ sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-no
 # Install packages.
 notice "installing packages"
 sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die
+
+
+cd $HOME
 
 # Setup home directory structure.
 notice "setting up home directory structure"
@@ -52,8 +60,16 @@ sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
 
-# Copy system wide configs.
-sudo cp -rf etc/* /etc
+# Install st and dmenu.
+cd $TMP
 
-# Add sensors to thinkfan config.
-sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" >> /etc/thinkfan.conf
+git clone https://github.com/Jackojc/st
+git clone https://github.com/Jackojc/dmenu
+
+cd st
+./build.sh
+sudo make install
+
+cd ../dmenu
+./build.sh
+sudo make install
