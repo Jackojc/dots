@@ -55,6 +55,8 @@ sxhkd    # hotkey daemon
 picom    # compositor (fork of compton)
 dunst    # notification daemon
 polybar  # statusbar
+wmutils-core
+wmutils-opt
 
 
 

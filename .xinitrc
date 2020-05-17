@@ -14,7 +14,6 @@ elif [ "$model" = "ThinkPad X230" ]; then
 fi
 
 
-[ -f "${XDG_CONFIG_HOME:-$HOME/.xprofile" ] && . "${XDG_CONFIG_HOME:-$HOME/.xprofile"
 
 
 while true; do
