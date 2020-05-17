@@ -2,7 +2,7 @@
 
 [[ $- != *i* ]] && return
 
-export PATH="$PATH:$(du $HOME/scripts | cut -f2 | tr '\n' ':' | sed 's/:*$//'):~/.local/bin"
+export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
 
 export TMPDIR="/tmp"
 export FILE_TODO="$HOME/notes/todo"
