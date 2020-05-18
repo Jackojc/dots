@@ -7,30 +7,23 @@ export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
 export TODO="$HOME/notes/todo"
 export DIR_WALLPAPERS="$HOME/media/wallpapers"
 
-export XDG_RUNTIME_DIR="/tmp"
+# export XDG_RUNTIME_DIR="/tmp"
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
+# export XDG_CONFIG_HOME="$HOME/.config"
+# export XDG_DATA_HOME="$HOME/.local/share"
+# export XDG_CACHE_HOME="$HOME/.cache"
 
 export XDG_PUBLICSHARE_DIR="/dev/null"
 export XDG_TEMPLATES_DIR="/dev/null"
 export XDG_DESKTOP_DIR="$HOME"
-
 export XDG_DOCUMENTS_DIR="$HOME/docs"
 export XDG_DOWNLOAD_DIR="$HOME/downloads"
-
 export XDG_MUSIC_DIR="$HOME/media/music"
 export XDG_PICTURES_DIR="$HOME/media/pictures"
 export XDG_VIDEOS_DIR="$HOME/media/videos"
 
 
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
-export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
-export TMUX_TMPDIR="${XDG_RUNTIME_DIR:-/tmp}"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
-export LESSHISTFILE="-"
 
 
 export SUDO_ASKPASS="prompt_pass"

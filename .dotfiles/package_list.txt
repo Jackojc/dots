@@ -69,10 +69,12 @@ apulse
 
 
 # misc
-unclutter   # hide the mouse after a period of inactivity
-zenity      # show gui popups for scripts
-ntfs-3g     # work with ntfs filesystems
-udisks2     # work with removeable drives as normal user
+slop             # region selector
+bash-completion
+unclutter        # hide the mouse after a period of inactivity
+zenity           # show gui popups for scripts
+ntfs-3g          # work with ntfs filesystems
+udisks2          # work with removeable drives as normal user
 ImageMagick
 syncthing
 mpv
@@ -101,7 +103,7 @@ xkbcomp
 xmodmap
 setxkbmap
 
-xorg
+xorg-minimal
 xrandr
 arandr      # gui for managing screens
 autorandr   # save/load profiles for various screen setups
@@ -147,6 +149,8 @@ noto-fonts-ttf-extra
 font-unifont-bdf
 
 fonts-droid-ttf
+
+liberation-fonts-ttf
 
 
 

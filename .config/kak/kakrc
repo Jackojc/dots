@@ -115,21 +115,12 @@ hook global BufWritePre .* %{ try %{
 
 
 
+
+
+
 # Highlight the currently focused line and columns 80 & 120.
-hook global -group crosshairs RawKey .+ %{
-	# highlight focused line
-	try %{ remove-highlighter window/highlight_focused_line }
-	try %{ add-highlighter window/highlight_focused_line line %val{cursor_line} FocusedLine }
-
-	# highlight column 80
-	try %{ remove-highlighter window/highlight_column_80 }
-	try %{ add-highlighter window/highlight_column_80 column 80 FocusedLine }
-
-	# highlight column 120
-	try %{ remove-highlighter window/highlight_column_120 }
-	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
-}
-
+hook global WinCreate .* %{ update_line_highlighter }
+hook global -group crosshairs RawKey .* %{ update_line_highlighter }
 
 
 # Add some highlighters for Rust and C++
@@ -186,6 +177,23 @@ hook global NormalKey y|d|c %{ nop %sh{
 } }
 
 
+
+
+
+
+define-command update_line_highlighter %{
+	# highlight focused line
+	try %{ remove-highlighter window/highlight_focused_line }
+	try %{ add-highlighter window/highlight_focused_line line %val{cursor_line} FocusedLine }
+
+	# highlight column 80
+	try %{ remove-highlighter window/highlight_column_80 }
+	try %{ add-highlighter window/highlight_column_80 column 80 FocusedLine }
+
+	# highlight column 120
+	try %{ remove-highlighter window/highlight_column_120 }
+	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
+}
 
 
 
