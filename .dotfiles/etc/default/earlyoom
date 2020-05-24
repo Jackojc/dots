@@ -1,0 +1,21 @@
+# Options
+INTERVAL=20
+MIN_MEM=5
+MIN_SWAP=10
+AVOID='(^|/)(init|X|st|kak)$'
+
+
+EARLYOOM_ARGS=""
+
+# Set interval to check status.
+EARLYOOM_ARGS="$EARLYOOM_ARGS -r $INTERVAL"
+
+# Minimum main memory.
+EARLYOOM_ARGS="$EARLYOOM_ARGS -m $MIN_MEM"
+
+# Minimum swap.
+EARLYOOM_ARGS="$EARLYOOM_ARGS -s $MIN_SWAP"
+
+# Avoid killing programs matching regex.
+EARLYOOM_ARGS="$EARLYOOM_ARGS --avoid '$AVOID'"
+

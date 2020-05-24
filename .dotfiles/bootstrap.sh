@@ -58,6 +58,8 @@ sudo ln -s /etc/sv/chronyd    /var/service
 sudo ln -s /etc/sv/tlp        /var/service
 sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
+sudo ln -s /etc/sv/irqbalance /var/service
+sudo ln -s /etc/sv/earlyoom   /var/service
 
 # Install st and dmenu.
 cd /tmp
@@ -81,5 +83,7 @@ sudo swapon /swapfile
 
 echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
 
-
-
+# Swapiness
+sudo sysctl -w vm.swappiness=70
+sudo mkdir -p /etc/sysctl.d
+echo "vm.swappiness=70" | sudo tee /etc/sysctl.d/99-swappiness.conf

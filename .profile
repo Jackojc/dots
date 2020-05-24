@@ -33,7 +33,7 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
 export WINDOWMANAGER="bspwm"
 export TERMINAL="st"
 export BROWSER="firefox"
-export READER="evince"
+export READER="zathura"
 export EDITOR="kak"
 
 
@@ -126,6 +126,7 @@ alias todo="$EDITOR $TODO"
 alias tmux="attach_to_tmux"
 
 # use sane flags
+alias sudo="sudo -E"
 alias uptime="uptime -p"
 alias less="more"
 alias mkdir="mkdir -pv"

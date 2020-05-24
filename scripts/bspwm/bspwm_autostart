@@ -1,28 +1,50 @@
 #!/usr/bin/env sh
 
+# Setup monitors and workspaces.
+autorandr -c
 bspwm_monitor_dist
 
+# Configure BSPWM.
 bspwm_config &
 bspwm_rules &
 
+# Set mouse pointer and keyboard layout.
 xsetroot -cursor_name left_ptr &
 keyboard_set &
 
-# synclient PalmDetect=1 PalmMinZ=85 PalmMinWidth=1
-
+# Launch programs.
 run_once sxhkd
-run_once picom --experimental-backends
+run_once picom
 run_once pulseaudio --start
 run_once dunst
 
-autorandr -c
 wallpaper_random
 launch_polybar &
 
+# Hide cursor after a period of inactivity.
 unclutter -idle 2 -jitter 1 -reset &
 
+# Relaunch daemons for tracking battery and network.
 pkill -f daemon_networking
 pkill -f daemon_battery_notifier
 
 daemon_battery_notifier &
 daemon_networking &
+
+
+# Setup model specific settings.
+model="$(cat /sys/devices/virtual/dmi/id/product_version)"
+
+if [ "$model" = "ThinkPad X240" ]; then
+	synclient PalmDetect=1 PalmMinZ=85 PalmMinWidth=1
+
+	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -0.4
+	xinput set-prop "Synaptics TM3075-008" "Synaptics Finger" 0 0 0
+	xinput set-prop "Synaptics TM3075-008" "Device Accel Constant Deceleration" "2.75"
+
+	xmodmap -e "keycode 118 = End"
+
+elif [ "$model" = "ThinkPad X230" ]; then
+	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 0
+fi
+

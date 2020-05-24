@@ -85,11 +85,14 @@ firefox
 spotify
 pavucontrol
 transmission-gtk
-evince
 audacity
 lmms
 
-
+zathura
+zathura-cb
+zathura-ps
+zathura-djvu
+zathura-pdf-mupdf
 
 
 
@@ -112,6 +115,7 @@ xset
 xdotool
 xsetroot
 xprop
+xbacklight
 
 xclip
 xsel
@@ -120,6 +124,8 @@ xsel
 # drivers
 xf86-input-synaptics
 xf86-input-wacom      # wacom drawing tablet
+xf86-video-intel
+intel-video-accel
 
 
 
@@ -131,6 +137,8 @@ powertop   # power management
 thinkfan   # fan management
 chrony     # network time
 dhcpcd     # dhcp manager
+earlyoom   # prevent OOM conditions
+irqbalance
 
 
 
