@@ -43,7 +43,7 @@ super + Return
 	launch_st
 
 super + shift + Return
-	launch_st -e "attach_to_tmux"
+	launch_st -e "tmux_attach"
 
 super + control + w
 	firefox

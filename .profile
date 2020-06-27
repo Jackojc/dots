@@ -123,7 +123,7 @@ alias cleanup="sudo xbps-remove -Oo"
 
 alias todo="$EDITOR $TODO"
 
-alias tmux="attach_to_tmux"
+# alias tmux="attach_to_tmux"
 
 # use sane flags
 alias sudo="sudo -E"

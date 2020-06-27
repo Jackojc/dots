@@ -60,6 +60,7 @@ sudo ln -s /etc/sv/thinkfan   /var/service
 sudo ln -s /etc/sv/iwd        /var/service
 sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/earlyoom   /var/service
+sudo ln -s /etc/sv/bluetoothd /var/service
 
 # Install st and dmenu.
 cd /tmp
