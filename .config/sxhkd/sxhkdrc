@@ -52,7 +52,7 @@ super + control + r
 	prompt_dim
 
 super + control + f
-	spacefm
+	launch_st -e nnn
 
 super + u
 	prompt_usb
