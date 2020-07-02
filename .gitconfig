@@ -17,3 +17,5 @@
 	prompt = false
 [format]
 	pretty = oneline
+[pull]
+	rebase = true
