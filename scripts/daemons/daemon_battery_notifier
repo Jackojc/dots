@@ -2,7 +2,7 @@
 
 
 crit=4   # starts countdown for sleep mode
-low=20   # starts showing battery notifications
+low=10   # starts showing battery notifications
 
 
 default=120         # default sleep time
@@ -16,7 +16,7 @@ while true; do
 	perc="$(power_battery)"
 
 	if ! power_ac > /dev/null; then   # if ac is not connected
-		if [ $perc -le $crit ]; then  # if battery < crit
+		if [ $(power_remaining_capacity) -le $crit ]; then  # if battery < crit
 			sleeptime=30              # set timeout to a smaller number
 			power_critical && sleeptime=$default  # run countdown, if countdown is aborted, reset sleeptime
 

@@ -149,6 +149,7 @@ alias b="bat"
 alias v="$READER"
 
 alias jump='cd "$(find_dir)"'
+alias goto='jump'
 alias dots='git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
 
 

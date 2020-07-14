@@ -70,6 +70,9 @@ alsa-utils
 
 
 # misc
+scc              # count lines of code
+xdg-user-dirs
+xdg-utils
 slop             # region selector
 bash-completion
 unclutter        # hide the mouse after a period of inactivity

@@ -1,11 +1,9 @@
 #!/usr/bin/env sh
 
-i=0
-perc=0
+remain_cap=0
 
 for bat in `cat /sys/class/power_supply/BAT*/capacity`; do
-	i=$(( i + 1 ))
-	perc=$(( perc + bat ))
+	remain_cap=$(( remain_cap + bat ))
 done
 
-echo $(( perc / i ))
+echo $remain_cap

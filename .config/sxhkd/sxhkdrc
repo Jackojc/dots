@@ -52,7 +52,7 @@ super + control + r
 	prompt_dim
 
 super + control + f
-	launch_st -e nnn
+	launch_st -e nnn $(focused_pwd)
 
 super + u
 	prompt_usb
