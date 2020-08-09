@@ -2,7 +2,7 @@
 
 
 crit=4   # starts countdown for sleep mode
-low=10   # starts showing battery notifications
+low=7   # starts showing battery notifications
 
 
 default=120         # default sleep time

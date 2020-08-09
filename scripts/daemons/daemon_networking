@@ -25,14 +25,14 @@ while true; do
 
 	fi
 
-	sleep 4
+	sleep 5
 
 	echo "[*] checking net status..."
 	if ! networking_isup > /dev/null; then
 		echo "	[!] no network"
 
 		if [ "$shown" = "0" ]; then
-			notify_network "$(networking_isup)"
+			notify_network "down"
 			shown=1
 		fi
 
@@ -40,7 +40,7 @@ while true; do
 		echo "	[!] online"
 	fi
 
-	sleep 4
+	sleep 5
 
 done
 

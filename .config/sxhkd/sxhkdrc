@@ -31,13 +31,13 @@ super + w
 
 
 super + t
-	launch_st -e $EDITOR $FILE_TODO
+	launch_st -e $EDITOR $TODO
 
 super + c
 	launch_st -e eva
 
 super + b
-	launch_st -e $EDITOR $FILE_SHOPPING
+	launch_st -e $EDITOR $SHOPPING
 
 super + Return
 	launch_st

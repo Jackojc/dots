@@ -1,5 +1,5 @@
 # kakrc
-colorscheme lugh
+colorscheme yuloo
 
 
 # Options
@@ -9,18 +9,16 @@ set-option global scrolloff 3,0      # space around cursor when scrolling
 set-option global ui_options ncurses_assistant=none # dont show clippy in popups
 set-option global aligntab false
 set-option global grepcmd 'rg --column'   # use ripgrep instead of normal grep
-set-option global autoinfo command|onkey|normal
+set-option global autoinfo command|normal
 set-option global startup_info_version 99999999999
 set-option global idle_timeout 100
-
+set-option global autoreload yes
+set-option global ui_options ncurses_status_on_top=false
 
 
 source "%val{config}/rc/easymotion.kak"  # allows for jumping around text
 source "%val{config}/rc/inc-dec.kak"
 source "%val{config}/rc/idsession.kak"
-
-
-
 
 
 
@@ -38,6 +36,12 @@ declare-option str termcmd %sh{
 
 
 
+declare-option str word_wrap_status ''
+declare-option str buffer_status ''
+
+
+
+
 # Percent way through file
 declare-option str modeline_pos_percent '0'
 
@@ -47,12 +51,15 @@ hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
 
 
 
+
 # Statusbar
 set global modelinefmt %{
 %val{bufname}
 [%opt{filetype}]
+%opt{buffer_status}
 %val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column}
 %opt{modeline_pos_percent}%%
+{StatusLineValue}%opt{word_wrap_status}{Default}
 {{context_info}}
 {{mode_info}}
 %val{client}|%val{session}
@@ -106,6 +113,36 @@ hook global FocusOut .* %{
 	set-face window Error              InactiveError
 	set-face window Prompt             InactivePrompt
 }
+
+
+
+
+
+
+# Current buffer and total buffers.
+hook global WinCreate .* %{ hook window WinDisplay .* %{ evaluate-commands %sh{
+    current=0
+    i=0
+
+    # buffers="$(echo $kak_buflist | grep -v '*debug*')"
+
+    for b in $kak_buflist; do
+        i=$(( i + 1 ))
+
+        if [ "$b" = "$kak_bufname" ]; then
+            current=$i
+        fi
+    done
+
+    current=$(( current - 1 ))
+    i=$(( i - 1 ))
+
+    echo "set window buffer_status '[$current/$i]'"
+} } }
+
+
+
+
 
 
 # Remove trailing whitespaces on file save
@@ -225,6 +262,39 @@ define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -
 
 
 
+# toggle word wrap
+define-command wrap-toggle %{
+	try %{
+		addhl global/wrap wrap -word -indent -width 120  # line wrapping on
+		set window word_wrap_status 'wrap'
+
+	} catch %{
+		rmhl global/wrap # line wrapping off
+		set window word_wrap_status ''
+	}
+}
+
+
+# dont overwrite existing files.
+define-command -params 0..1 secure_write %{ evaluate-commands %sh{
+	if [ -z ${1+x} ]; then
+		# no param given: usual write
+		echo "write"
+
+	else
+		bufname=$1
+		if [ -e "${bufname}" ] && [ "${bufname}" != "${current_bufname}" ]; then
+			# file already exists and is not the current one
+			echo "echo 'file exists, use w!'"
+		else
+			echo "write ${bufname}"
+		fi
+	fi
+} }
+
+
+
+
 
 define-command -params 1 filetype %{
 	eval "set-option buffer filetype %arg{1}"
@@ -252,6 +322,12 @@ define-command -params 1 extend-line-up %{
 
 
 
+# dont overwrite existing files
+unalias global w write
+alias global w secure_write
+
+
+
 
 # Move lines
 map global normal <c-down> ': move-line-below %val{count}<ret>' -docstring "move line down"
@@ -259,8 +335,11 @@ map global normal <c-up>   ': move-line-above %val{count}<ret>' -docstring "move
 
 
 # Home/End
-map global normal <end>  'gll'
+map global normal <end>  'gl'
 map global normal <home> 'gh'
+
+map global normal <s-end>  'Gl'
+map global normal <s-home> 'Gh'
 
 
 # Do not yank when using d,c
@@ -277,18 +356,24 @@ map global normal Q B
 map global normal <a-q> <a-b>
 map global normal <a-Q> <a-B>
 
-map global normal b ': fzf-mode<ret>'
+map global normal b ':buffer '
 
+
+
+# word wrap toggle
+map global normal <c-w> ': wrap-toggle<ret>'
 
 
 
 # backspace in normal mode works like in insert mode
-map global normal <backspace> 'i<backspace><esc>'
+map global normal <backspace> 'hd'
 
 # same for return
 map global normal <ret> 'i<ret><esc>'
 map global normal <del> 'd'
 
+
+# map global normal <space> ';'
 
 
 
@@ -304,8 +389,8 @@ map global normal <a-'> ': easy-motion-b<ret>'
 
 
 # commenting shit
-map global normal '#' :comment-line<ret>
-map global normal '<a-#>' :comment-block<ret>
+map global normal '#' ': comment-line<ret>'
+map global normal '<a-#>' ': comment-block<ret>'
 
 
 # incr and decr

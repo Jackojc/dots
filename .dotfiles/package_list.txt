@@ -6,11 +6,15 @@ clang
 gcc
 
 hyperfine   # benchmarking tool
+strace
+kcachegrind # visualise output from cachegrind
 valgrind    # profiling tool
 nemiver     # gdb frontend
 perf        # profiling tool
 meld        # git merging tool
+zeal        # docs
 
+cmake
 make
 git
 
@@ -91,6 +95,7 @@ pavucontrol
 transmission-gtk
 audacity
 lmms
+xournalpp
 
 zathura
 zathura-cb
