@@ -241,6 +241,20 @@ super + space
 
 
 
+super + control + left
+	corner_push 0
+
+super + control + up
+	corner_push 1
+
+super + control + right
+	corner_push 2
+
+super + control + down
+	corner_push 3
+
+
+
 
 
 # Preselection

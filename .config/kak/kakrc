@@ -9,7 +9,7 @@ set-option global scrolloff 3,0      # space around cursor when scrolling
 set-option global ui_options ncurses_assistant=none # dont show clippy in popups
 set-option global aligntab false
 set-option global grepcmd 'rg --column'   # use ripgrep instead of normal grep
-set-option global autoinfo command|normal
+set-option global autoinfo command
 set-option global startup_info_version 99999999999
 set-option global idle_timeout 100
 set-option global autoreload yes

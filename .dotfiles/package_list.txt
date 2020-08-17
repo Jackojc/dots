@@ -10,6 +10,8 @@ strace
 kcachegrind # visualise output from cachegrind
 valgrind    # profiling tool
 nemiver     # gdb frontend
+gdb
+rr
 perf        # profiling tool
 meld        # git merging tool
 zeal        # docs

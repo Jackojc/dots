@@ -28,22 +28,19 @@ unclutter -idle 2 -jitter 1 -reset &
 volume_set 25
 
 # Relaunch daemons for tracking battery and network.
-pkill -f daemon_networking
+# pkill -f daemon_networking
 pkill -f daemon_battery_notifier
 
 daemon_battery_notifier &
-daemon_networking &
+# daemon_networking &
 
 
 # Setup model specific settings.
 model="$(cat /sys/devices/virtual/dmi/id/product_version)"
 
 if [ "$model" = "ThinkPad X240" ]; then
-	# synclient PalmDetect=1 PalmMinZ=85 PalmMinWidth=1
-
-	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -0.4
-	xinput set-prop "Synaptics TM3075-008" "Synaptics Finger" 0 0 0
-	xinput set-prop "Synaptics TM3075-008" "Device Accel Constant Deceleration" "2.75"
+	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.1
+	xinput set-ptop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
 
 	xmodmap -e "keycode 118 = End"
 
