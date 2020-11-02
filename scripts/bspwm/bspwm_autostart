@@ -39,8 +39,8 @@ daemon_battery_notifier &
 model="$(cat /sys/devices/virtual/dmi/id/product_version)"
 
 if [ "$model" = "ThinkPad X240" ]; then
-	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.1
-	xinput set-ptop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
+	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.3
+	xinput set-prop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
 
 	xmodmap -e "keycode 118 = End"
 
