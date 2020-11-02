@@ -2,8 +2,8 @@
 #!/usr/bin/env sh
 
 
-perc=27    # percentage of the screen the node will occupy
-offset=0   # percentage of screen gap around the outside
+perc=35    # percentage of the screen the node will occupy
+offset=10   # percentage of screen gap around the outside
 
 
 # 0 = top left
@@ -53,7 +53,7 @@ new_h=$(( (screen_h * perc) / 100 ))
 
 
 
-bspc node --flag locked=on --flag sticky=on --flag private=on --layer above --state floating
+bspc node --state floating --flag locked=on --flag sticky=on --flag private=on --layer above
 
 xdotool getactivewindow windowsize $new_w $new_h
 
