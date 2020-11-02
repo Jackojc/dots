@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-bspc config window_gap -2
+bspc config window_gap -1
 
