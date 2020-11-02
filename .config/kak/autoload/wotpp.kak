@@ -15,8 +15,9 @@ provide-module -override wpp %{
 	add-highlighter shared/wpp/dqstring/ regex \\[\\ntvr'"]|\\x[A-Fa-f0-9]+|\\b[01]+ 0:keyword
 	add-highlighter shared/wpp/sqstring/ regex \\[\\ntvr'"]|\\x[A-Fa-f0-9]+|\\b[01]+ 0:keyword
 
-	add-highlighter shared/wpp/other/ regex "let|;|exec|file|source|replace|assert" 0:keyword
+	add-highlighter shared/wpp/other/ regex "let|;|\?|\.\.|exec|file|source|replace|assert|namespace" 0:keyword
 	add-highlighter shared/wpp/other/ regex "\(|\)" 0:operator
+	add-highlighter shared/wpp/other/ regex "\{|\}|<|>" 0:comment
 }
 
 hook global BufCreate .*\.(wpp) %{
