@@ -88,3 +88,13 @@ echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
 sudo sysctl -w vm.swappiness=70
 sudo mkdir -p /etc/sysctl.d
 echo "vm.swappiness=70" | sudo tee /etc/sysctl.d/99-swappiness.conf
+
+# Nonfree stuff
+cd ~/scraps/
+git clone https://github.com/void-linux/void-packages --depth=1
+cd void-packages/
+./xbps-src binary-bootstrap
+echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+./xbps-src pkg spotify
+./xbps-src install spotify
+sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify
