@@ -98,6 +98,7 @@ transmission-gtk
 audacity
 lmms
 xournalpp
+youtube-dl
 
 zathura
 zathura-cb
