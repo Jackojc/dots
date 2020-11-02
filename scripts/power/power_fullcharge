@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+for battery in `ls /sys/class/power_supply/ | grep BAT`; do
+	\sudo tlp fullcharge "$battery"
+done
