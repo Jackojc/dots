@@ -241,17 +241,20 @@ super + space
 
 
 
-super + control + left
-	corner_push 0
+# super + control + left
+	# corner_push 0
 
-super + control + up
-	corner_push 1
-
-super + control + right
+super + p
 	corner_push 2
 
-super + control + down
-	corner_push 3
+super + o
+	corner_pop
+
+# super + control + right
+# 	corner_push 2
+
+# super + control + down
+# 	corner_push 3
 
 
 
