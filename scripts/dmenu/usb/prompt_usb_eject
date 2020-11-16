@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-THING="$(usb_get_mounted)$(usb_get_unmounted)"
+THING="$(usb_get_mounted)\n$(usb_get_unmounted)"
 
 if [ -z "$THING" ]; then
 	notify_usb "no drives available!"
