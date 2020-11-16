@@ -16,7 +16,7 @@ notice() {
 sudo cp -rf etc/* /etc
 
 # Add sensors to thinkfan config.
-sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" | sudo tee -a /etc/thinkfan.conf
+# sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" | sudo tee -a /etc/thinkfan.conf
 
 
 # Enable non-free and 32 bit repos.
@@ -85,9 +85,9 @@ sudo swapon /swapfile
 echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
 
 # Swapiness
-sudo sysctl -w vm.swappiness=70
+sudo sysctl -w vm.swappiness=35
 sudo mkdir -p /etc/sysctl.d
-echo "vm.swappiness=70" | sudo tee /etc/sysctl.d/99-swappiness.conf
+echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf
 
 # Nonfree stuff
 cd ~/scraps/

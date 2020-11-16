@@ -99,6 +99,7 @@ audacity
 lmms
 xournalpp
 youtube-dl
+Solaar
 
 zathura
 zathura-cb
@@ -140,6 +141,12 @@ xf86-video-intel
 intel-video-accel
 
 
+# boot
+efibootmgr
+efivar
+efitools
+
+
 
 # services
 iwd        # wireless networking
@@ -165,11 +172,8 @@ noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-ttf
 noto-fonts-ttf-extra
-
 font-unifont-bdf
-
 fonts-droid-ttf
-
 liberation-fonts-ttf
 
 

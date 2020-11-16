@@ -1,0 +1,12 @@
+sensors:
+  - hwmon: /sys/class/hwmon/hwmon5/temp1_input
+  - hwmon: /sys/class/hwmon/hwmon5/temp2_input
+  - hwmon: /sys/class/hwmon/hwmon5/temp3_input
+
+fans:
+  - tpacpi: /proc/acpi/ibm/fan
+
+levels:
+  - [0, 0, 45]
+  - ["level auto", 45, 75]
+  - ["level disengaged", 75, 255]
