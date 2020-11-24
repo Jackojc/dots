@@ -105,6 +105,11 @@ git clone https://github.com/void-linux/void-packages --depth=1
 cd void-packages/
 ./xbps-src binary-bootstrap
 echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+
 ./xbps-src pkg spotify
 ./xbps-src install spotify
 sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify
+
+./xbps-src pkg discord
+./xbps-src install discord
+sudo xbps-install --repository=hostdir/binpkgs/nonfree discord

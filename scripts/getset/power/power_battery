@@ -3,7 +3,7 @@
 i=0
 perc=0
 
-test -f /sys/class/power_supply/BAT*/capacity || exit 1
+# find /sys/class/power_supply/BAT*/capacity -type f 2&>1 /dev/null || exit 1
 
 for bat in `cat /sys/class/power_supply/BAT*/capacity`; do
 	i=$(( i + 1 ))

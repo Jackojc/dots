@@ -109,6 +109,16 @@ zathura-pdf-mupdf
 
 
 
+# steam
+libgcc-32bit
+libstdc++-32bit
+libdrm-32bit
+libglvnd-32bit
+mesa-dri-32bit
+mono
+
+
+
 # x stuff & gui
 lxappearance
 lxinput
