@@ -6,4 +6,4 @@ checkout: `git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME checkout`
 
 ignore untracked files `git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME config --local status.showUntrackedFiles no`
 
-set default push remote `git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME config --set-upstream origin master`
+set default push remote `git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME push --set-upstream origin master`
