@@ -18,7 +18,7 @@ case "$platform" in
 	"x230") notice "installing for x230..." ;;
 	"x240") notice "installing for x240..." ;;
 	"amdfx") notice "installing for amdfx..." ;;
-	*) die "unknown platform" ;;
+	*) die "unknown platform, make sure to specify one of: 'x230', 'x240' or 'amdfx' as the first argument" ;;
 esac
 
 

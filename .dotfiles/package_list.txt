@@ -93,7 +93,6 @@ sxiv
 mypaint
 spacefm
 firefox
-spotify
 pavucontrol
 transmission-gtk
 audacity
