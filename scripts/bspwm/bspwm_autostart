@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+notice() {
+	echo "[*] $@"
+}
+
+
 # Setup monitors and workspaces.
 autorandr -c
 bspwm_monitor_dist
@@ -27,24 +32,54 @@ unclutter -idle 2 -jitter 1 -reset &
 # Don't destroy my ears.
 volume_set 25
 
+
 # Relaunch daemons for tracking battery and network.
-# pkill -f daemon_networking
-pkill -f daemon_battery_notifier
+launch_daemons() {
+	notice "launching daemons"
 
-daemon_battery_notifier &
-# daemon_networking &
+	pkill -f daemon_networking
+	pkill -f daemon_battery_notifier
+
+	daemon_battery_notifier &
+	daemon_networking &
+}
 
 
-# Setup model specific settings.
-model="$(cat /sys/devices/virtual/dmi/id/product_version)"
+x240_setup_kb_mouse() {
+	notice "setting up x240 keyboard & mouse"
 
-if [ "$model" = "ThinkPad X240" ]; then
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.3
 	xinput set-prop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
 
 	xmodmap -e "keycode 118 = End"
+}
 
-elif [ "$model" = "ThinkPad X230" ]; then
+
+x230_setup_kb_mouse() {
+	notice "setting up x230 keyboard & mouse"
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 0
+}
+
+
+# Setup model specific settings.
+model="$(cat /sys/devices/virtual/dmi/id/product_version /sys/devices/virtual/dmi/id/product_name)"
+
+if echo $model | rg "ThinkPad X240"; then
+	notice "detected x240"
+
+	launch_daemons
+	x240_setup_kb_mouse
+
+elif echo $model | rg "ThinkPad X230"; then
+	notice "detected x230"
+
+	launch_daemons
+	x230_setup_kb_mouse
+
+elif echo $model | rg "MS-7693"; then
+	notice "detected amd fx desktop"
 fi
+
+
+
 

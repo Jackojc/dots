@@ -13,6 +13,7 @@ nemiver     # gdb frontend
 gdb
 rr
 perf        # profiling tool
+uftrace
 meld        # git merging tool
 zeal        # docs
 

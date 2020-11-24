@@ -4,7 +4,7 @@
 alias dots='git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
 
 die() {
-	echo "[!] an error occured!" && exit 1
+	echo "[!] an error occured: $@!" && exit 1
 }
 
 notice() {
@@ -12,20 +12,27 @@ notice() {
 }
 
 
+platform="$1"
+
+case "$platform" in
+	"x230") notice "installing for x230..." ;;
+	"x240") notice "installing for x240..." ;;
+	"amdfx") notice "installing for amdfx..." ;;
+	*) die "unknown platform" ;;
+esac
+
+
 # Copy system wide configs.
 sudo cp -rf etc/* /etc
-
-# Add sensors to thinkfan config.
-# sudo find /sys/devices -type f -name 'temp*_input' | xargs -I {} echo "hwmon {}" | sudo tee -a /etc/thinkfan.conf
 
 
 # Enable non-free and 32 bit repos.
 notice "adding repos"
-sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree || die
+sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree || die "installing non-free repos"
 
 # Install packages.
 notice "installing packages"
-sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die
+sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die "installing packages"
 
 
 cd $HOME
@@ -55,12 +62,15 @@ tic .config/kak/tmux-256color.terminfo
 notice "enable core services"
 sudo ln -s /etc/sv/dbus       /var/service
 sudo ln -s /etc/sv/chronyd    /var/service
-sudo ln -s /etc/sv/tlp        /var/service
-sudo ln -s /etc/sv/thinkfan   /var/service
-sudo ln -s /etc/sv/iwd        /var/service
 sudo ln -s /etc/sv/irqbalance /var/service
 sudo ln -s /etc/sv/earlyoom   /var/service
-sudo ln -s /etc/sv/bluetoothd /var/service
+
+if [ "$platform" = "x230" ] || [ "$platform" = "x240" ]; then
+	sudo ln -s /etc/sv/iwd        /var/service
+	sudo ln -s /etc/sv/tlp        /var/service
+	sudo ln -s /etc/sv/thinkfan   /var/service
+	sudo ln -s /etc/sv/bluetoothd /var/service
+fi
 
 # Install st and dmenu.
 cd /tmp

@@ -3,15 +3,12 @@
 [[ $- != *i* ]] && return
 
 export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
+export PATH="$HOME/.cargo/bin:$PATH"
+
 
 export TODO="$HOME/notes/todo"
 export DIR_WALLPAPERS="$HOME/media/wallpapers"
 
-# export XDG_RUNTIME_DIR="/tmp"
-
-# export XDG_CONFIG_HOME="$HOME/.config"
-# export XDG_DATA_HOME="$HOME/.local/share"
-# export XDG_CACHE_HOME="$HOME/.cache"
 
 export XDG_PUBLICSHARE_DIR="/dev/null"
 export XDG_TEMPLATES_DIR="/dev/null"
@@ -163,7 +160,3 @@ if [ "$(tty)" = "/dev/tty2" ]; then
 	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER
 fi
 
-
-
-
-export PATH="$HOME/.cargo/bin:$PATH"
