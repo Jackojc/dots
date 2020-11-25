@@ -46,7 +46,7 @@ mkdir -pv media/music media/movies media/tv media/videos media/pictures 1> /dev/
 
 # Download wallpapers.
 notice "downloading wallpapers"
-git clone https://github.com/Jackojc/wallpapers.git media/wallpapers 1> /dev/null 2>&1 || notice "wallpapers already downloaded"
+git clone https://github.com/Jackojc/wallpapers.git media/wallpapers 1> /dev/null 2>&1 || notice "\twallpapers already downloaded"
 
 # Setup dotfiles.
 notice "checking out dotfiles"
@@ -76,37 +76,40 @@ fi
 
 
 # Install st and dmenu.
+notice "building st"
 cd /tmp 1> /dev/null 2>&1
 git clone https://github.com/Jackojc/st 1> /dev/null 2>&1 && (
-	notice "building st"
 	cd st
 	./build.sh 1> /dev/null 2>&1
 	sudo make install 1> /dev/null 2>&1
-)
+) || notice "\tst already installed"
 
+notice "building dmenu"
 cd /tmp 1> /dev/null 2>&1
 git clone https://github.com/Jackojc/dmenu 1> /dev/null 2>&1 && (
-	notice "building dmenu"
 	cd dmenu
 	./build.sh 1> /dev/null 2>&1
 	sudo make install 1> /dev/null 2>&1
-)
+) || notice "\tdmenu already installed"
 
 
 # Swapfile.
 notice "creating swap file"
-sudo fallocate -l 8G /swapfile 1> /dev/null 2>&1
-sudo chmod 600 /swapfile 1> /dev/null 2>&1
-sudo mkswap /swapfile 1> /dev/null 2>&1
-sudo swapon /swapfile 1> /dev/null 2>&1
+test -f /swapfile && notice "\tswapfile already exists" || (
+	sudo fallocate -l 8G /swapfile 1> /dev/null 2>&1
+	sudo chmod 600 /swapfile 1> /dev/null 2>&1
+	sudo mkswap /swapfile 1> /dev/null 2>&1
+	sudo swapon /swapfile 1> /dev/null 2>&1
+	echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab 1> /dev/null 2>&1
 
-echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab 1> /dev/null 2>&1
+	# Swapiness
+	notice "set swappiness"
+	sudo sysctl -w vm.swappiness=35 1> /dev/null 2>&1
+	sudo mkdir -p /etc/sysctl.d 1> /dev/null 2>&1
+	echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf 1> /dev/null 2>&1
+)
 
-# Swapiness
-notice "set swappiness"
-sudo sysctl -w vm.swappiness=35 1> /dev/null 2>&1
-sudo mkdir -p /etc/sysctl.d 1> /dev/null 2>&1
-echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf 1> /dev/null 2>&1
+
 
 
 # Nonfree stuff
