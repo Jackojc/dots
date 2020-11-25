@@ -1,0 +1,5 @@
+gpu_driver = i915 (intel) or amdgpu (amd)
+version = kernel version
+out = destination to output initramfs
+
+sudo dracut --force-drivers "<gpu_driver>" --kver <version> /boot/<out>.img

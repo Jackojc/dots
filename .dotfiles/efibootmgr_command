@@ -1,0 +1,1 @@
+sudo efibootmgr --disk /dev/sdX --part X --create --label "<name>" --loader /EFI/default/vmlinuz --unicode "root=PARTUUID=<uuid> rw initrd=\EFI\default\initramfs.img efi=runtime mitigations=off splash quiet loglevel=0" --verbose
