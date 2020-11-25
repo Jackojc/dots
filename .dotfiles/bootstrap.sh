@@ -23,93 +23,112 @@ esac
 
 
 # Copy system wide configs.
-sudo cp -rf etc/* /etc
+notice "copying system config"
+sudo cp -rf etc/* /etc 1> /dev/null 2>&1
+sudo cp -rf usr/* /usr 1> /dev/null 2>&1
 
 
 # Enable non-free and 32 bit repos.
 notice "adding repos"
-sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree || die "installing non-free repos"
+sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree 1> /dev/null 2>&1 || die "installing non-free repos"
 
 # Install packages.
 notice "installing packages"
-sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') || die "installing packages"
+sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') 1> /dev/null 2>&1 || die "installing packages"
 
 
 cd $HOME
 
 # Setup home directory structure.
 notice "setting up home directory structure"
-mkdir -pv docs downloads media notes projects scraps scripts
-mkdir -pv media/music media/movies media/tv media/videos media/pictures
+mkdir -pv docs downloads media notes projects scraps scripts 1> /dev/null 2>&1
+mkdir -pv media/music media/movies media/tv media/videos media/pictures 1> /dev/null 2>&1
 
 # Download wallpapers.
 notice "downloading wallpapers"
-git clone https://github.com/Jackojc/wallpapers.git media/wallpapers
+git clone https://github.com/Jackojc/wallpapers.git media/wallpapers 1> /dev/null 2>&1 || notice "wallpapers already downloaded"
 
 # Setup dotfiles.
 notice "checking out dotfiles"
-dots checkout
+dots checkout 1> /dev/null 2>&1
 
 # Setup font cache.
 notice "refreshing font cache"
-fc-cache -vrf
+fc-cache -vrf 1> /dev/null 2>&1
 
 # Fix Tmux colours in st.
 notice "installing terminfo fix for tmux"
-tic .config/kak/tmux-256color.terminfo
+tic .config/kak/tmux-256color.terminfo 1> /dev/null 2>&1
 
 # Setup core services.
-notice "enable core services"
-sudo ln -s /etc/sv/dbus       /var/service
-sudo ln -s /etc/sv/chronyd    /var/service
-sudo ln -s /etc/sv/irqbalance /var/service
-sudo ln -s /etc/sv/earlyoom   /var/service
+notice "enable services"
+sudo ln -s /etc/sv/dbus       /var/service 1> /dev/null 2>&1
+sudo ln -s /etc/sv/chronyd    /var/service 1> /dev/null 2>&1
+sudo ln -s /etc/sv/irqbalance /var/service 1> /dev/null 2>&1
+sudo ln -s /etc/sv/earlyoom   /var/service 1> /dev/null 2>&1
 
 if [ "$platform" = "x230" ] || [ "$platform" = "x240" ]; then
-	sudo ln -s /etc/sv/iwd        /var/service
-	sudo ln -s /etc/sv/tlp        /var/service
-	sudo ln -s /etc/sv/thinkfan   /var/service
-	sudo ln -s /etc/sv/bluetoothd /var/service
+	sudo ln -s /etc/sv/iwd        /var/service 1> /dev/null 2>&1
+	sudo ln -s /etc/sv/tlp        /var/service 1> /dev/null 2>&1
+	sudo ln -s /etc/sv/thinkfan   /var/service 1> /dev/null 2>&1
+	sudo ln -s /etc/sv/bluetoothd /var/service 1> /dev/null 2>&1
 fi
+
 
 # Install st and dmenu.
 cd /tmp
 
-git clone https://github.com/Jackojc/st
-git clone https://github.com/Jackojc/dmenu
+git clone https://github.com/Jackojc/st 1> /dev/null 2>&1 && (
+	notice "building st"
+	cd st
+	./build.sh 1> /dev/null 2>&1
+	sudo make install 1> /dev/null 2>&1
+)
 
-cd st
-./build.sh
-sudo make install
+git clone https://github.com/Jackojc/dmenu 1> /dev/null 2>&1 && (
+	notice "building dmenu"
+	cd ../dmenu
+	./build.sh 1> /dev/null 2>&1
+	sudo make install 1> /dev/null 2>&1
+)
 
-cd ../dmenu
-./build.sh
-sudo make install
 
 # Swapfile.
-sudo fallocate -l 8G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
+notice "creating swap file"
+sudo fallocate -l 8G /swapfile 1> /dev/null 2>&1
+sudo chmod 600 /swapfile 1> /dev/null 2>&1
+sudo mkswap /swapfile 1> /dev/null 2>&1
+sudo swapon /swapfile 1> /dev/null 2>&1
 
-echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
+echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab 1> /dev/null 2>&1
 
 # Swapiness
-sudo sysctl -w vm.swappiness=35
-sudo mkdir -p /etc/sysctl.d
-echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf
+notice "set swappiness"
+sudo sysctl -w vm.swappiness=35 1> /dev/null 2>&1
+sudo mkdir -p /etc/sysctl.d 1> /dev/null 2>&1
+echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf 1> /dev/null 2>&1
+
 
 # Nonfree stuff
+notice "enabling non-free binary packages"
 cd ~/scraps/
-git clone https://github.com/void-linux/void-packages --depth=1
+git clone https://github.com/void-linux/void-packages --depth=1 1> /dev/null 2>&1
 cd void-packages/
-./xbps-src binary-bootstrap
+./xbps-src binary-bootstrap 1> /dev/null 2>&1
 echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 
-./xbps-src pkg spotify
-./xbps-src install spotify
-sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify
 
-./xbps-src pkg discord
-./xbps-src install discord
-sudo xbps-install --repository=hostdir/binpkgs/nonfree discord
+notice "installing spotify"
+./xbps-src pkg spotify 1> /dev/null 2>&1
+./xbps-src install spotify 1> /dev/null 2>&1
+sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify 1> /dev/null 2>&1
+
+
+notice "installing discord"
+./xbps-src pkg discord 1> /dev/null 2>&1
+./xbps-src install discord 1> /dev/null 2>&1
+sudo xbps-install --repository=hostdir/binpkgs/nonfree discord 1> /dev/null 2>&1
+
+
+sudo plymouth-set-default-theme deus_ex 1> /dev/null 2>&1
+notice "make sure to run dracut to enable plymouth module"

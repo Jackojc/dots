@@ -100,6 +100,7 @@ lmms
 xournalpp
 youtube-dl
 Solaar
+plymouth
 
 zathura
 zathura-cb
