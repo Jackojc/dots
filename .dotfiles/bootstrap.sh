@@ -139,3 +139,5 @@ xbps-query spotify 1> /dev/null 2>&1 && notice "\tdiscord already installed" || 
 
 sudo plymouth-set-default-theme deus_ex 1> /dev/null 2>&1
 notice "make sure to run dracut to enable plymouth module"
+
+notice "run the commands in `gpg_commands` to fix directory perm issue"
