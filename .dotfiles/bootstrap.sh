@@ -37,7 +37,7 @@ notice "installing packages"
 sudo xbps-install -Syu $(sed 's/#.*//' < package_list.txt | tr '\n' ' ' | sed 's/ \+/ /gp') 1> /dev/null 2>&1 || die "installing packages"
 
 
-cd $HOME
+cd $HOME 1> /dev/null 2>&1
 
 # Setup home directory structure.
 notice "setting up home directory structure"
@@ -76,8 +76,7 @@ fi
 
 
 # Install st and dmenu.
-cd /tmp
-
+cd /tmp 1> /dev/null 2>&1
 git clone https://github.com/Jackojc/st 1> /dev/null 2>&1 && (
 	notice "building st"
 	cd st
@@ -85,9 +84,10 @@ git clone https://github.com/Jackojc/st 1> /dev/null 2>&1 && (
 	sudo make install 1> /dev/null 2>&1
 )
 
+cd /tmp 1> /dev/null 2>&1
 git clone https://github.com/Jackojc/dmenu 1> /dev/null 2>&1 && (
 	notice "building dmenu"
-	cd ../dmenu
+	cd dmenu
 	./build.sh 1> /dev/null 2>&1
 	sudo make install 1> /dev/null 2>&1
 )
@@ -111,9 +111,9 @@ echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf 1> /dev/null
 
 # Nonfree stuff
 notice "enabling non-free binary packages"
-cd ~/scraps/
+cd ~/scraps/ 1> /dev/null 2>&1
 git clone https://github.com/void-linux/void-packages --depth=1 1> /dev/null 2>&1
-cd void-packages/
+cd void-packages/ 1> /dev/null 2>&1
 ./xbps-src binary-bootstrap 1> /dev/null 2>&1
 echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 
