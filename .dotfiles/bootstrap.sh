@@ -122,15 +122,19 @@ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 
 
 notice "installing spotify"
-./xbps-src pkg spotify 1> /dev/null 2>&1
-./xbps-src install spotify 1> /dev/null 2>&1
-sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify 1> /dev/null 2>&1
+xbps-query discord && notice "\tspotify already installed" || (
+	./xbps-src pkg spotify 1> /dev/null 2>&1
+	./xbps-src install spotify 1> /dev/null 2>&1
+	sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify 1> /dev/null 2>&1
+)
 
 
 notice "installing discord"
-./xbps-src pkg discord 1> /dev/null 2>&1
-./xbps-src install discord 1> /dev/null 2>&1
-sudo xbps-install --repository=hostdir/binpkgs/nonfree discord 1> /dev/null 2>&1
+xbps-query spotify && notice "\tdiscord already installed" || (
+	./xbps-src pkg discord 1> /dev/null 2>&1
+	./xbps-src install discord 1> /dev/null 2>&1
+	sudo xbps-install --repository=hostdir/binpkgs/nonfree discord 1> /dev/null 2>&1
+)
 
 
 sudo plymouth-set-default-theme deus_ex 1> /dev/null 2>&1
