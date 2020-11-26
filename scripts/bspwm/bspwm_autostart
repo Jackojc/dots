@@ -81,5 +81,12 @@ elif echo $model | rg "MS-7693"; then
 fi
 
 
+# use gpu scaler
+displays="$(xrandr -q | rg '[^dis]connected' | cut -d' ' -f1)"
+for output in "$displays"; do
+	xrandr --output "$output" --set "scaling mode" "Full"
+done
 
-
+for output in "$displays"; do
+	xrandr --output "$output" --set "TearFree" "on"
+done
