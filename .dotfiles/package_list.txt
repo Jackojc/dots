@@ -148,8 +148,20 @@ xsel
 # drivers
 xf86-input-synaptics
 xf86-input-wacom      # wacom drawing tablet
+
 xf86-video-intel
 intel-video-accel
+
+xf86-video-amdgpu
+mesa
+mesa-32bit
+mesa-vulkan-radeon
+mesa-vulkan-radeon-32bit
+mesa-vdpau
+mesa-vdpau-32bit
+mesa-vaapi
+mesa-vaapi-32bit
+
 
 
 # boot
