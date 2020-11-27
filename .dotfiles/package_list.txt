@@ -16,6 +16,7 @@ perf        # profiling tool
 uftrace
 meld        # git merging tool
 zeal        # docs
+patch
 
 cmake
 make

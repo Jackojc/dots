@@ -157,6 +157,6 @@ function cm {
 
 
 if [ "$(tty)" = "/dev/tty2" ]; then
-	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER
+	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER 1> /dev/null 2>&1
 fi
 
