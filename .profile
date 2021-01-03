@@ -136,8 +136,13 @@ alias sxiv="sxiv -aq"
 alias qmv="qmv -fdo"
 alias ls="exa -F --group-directories-first"
 
-# shortened
+# git
 alias gc="git clone --recursive"
+alias gs="git status"
+alias gd="git diff"
+alias ga="git add"
+
+# shortened
 alias e="$EDITOR"
 alias c="clear"
 alias l="ls"

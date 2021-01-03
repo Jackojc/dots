@@ -17,6 +17,7 @@ uftrace
 meld        # git merging tool
 zeal        # docs
 patch
+broot
 
 cmake
 make
