@@ -39,9 +39,9 @@ export EDITOR="kak"
 ESC=$(printf "\e")
 RESET="$(tput sgr0)"
 
-PATHCOL="$ESC[95m"
-PATHCOLROOT="$ESC[91m"
-GITCOL="$ESC[92m"
+PATHCOL="$ESC[1;95m"
+PATHCOLROOT="$ESC[1;91m"
+GITCOL="$ESC[1;92m"
 PS2COL="$(tput setaf 6)"
 
 git_prompt() {
@@ -50,10 +50,10 @@ git_prompt() {
 
 if [ "$EUID" -ne 0 ]; then
 	# non root
-	export PS1='[\[$PATHCOL\]\W\[$GITCOL\]$(git_prompt)\[$RESET\]] '
+	export PS1='\[$PATHCOL\]\W\[$GITCOL\]$(git_prompt)\[$RESET\] '
 else
 	# root
-	export PS1='[\[$PATHCOLROOT\]\W\[$GITCOL\]$(git_prompt)\[$RESET\]]# '
+	export PS1='\[$PATHCOLROOT\]\W\[$GITCOL\]$(git_prompt)\[$RESET\]# '
 fi
 
 export PS2='| \[${PS2COL}\]=>\[${RESET}\] '
@@ -165,3 +165,5 @@ if [ "$(tty)" = "/dev/tty2" ]; then
 	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER 1> /dev/null 2>&1
 fi
 
+
+source /home/jack/.config/broot/launcher/bash/br

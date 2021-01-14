@@ -54,6 +54,9 @@ super + control + r
 super + control + f
 	launch_st -e nnn $(focused_pwd)
 
+super + m
+	prompt_passmenu --type
+
 super + u
 	prompt_usb
 
@@ -157,9 +160,6 @@ super + q
 
 
 
-
-super + m
-	bspwm_node_mark
 
 super + grave
 	bspc node -f last; update_workspace_state

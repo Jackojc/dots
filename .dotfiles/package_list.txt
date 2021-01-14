@@ -18,6 +18,7 @@ meld        # git merging tool
 zeal        # docs
 patch
 broot
+graphviz
 
 cmake
 make
