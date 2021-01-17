@@ -104,6 +104,7 @@ xournalpp
 youtube-dl
 Solaar
 plymouth
+gnome-ssh-askpass
 
 zathura
 zathura-cb
