@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+pkill picom
+
+sudo cpupower frequency-set -g performance
+echo high | sudo -A tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+
+sudo ionice -c1 -n7 nice --adjustment="-20" "$@"
+
+echo auto | sudo -A tee /sys/class/drm/card0/device/power_dpm_force_performance_level
+sudo cpupower frequency-set -g ondemand
+

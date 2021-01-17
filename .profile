@@ -23,7 +23,7 @@ export XDG_VIDEOS_DIR="$HOME/media/videos"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
 
 
-export SUDO_ASKPASS="prompt_pass"
+export SUDO_ASKPASS="$HOME/scripts/dmenu/prompt_pass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
 
 

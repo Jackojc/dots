@@ -8,5 +8,5 @@ root ALL=(ALL) ALL
 	/usr/bin/halt, /usr/bin/poweroff, /usr/bin/reboot, \
 	/usr/bin/shutdown, /usr/bin/zzz, /usr/bin/ZZZ, \
 	/usr/bin/iwctl, /usr/bin/cpupower, /usr/bin/powertop, \
-	/usr/bin/rfkill, /usr/bin/tlp
+	/usr/bin/rfkill, /usr/bin/tlp, /bin/ionice, /bin/nice, /bin/renice
 
