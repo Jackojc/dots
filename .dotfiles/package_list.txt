@@ -156,7 +156,10 @@ xf86-input-synaptics
 xf86-input-wacom      # wacom drawing tablet
 
 xf86-video-intel
+libva-intel-driver
 intel-video-accel
+intel-media-driver
+mesa-vulkan-intel
 
 xf86-video-amdgpu
 mesa
