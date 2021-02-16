@@ -20,6 +20,8 @@ export XDG_PICTURES_DIR="$HOME/media/pictures"
 export XDG_VIDEOS_DIR="$HOME/media/videos"
 
 
+export GPG_TTY=$(tty)
+
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
 
 
@@ -52,7 +54,7 @@ if [ "$EUID" -ne 0 ]; then
 	export PS1='\[$PATHCOL\]\W\[$GITCOL\]$(git_prompt)\[$RESET\] '
 else
 	# root
-	export PS1='\[$PATHCOLROOT\]\W\[$GITCOL\]$(git_prompt)\[$RESET\]# '
+	export PS1='\[$PATHCOLROOT\]\W\[$GITCOL\]$(git_prompt)\[$RESET\] # '
 fi
 
 export PS2='| \[${PS2COL}\]=>\[${RESET}\] '

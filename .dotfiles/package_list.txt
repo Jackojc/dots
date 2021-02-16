@@ -105,6 +105,7 @@ youtube-dl
 Solaar
 plymouth
 gnome-ssh-askpass
+tealdeer
 
 zathura
 zathura-cb
@@ -152,6 +153,8 @@ xsel
 
 
 # drivers
+xboxdrv
+
 xf86-input-synaptics
 xf86-input-wacom      # wacom drawing tablet
 
