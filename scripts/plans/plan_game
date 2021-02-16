@@ -1,12 +1,25 @@
 #!/usr/bin/env sh
 
+# enable perf stuff
 pkill picom
 
 sudo cpupower frequency-set -g performance
 echo high | sudo -A tee /sys/class/drm/card0/device/power_dpm_force_performance_level
 
-sudo ionice -c1 -n7 nice --adjustment="-20" "$@"
 
+# launch game
+"$@" &
+
+pid="$!"
+
+sudo renice -n -20 "$pid"
+sudo ionice -c1 -n7 -p "$pid"
+
+wait
+
+
+# undo perf stuff
 echo auto | sudo -A tee /sys/class/drm/card0/device/power_dpm_force_performance_level
 sudo cpupower frequency-set -g ondemand
 
+picom
