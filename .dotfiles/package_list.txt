@@ -29,6 +29,7 @@ git
 # terminal programs
 tmux          # terminal multiplexer
 kakoune       # editor
+editorconfig
 
 renameutils   # bulk renaming
 ripgrep       # faster alternative to grep

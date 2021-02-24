@@ -138,10 +138,12 @@ alias qmv="qmv -fdo"
 alias ls="exa -F --group-directories-first"
 
 # git
-alias gc="git clone --recursive"
+alias gc="git commit"
 alias gs="git status"
 alias gd="git diff"
+alias gds="git diff --staged"
 alias ga="git add"
+alias gl="git log"
 
 # shortened
 alias e="$EDITOR"

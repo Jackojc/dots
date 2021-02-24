@@ -67,6 +67,12 @@ set global modelinefmt %{
 
 
 
+# enable editor config
+hook global BufOpenFile .* editorconfig-load
+hook global BufNewFile .* editorconfig-load
+
+
+
 hook global FocusIn .* %{
 	set-face window FocusedLine        FocusedLine
 	set-face window Default            Default
