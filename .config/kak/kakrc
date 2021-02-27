@@ -16,7 +16,7 @@ set-option global autoreload yes
 set-option global ui_options ncurses_status_on_top=false
 
 
-source "%val{config}/rc/easymotion.kak"  # allows for jumping around text
+# source "%val{config}/rc/easymotion.kak"  # allows for jumping around text
 source "%val{config}/rc/inc-dec.kak"
 source "%val{config}/rc/idsession.kak"
 
@@ -36,7 +36,7 @@ declare-option str termcmd %sh{
 
 
 
-declare-option str word_wrap_status ''
+# declare-option str word_wrap_status ' '
 declare-option str buffer_status ''
 
 
@@ -53,23 +53,38 @@ hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
 
 
 # Statusbar
-set global modelinefmt %{
+
+declare-option str status_default ''
+declare-option str status_wrap ''
+
+
+set global status_default %{
+{{context_info}} {{mode_info}}
 %val{bufname}
 [%opt{filetype}]
 %opt{buffer_status}
-%val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column}
-%opt{modeline_pos_percent}%%
-{StatusLineValue}%opt{word_wrap_status}{Default}
-{{context_info}}
-{{mode_info}}
+%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%% (%val{buf_line_count})
+%val{client}|%val{session}
+}
+
+set global status_wrap %{
+{{context_info}} {{mode_info}}
+{StatusLineValue}wordwrap{Default}
+%val{bufname}
+[%opt{filetype}]
+%opt{buffer_status}
+%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%% (%val{buf_line_count})
 %val{client}|%val{session}
 }
 
 
 
+set global modelinefmt %opt{status_default}
+
+
 # enable editor config
-hook global BufOpenFile .* editorconfig-load
-hook global BufNewFile .* editorconfig-load
+# hook global BufOpenFile .* editorconfig-load
+# hook global BufNewFile .* editorconfig-load
 
 
 
@@ -127,23 +142,23 @@ hook global FocusOut .* %{
 
 # Current buffer and total buffers.
 hook global WinCreate .* %{ hook window WinDisplay .* %{ evaluate-commands %sh{
-    current=0
-    i=0
+	current=0
+	i=0
 
-    # buffers="$(echo $kak_buflist | grep -v '*debug*')"
+	# buffers="$(echo $kak_buflist | grep -v '*debug*')"
 
-    for b in $kak_buflist; do
-        i=$(( i + 1 ))
+	for b in $kak_buflist; do
+		i=$(( i + 1 ))
 
-        if [ "$b" = "$kak_bufname" ]; then
-            current=$i
-        fi
-    done
+		if [ "$b" = "$kak_bufname" ]; then
+			current=$i
+		fi
+	done
 
-    current=$(( current - 1 ))
-    i=$(( i - 1 ))
+	current=$(( current - 1 ))
+	i=$(( i - 1 ))
 
-    echo "set window buffer_status '[$current/$i]'"
+	echo "set window buffer_status '[$current/$i]'"
 } } }
 
 
@@ -272,11 +287,14 @@ define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -
 define-command wrap-toggle %{
 	try %{
 		addhl global/wrap wrap -word -indent -width 120  # line wrapping on
-		set window word_wrap_status 'wrap'
+		# set window word_wrap_status ' [WRAP] '
+		set global modelinefmt %opt{status_wrap}
+
 
 	} catch %{
 		rmhl global/wrap # line wrapping off
-		set window word_wrap_status ''
+		# set window word_wrap_status ' '
+		set global modelinefmt %opt{status_default}
 	}
 }
 
@@ -372,11 +390,11 @@ map global normal <c-w> ': wrap-toggle<ret>'
 
 
 # backspace in normal mode works like in insert mode
-map global normal <backspace> 'hd'
+# map global normal <backspace> 'hd'
 
 # same for return
-map global normal <ret> 'i<ret><esc>'
-map global normal <del> 'd'
+# map global normal <ret> 'i<ret><esc>'
+# map global normal <del> 'd'
 
 
 # map global normal <space> ';'
@@ -385,11 +403,11 @@ map global normal <del> 'd'
 
 
 # these popup when pressing ','
-map global user q ': easy-motion-b<ret>' -docstring 'jump to words behind'
-map global user w ': easy-motion-w<ret>' -docstring 'jump to words ahead'
+# map global user q ': easy-motion-b<ret>' -docstring 'jump to words behind'
+# map global user w ': easy-motion-w<ret>' -docstring 'jump to words ahead'
 
-map global normal \' ': easy-motion-w<ret>'
-map global normal <a-'> ': easy-motion-b<ret>'
+# map global normal \' ': easy-motion-w<ret>'
+# map global normal <a-'> ': easy-motion-b<ret>'
 
 
 
