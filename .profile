@@ -144,6 +144,7 @@ alias gd="git diff"
 alias gds="git diff --staged"
 alias ga="git add"
 alias gl="git log"
+alias gp="git pull"
 
 # shortened
 alias e="$EDITOR"
