@@ -1,63 +1,245 @@
-# kakrc
 colorscheme yuloo
 
-
 # Options
-set-option global tabstop 4          # represent tabs as 4 spaces
-set-option global indentwidth 0      # self explanatory
-set-option global scrolloff 3,0      # space around cursor when scrolling
-set-option global ui_options ncurses_assistant=none # dont show clippy in popups
+set-option global tabstop 4
+set-option global indentwidth 0
+set-option global scrolloff 3,0
+set-option global ui_options ncurses_assistant=none
 set-option global aligntab false
-set-option global grepcmd 'rg --column'   # use ripgrep instead of normal grep
 set-option global autoinfo command
 set-option global startup_info_version 99999999999
-set-option global idle_timeout 100
 set-option global autoreload yes
-set-option global ui_options ncurses_status_on_top=false
+set-option global ui_options ncurses_set_title=true
 
-
-# source "%val{config}/rc/easymotion.kak"  # allows for jumping around text
+# Plugins
 source "%val{config}/rc/inc-dec.kak"
 source "%val{config}/rc/idsession.kak"
 
-
-
 # Highlighters
-add-highlighter global/ show-whitespaces              # show whitespace
-add-highlighter global/ show-matching                 # highlight matching braces etc
+add-highlighter global/ show-whitespaces
+add-highlighter global/ show-matching
 add-highlighter global/ number-lines -relative -hlcursor -min-digits 3
 
+# Default terminal emulator
+declare-option str termcmd %sh{ printf %s\\n "st -e sh -c" }
 
-
-# Set `st` as default terminal.
-declare-option str termcmd %sh{
-	printf %s\\n "st -e sh -c"
-}
-
-
-
-# declare-option str word_wrap_status ' '
-declare-option str buffer_status ''
-
-
-
-
-# Percent way through file
+# Show percentage way through file
 declare-option str modeline_pos_percent '0'
-
 hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
 	echo "set window modeline_pos_percent '$(($kak_cursor_line * 100 / $kak_buf_line_count))'"
 } } }
 
-
-
-
-# Statusbar
-
+# Status bar strings
+declare-option str buffer_status ''
 declare-option str status_default ''
 declare-option str status_wrap ''
 
+# Move lines
+map global normal <c-down> ': move-line-below %val{count}<ret>' -docstring "move line down"
+map global normal <c-up>   ': move-line-above %val{count}<ret>' -docstring "move line up"
 
+# Home/End
+map global normal <end>  'gl'
+map global normal <home> 'gh'
+
+map global normal <s-end>  'Gl'
+map global normal <s-home> 'Gh'
+
+# Do not yank when using d/c
+map global normal d <a-d>
+map global normal c <a-c>
+
+# Remap b to q
+map global normal = q
+map global normal <a-=> Q
+
+# Select left/right word
+map global normal q b
+map global normal Q B
+map global normal <a-q> <a-b>
+map global normal <a-Q> <a-B>
+
+# Show buffers
+map global normal b ':buffer '
+
+# Word wrap toggle
+map global normal <c-w> ': wrap-toggle<ret>'
+
+# Backspace, delete and enter work in normal mode
+map global normal <backspace> 'h<a-d>'
+map global normal <ret> 'i<ret><esc>'
+map global normal <del> '<a-d>'
+
+# Comments
+map global normal '#' ': comment-line<ret>'
+map global normal '<a-#>' ': comment-block<ret>'
+
+# Incr/decr
+map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
+map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
+
+# Paste
+map global normal P '<a-!>xsel -ob<ret>'
+map global normal p '!xsel -ob<ret>'
+
+# Tab to cycle buffers
+map global normal <tab> ': buffer-next<ret>'
+map global normal <s-tab> ': buffer-previous<ret>'
+
+# Select lines
+map global normal x ': extend-line-down %val{count}<ret>'
+map global normal X ': extend-line-up %val{count}<ret>'
+
+# Remove trailing whitespaces on file save
+hook global BufWritePre .* %{ try %{
+	execute-keys -draft '%s[\h\v]+$<ret><a-d>'
+} }
+
+# Highlight the currently focused line and columns 80 & 120.
+hook global WinCreate .* %{ update_line_highlighter }
+hook global -group crosshairs RawKey .* %{ update_line_highlighter }
+
+# Add some highlighters for Rust and C++
+hook global WinSetOption filetype=(c|cpp|rust) %{
+	add-highlighter buffer/namespace regex [a-zA-Z](\w+)?(\h+)?(::) 0:namespace
+	add-highlighter buffer/functions regex \w+(\h+)?(?=\() 0:function
+}
+
+# Rename session to something more human readable
+hook global KakBegin .* %{ idsession }
+
+# Delete text in scratch buffer
+hook global BufCreate '^\*scratch\*$' %{ exec '%d' }
+
+# Tab to cycle autocomplete matches
+hook global InsertCompletionShow .* %{ try %{
+	execute-keys -draft 'h<a-K>\h<ret>'
+	map window insert <tab> <c-n>
+	map window insert <s-tab> <c-p>
+}}
+
+hook global InsertCompletionHide .* %{
+	unmap window insert <tab> <c-n>
+	unmap window insert <s-tab> <c-p>
+}
+
+# Copy/paste
+hook global RegisterModified '"' %{ nop %sh{
+	if [ -n "$DISPLAY" ]; then
+		printf %s "$kak_main_reg_dquote" | xclip -in -selection clipboard >&- 2>&-
+
+	elif [ -n "$TMUX" ]; then
+		tmux set-buffer -- "$kak_main_reg_dquote"
+	fi
+}}
+
+# Show current buffer and total buffer in status bar
+hook global WinCreate .* %{ hook window WinDisplay .* %{ evaluate-commands %sh{
+	current=0
+	i=0
+
+	for b in $kak_buflist; do
+		i=$(( i + 1 ))
+
+		if [ "$b" = "$kak_bufname" ]; then
+			current=$i
+		fi
+	done
+
+	current=$(( current - 1 ))
+	i=$(( i - 1 ))
+
+	echo "set window buffer_status '[$current/$i]'"
+}}}
+
+# Update focused line and columns
+define-command update_line_highlighter %{
+	# highlight focused line
+	try %{ remove-highlighter window/highlight_focused_line }
+	try %{ add-highlighter window/highlight_focused_line line %val{cursor_line} FocusedLine }
+
+	# highlight column 80
+	try %{ remove-highlighter window/highlight_column_80 }
+	try %{ add-highlighter window/highlight_column_80 column 80 FocusedLine }
+
+	# highlight column 120
+	try %{ remove-highlighter window/highlight_column_120 }
+	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
+}
+
+# Move lines
+define-command move-line-above -params 0..1 %{ execute-keys -itersel "<a-x>yd%arg{1}k<a-P>" }
+define-command move-line-below -params 0..1 %{ execute-keys -itersel "<a-x>yd%arg{1}j<a-P>" }
+
+# Tmux
+define-command -docstring "vsplit [<commands>]: split tmux vertically" vsplit -params .. -command-completion %{
+	tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
+}
+
+define-command -docstring "split [<commands>]: split tmux horizontally" split -params .. -command-completion %{
+	tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
+}
+
+define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -params .. -command-completion %{
+	tmux-terminal-window kak -c %val{session} -e "%arg{@}"
+}
+
+# Toggle wordwrap
+define-command wrap-toggle %{
+	try %{
+		addhl global/wrap wrap -word -indent -width 120  # line wrapping on
+		set global modelinefmt %opt{status_wrap}
+
+
+	} catch %{
+		rmhl global/wrap # line wrapping off
+		set global modelinefmt %opt{status_default}
+	}
+}
+
+# Set filetype of buffer
+define-command -params 1 filetype %{
+	eval "set-option buffer filetype %arg{1}"
+}
+
+# Select lines down/up
+define-command -params 1 extend-line-down %{
+	exec "<a-:>%arg{1}X"
+}
+
+define-command -params 1 extend-line-up %{
+	exec "<a-:><a-;>%arg{1}K<a-;>"
+
+	try %{
+		exec -draft ';<a-K>\n<ret>'
+		exec X
+	}
+
+	exec '<a-;><a-X>'
+}
+
+# Don't overwrite existing files on save
+define-command -params 0..1 secure_write %{ evaluate-commands %sh{
+	if [ -z ${1+x} ]; then
+		# no param given: usual write
+		echo "write"
+
+	else
+		bufname=$1
+		if [ -e "${bufname}" ] && [ "${bufname}" != "${current_bufname}" ]; then
+			# file already exists and is not the current one
+			echo "echo 'file exists, use w!'"
+		else
+			echo "write ${bufname}"
+		fi
+	fi
+}}
+
+# Don't overwrite existing files
+unalias global w write
+alias global w secure_write
+
+# Statusbar
 set global status_default %{
 {{context_info}} {{mode_info}}
 %val{bufname}
@@ -77,17 +259,9 @@ set global status_wrap %{
 %val{client}|%val{session}
 }
 
-
-
 set global modelinefmt %opt{status_default}
 
-
-# enable editor config
-# hook global BufOpenFile .* editorconfig-load
-# hook global BufNewFile .* editorconfig-load
-
-
-
+# Change colours on focus change
 hook global FocusIn .* %{
 	set-face window FocusedLine        FocusedLine
 	set-face window Default            Default
@@ -111,7 +285,6 @@ hook global FocusIn .* %{
 	set-face window Prompt             Prompt
 }
 
-
 hook global FocusOut .* %{
 	set-face window FocusedLine        InactiveFocusedLine
 	set-face window Default            InactiveDefault
@@ -134,316 +307,3 @@ hook global FocusOut .* %{
 	set-face window Error              InactiveError
 	set-face window Prompt             InactivePrompt
 }
-
-
-
-
-
-
-# Current buffer and total buffers.
-hook global WinCreate .* %{ hook window WinDisplay .* %{ evaluate-commands %sh{
-	current=0
-	i=0
-
-	# buffers="$(echo $kak_buflist | grep -v '*debug*')"
-
-	for b in $kak_buflist; do
-		i=$(( i + 1 ))
-
-		if [ "$b" = "$kak_bufname" ]; then
-			current=$i
-		fi
-	done
-
-	current=$(( current - 1 ))
-	i=$(( i - 1 ))
-
-	echo "set window buffer_status '[$current/$i]'"
-} } }
-
-
-
-
-
-
-# Remove trailing whitespaces on file save
-hook global BufWritePre .* %{ try %{
-	execute-keys -draft '%s[\h\v]+$<ret><a-d>'
-} }
-
-
-
-
-
-
-# Highlight the currently focused line and columns 80 & 120.
-hook global WinCreate .* %{ update_line_highlighter }
-hook global -group crosshairs RawKey .* %{ update_line_highlighter }
-
-
-# Add some highlighters for Rust and C++
-hook global WinSetOption filetype=(c|cpp|rust) %{
-	add-highlighter buffer/namespace regex [a-zA-Z](\w+)?(\h+)?(::) 0:namespace
-	add-highlighter buffer/functions regex \w+(\h+)?(?=\() 0:function
-}
-
-
-
-
-# Colour make output
-hook global BufCreate '\*make\*' %{
-	hook buffer BufReadFifo '.*' 'ansi-render'
-	hook buffer BufCloseFifo '.*' 'ansi-render'
-}
-
-
-
-
-# rename session to something more human readable
-hook global KakBegin .* %{
-	idsession
-}
-
-
-# delete the *scratch* buffer as soon as another is created, but only if it's empty
-hook global BufCreate '^\*scratch\*$' %{
-	exec '%d'
-}
-
-
-
-
-
-# tab to cycle autocomplete matches
-hook global InsertCompletionShow .* %{ try %{
-	execute-keys -draft 'h<a-K>\h<ret>'
-	map window insert <tab> <c-n>
-	map window insert <s-tab> <c-p>
-} }
-
-hook global InsertCompletionHide .* %{
-	unmap window insert <tab> <c-n>
-	unmap window insert <s-tab> <c-p>
-}
-
-
-
-
-# pasting and copying
-hook global NormalKey y|d|c %{ nop %sh{
-	printf %s "$kak_main_reg_dquote" | xsel -ib
-} }
-
-
-
-
-
-
-define-command update_line_highlighter %{
-	# highlight focused line
-	try %{ remove-highlighter window/highlight_focused_line }
-	try %{ add-highlighter window/highlight_focused_line line %val{cursor_line} FocusedLine }
-
-	# highlight column 80
-	try %{ remove-highlighter window/highlight_column_80 }
-	try %{ add-highlighter window/highlight_column_80 column 80 FocusedLine }
-
-	# highlight column 120
-	try %{ remove-highlighter window/highlight_column_120 }
-	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
-}
-
-
-
-
-
-
-# Move lines
-define-command move-line-above -params 0..1 -docstring 'move-line-above [count]: Select full lines and move line above' %{
-	execute-keys -itersel "<a-x>yd%arg{1}k<a-P>"
-}
-
-define-command move-line-below -params 0..1 -docstring 'move-line-below [count]: Select full lines and move line below' %{
-	execute-keys -itersel "<a-x>yd%arg{1}j<a-P>"
-}
-
-
-
-define-command -docstring "vsplit [<commands>]: split tmux vertically" vsplit -params .. -command-completion %{
-	tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
-}
-
-define-command -docstring "split [<commands>]: split tmux horizontally" split -params .. -command-completion %{
-	tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
-}
-
-define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -params .. -command-completion %{
-	tmux-terminal-window kak -c %val{session} -e "%arg{@}"
-}
-
-
-
-# toggle word wrap
-define-command wrap-toggle %{
-	try %{
-		addhl global/wrap wrap -word -indent -width 120  # line wrapping on
-		# set window word_wrap_status ' [WRAP] '
-		set global modelinefmt %opt{status_wrap}
-
-
-	} catch %{
-		rmhl global/wrap # line wrapping off
-		# set window word_wrap_status ' '
-		set global modelinefmt %opt{status_default}
-	}
-}
-
-
-# dont overwrite existing files.
-define-command -params 0..1 secure_write %{ evaluate-commands %sh{
-	if [ -z ${1+x} ]; then
-		# no param given: usual write
-		echo "write"
-
-	else
-		bufname=$1
-		if [ -e "${bufname}" ] && [ "${bufname}" != "${current_bufname}" ]; then
-			# file already exists and is not the current one
-			echo "echo 'file exists, use w!'"
-		else
-			echo "write ${bufname}"
-		fi
-	fi
-} }
-
-
-
-
-
-define-command -params 1 filetype %{
-	eval "set-option buffer filetype %arg{1}"
-}
-
-
-
-
-# allow you to select lines going up aswell as down.
-define-command -params 1 extend-line-down %{
-	exec "<a-:>%arg{1}X"
-}
-
-
-define-command -params 1 extend-line-up %{
-	exec "<a-:><a-;>%arg{1}K<a-;>"
-
-	try %{
-		exec -draft ';<a-K>\n<ret>'
-		exec X
-	}
-
-	exec '<a-;><a-X>'
-}
-
-
-
-# dont overwrite existing files
-unalias global w write
-alias global w secure_write
-
-
-
-
-# Move lines
-map global normal <c-down> ': move-line-below %val{count}<ret>' -docstring "move line down"
-map global normal <c-up>   ': move-line-above %val{count}<ret>' -docstring "move line up"
-
-
-# Home/End
-map global normal <end>  'gl'
-map global normal <home> 'gh'
-
-map global normal <s-end>  'Gl'
-map global normal <s-home> 'Gh'
-
-
-# Do not yank when using d,c
-map global normal d <a-d>
-map global normal c <a-c>
-
-
-# remap b to q
-map global normal = q
-map global normal <a-=> Q
-
-map global normal q b
-map global normal Q B
-map global normal <a-q> <a-b>
-map global normal <a-Q> <a-B>
-
-map global normal b ':buffer '
-
-
-
-# word wrap toggle
-map global normal <c-w> ': wrap-toggle<ret>'
-
-
-
-# backspace in normal mode works like in insert mode
-# map global normal <backspace> 'hd'
-
-# same for return
-# map global normal <ret> 'i<ret><esc>'
-# map global normal <del> 'd'
-
-
-# map global normal <space> ';'
-
-
-
-
-# these popup when pressing ','
-# map global user q ': easy-motion-b<ret>' -docstring 'jump to words behind'
-# map global user w ': easy-motion-w<ret>' -docstring 'jump to words ahead'
-
-# map global normal \' ': easy-motion-w<ret>'
-# map global normal <a-'> ': easy-motion-b<ret>'
-
-
-
-
-# commenting shit
-map global normal '#' ': comment-line<ret>'
-map global normal '<a-#>' ': comment-block<ret>'
-
-
-# incr and decr
-map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
-map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
-
-
-
-
-
-
-
-
-map global normal <c-p> 'p'
-map global normal <c-P> 'P'
-
-map global normal P '<a-!>xsel -ob<ret>'
-map global normal p '!xsel -ob<ret>'
-map global normal <a-p> '<a-o>!xsel -ob<ret>'
-map global normal <a-P> '<a-O>!xsel -ob<ret>'
-
-
-# press tab to cycle buffers
-map global normal <tab> ': buffer-next<ret>'
-map global normal <s-tab> ': buffer-previous<ret>'
-
-
-
-map global normal x ': extend-line-down %val{count}<ret>'
-map global normal X ': extend-line-up %val{count}<ret>'
-
-
