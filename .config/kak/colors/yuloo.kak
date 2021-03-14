@@ -2,163 +2,109 @@
 # A yellow colour scheme designed for high contrast on a
 # dark screen with a blue light filter active.
 
+face global comment       rgb:5c5c5c
+face global documentation rgb:5c5c5c
 
-evaluate-commands %sh{
-	# Colours.
-	default_fg='rgb:eae89e'
-	default_bg='rgb:353535'
+face global module        rgb:858585+b
+face global meta          rgb:858585
+face global namespace     rgb:858585
 
-	cursor_fg='rgb:000000'
-	cursor_bg='rgb:ffffff'
+face global identifier    rgb:9fa958
+face global variable      rgb:9fa958
+face global attribute     rgb:9fa958
+face global type          rgb:9fa958
 
-	grey_1='rgb:858585'
-	grey_2='rgb:757575'
-	grey_3='rgb:666666'
-	grey_4='rgb:5c5c5c'
-	grey_5='rgb:525252'
-	grey_6='rgb:474747'
-	grey_7='rgb:3d3d3d'
-	grey_8='rgb:333333'
+face global operator      rgb:d8e09a+b
+face global builtin       rgb:d8e09a
+face global function      rgb:d8e09a
 
-	yellow_1='rgb:f0e333'
-	yellow_2='rgb:d8cc2e'
-	yellow_3='rgb:c0b629'
-	yellow_4='rgb:a89f24'
-	yellow_5='rgb:90881f'
-	yellow_6='rgb:78721a'
-	yellow_7='rgb:605b14'
-	yellow_8='rgb:48440f'
+face global keyword       rgb:90881f
+face global value         rgb:90881f
 
-	cream_1='rgb:d8e09a'
-	cream_2='rgb:d2dc8b'
-	cream_3='rgb:cdd77d'
-	cream_4='rgb:c7d36e'
-	cream_5='rgb:b3be63'
-	cream_6='rgb:9fa958'
-	cream_7='rgb:8b944d'
-	cream_8='rgb:777f42'
+face global string        rgb:f0e333
 
 
+face global title   rgb:f0e333+b
+face global header  rgb:f0e333+b
 
-	# tint a colour
-	# $1 = hex
-	# $2 = percentage change (-100 - 100)
-	tint() {
-		echo "import colorsys;hex='$1'[4:];shift=$2;h,s,v=colorsys.rgb_to_hsv(*(int(''.join(x),16)/255 for x in zip(hex[0::2],hex[1::2])));print('rgb:'+''.join(('{0:02x}'.format(x)for x in(min(255, max(round(x*255), 0))for x in colorsys.hsv_to_rgb(h,s,v+(shift/100))))))" | python3
-	}
+face global block   rgb:d8e09a
 
+face global bullet  rgb:9fa958
+face global list    rgb:9fa958
 
+face global link    rgb:5c5c5c
 
-
-	# Code.
-	echo "
-		face global comment       ${grey_4}
-		face global documentation ${grey_4}
-
-		face global module        ${grey_1}+b
-		face global meta          ${grey_1}
-		face global namespace     ${grey_1}
-
-		face global identifier    ${cream_6}
-		face global variable      ${cream_6}
-		face global attribute     ${cream_6}
-		face global type          ${cream_6}
-
-		face global operator      ${cream_1}+b
-		face global builtin       ${cream_1}
-		face global function      ${cream_1}
-
-		face global keyword       ${yellow_5}
-		face global value         ${yellow_5}
-
-		face global string        ${yellow_1}
-	"
+face global mono    rgb:858585
+face global bold    rgb:858585+b
+face global italic  rgb:858585+i
 
 
-	# Markdown.
-	echo "
-		face global title   ${yellow_1}+b
-		face global header  ${yellow_1}+b
+face global FocusedLine             default,rgb:0d0d0d
+face global Whitespace              rgb:1a1a1a+f
 
-		face global block   ${cream_1}
+face global BufferPadding           rgb:080808,rgb:080808
 
-		face global bullet  ${cream_6}
-		face global list    ${cream_6}
+face global PrimarySelection        rgb:1a1a1a,rgb:b2b2b2
+face global SecondarySelection      rgb:1a1a1a,rgb:808080
 
-		face global link    ${grey_4}
+face global StatusCursor            rgb:1a1a1a,rgb:e6e6e6
+face global PrimaryCursor           rgb:1a1a1a,rgb:e6e6e6
+face global PrimaryCursorEol        rgb:1a1a1a,rgb:e6e6e6
+face global SecondaryCursor         rgb:1a1a1a,rgb:b2b2b2
+face global SecondaryCursorEol      rgb:1a1a1a,rgb:b2b2b2
 
-		face global mono    ${grey_1}
-		face global bold    ${grey_1}+b
-		face global italic  ${grey_1}+i
-	"
+face global LineNumbers             rgb:595959
+face global LineNumberCursor        rgb:808080
 
+face global MatchingChar            rgb:cccccc,rgb:333333+Fb
+face global Search                  rgb:8c8c8c,rgb:4c4c4c
 
-	white='rgb:ffffff'
-	black='rgb:000000'
+face global MenuBackground          rgb:ffffff,rgb:0d0d0d
+face global MenuForeground          rgb:ffffff,rgb:1a1a1a+b
+face global MenuInfo                rgb:ffffff,rgb:1a1a1a
 
+face global Default                 rgb:d9d9d9,rgb:080808
+face global Error                   rgb:d9d9d9,rgb:080808
+face global Prompt                  rgb:d9d9d9,rgb:080808
+face global StatusLine              rgb:d9d9d9,rgb:080808
+face global StatusLineInfo          rgb:d9d9d9,rgb:080808
 
-	default_fg=$(tint $white -15)
-	default_bg=$(tint $black 3)
-
-	black_5=$(tint $black 5)
-	black_10=$(tint $black 10)
-	black_15=$(tint $black 15)
-	black_20=$(tint $black 20)
-	black_25=$(tint $black 25)
-	black_30=$(tint $black 30)
-	black_35=$(tint $black 35)
-	black_40=$(tint $black 40)
-	black_45=$(tint $black 45)
-	black_50=$(tint $black 50)
-
-	white_5=$(tint $white -5)
-	white_10=$(tint $white -10)
-	white_15=$(tint $white -15)
-	white_20=$(tint $white -20)
-	white_25=$(tint $white -25)
-	white_30=$(tint $white -30)
-	white_35=$(tint $white -35)
-	white_40=$(tint $white -40)
-	white_45=$(tint $white -45)
-	white_50=$(tint $white -50)
+face global StatusLineMode          rgb:d9d9d9,rgb:1a1a1a
+face global StatusLineValue         rgb:d9d9d9,rgb:1a1a1a
+face global Information             rgb:d9d9d9,rgb:1a1a1a
 
 
-	# UI.
-	echo "
-		face global FocusedLine             default,$black_5
-		face global Whitespace              $black_10+f
+face global InactiveFocusedLine             default,rgb:050505
+face global InactiveWhitespace              rgb:0d0d0d+f
 
-		face global BufferPadding           $default_bg,$default_bg
+face global InactiveBufferPadding           rgb:000000,rgb:000000
 
-		face global PrimarySelection        $black_10,$white_30
-		face global SecondarySelection      $black_10,$white_50
+face global InactivePrimarySelection        rgb:0d0d0d,rgb:d9d9d9
+face global InactiveSecondarySelection      rgb:0d0d0d,rgb:bfbfbf
 
-		face global StatusCursor            $black_10,$white_10
-		face global PrimaryCursor           $black_10,$white_10
-		face global PrimaryCursorEol        $black_10,$white_10
-		face global SecondaryCursor         $black_10,$white_30
-		face global SecondaryCursorEol      $black_10,$white_30
+face global InactiveStatusCursor            rgb:0d0d0d,rgb:f2f2f2
+face global InactivePrimaryCursor           rgb:0d0d0d,rgb:f2f2f2
+face global InactivePrimaryCursorEol        rgb:0d0d0d,rgb:f2f2f2
+face global InactiveSecondaryCursor         rgb:0d0d0d,rgb:d9d9d9
+face global InactiveSecondaryCursorEol      rgb:0d0d0d,rgb:d9d9d9
 
-		face global LineNumbers             $black_15
-		face global LineNumberCursor        $black_30
+face global InactiveLineNumbers             rgb:121212
+face global InactiveLineNumberCursor        rgb:262626
 
-		face global MatchingChar            $white_20,$black_20+Fb
-		face global Search                  $white_45,$black_30
+face global InactiveMatchingChar            rgb:e6e6e6,rgb:1a1a1a+Fb
+face global InactiveSearch                  rgb:c7c7c7,rgb:262626
 
-		face global MenuBackground          $white,$black_5
-		face global MenuForeground          $white,$black_10+b
-		face global MenuInfo                $white,$black_10
+face global InactiveMenuBackground          rgb:ffffff,rgb:050505
+face global InactiveMenuForeground          rgb:ffffff,rgb:0d0d0d+b
+face global InactiveMenuInfo                rgb:ffffff,rgb:0d0d0d
 
-		face global Default                 $default_fg,$default_bg
-		face global Error                   $default_fg,$default_bg
-		face global Prompt                  $default_fg,$default_bg
-		face global StatusLine              $default_fg,$default_bg
-		face global StatusLineInfo          $default_fg,$default_bg
+face global InactiveDefault                 rgb:d9d9d9,rgb:000000
+face global InactiveError                   rgb:8c8c8c,rgb:000000
+face global InactivePrompt                  rgb:8c8c8c,rgb:000000
+face global InactiveStatusLine              rgb:8c8c8c,rgb:000000
+face global InactiveStatusLineInfo          rgb:8c8c8c,rgb:000000
 
-		face global StatusLineMode          $default_fg,$black_10
-		face global StatusLineValue         $default_fg,$black_10
-		face global Information             $default_fg,$black_10
-	"
+face global InactiveStatusLineMode          rgb:8c8c8c,rgb:0d0d0d
+face global InactiveStatusLineValue         rgb:8c8c8c,rgb:0d0d0d
+face global InactiveInformation             rgb:8c8c8c,rgb:0d0d0d
 
-
-}

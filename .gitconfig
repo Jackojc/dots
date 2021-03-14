@@ -24,3 +24,8 @@
 	program = gpg2
 [commit]
 	gpgsign = true
+	verbose = true
+[core]
+	autocrlf = input
+[log]
+	abbrevCommit = true

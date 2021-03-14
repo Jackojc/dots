@@ -1,42 +1,61 @@
 colorscheme yuloo
 
-# Options
-set-option global tabstop 4
-set-option global indentwidth 0
-set-option global scrolloff 3,0
-set-option global ui_options ncurses_assistant=none
-set-option global aligntab false
-set-option global autoinfo command
-set-option global startup_info_version 99999999999
-set-option global autoreload yes
-set-option global ui_options ncurses_set_title=true
-
 # Plugins
 source "%val{config}/rc/inc-dec.kak"
 source "%val{config}/rc/idsession.kak"
+source "%val{config}/rc/byline.kak"
+source "%val{config}/rc/tabs.kak"
+source "%val{config}/rc/select-view.kak"
+source "%val{config}/rc/move-line.kak"
+source "%val{config}/rc/edit.kak"
+source "%val{config}/rc/out-of-view.kak"
+source "%val{config}/rc/smooth-scroll.kak"
+source "%val{config}/rc/fzf.kak"
+source "%val{config}/rc/fzf-file.kak"
+
+require-module "byline"
+require-module "move-line"
+require-module "edit"
+require-module "out-of-view"
+require-module "fzf"
+
+out-of-view-enable
+
+# Options
+set-option global tabstop 4
+set-option global indentwidth 0
+set-option global scrolloff 3,3
+set-option global incsearch false
+set-option global aligntab false
+set-option global startup_info_version 99999999999
+set-option global autoreload yes
+set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=false
+set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
+set-option global scroll_options speed=0 interval=5 max_duration=250
+set-option global fzf_file_command 'rg'
+set-option global fzf_highlight_command 'bat'
+set-option global fzf_preview_tmux_height '10'
 
 # Highlighters
 add-highlighter global/ show-whitespaces
 add-highlighter global/ show-matching
-add-highlighter global/ number-lines -relative -hlcursor -min-digits 3
+add-highlighter global/ number-lines -relative -hlcursor -min-digits 2
+add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 
 # Default terminal emulator
 declare-option str termcmd %sh{ printf %s\\n "st -e sh -c" }
 
-# Show percentage way through file
-declare-option str modeline_pos_percent '0'
-hook global WinCreate .* %{ hook window RawKey .* %{ evaluate-commands %sh{
-	echo "set window modeline_pos_percent '$(($kak_cursor_line * 100 / $kak_buf_line_count))'"
-} } }
+# Show tab mode
+map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
+map global normal B ': enter-user-mode -lock tabs<ret>' -docstring 'tabs (lock)'
 
-# Status bar strings
-declare-option str buffer_status ''
-declare-option str status_default ''
-declare-option str status_wrap ''
+# Select view
+map global normal <a-%> ': select-view<ret>' -docstring 'select view'
+map global view s '<esc>: select-view<ret>' -docstring 'select view'
 
 # Move lines
-map global normal <c-down> ': move-line-below %val{count}<ret>' -docstring "move line down"
-map global normal <c-up>   ': move-line-above %val{count}<ret>' -docstring "move line up"
+map global normal <c-down> ': move-line-below<ret>'
+map global normal <c-up> ': move-line-above<ret>'
 
 # Home/End
 map global normal <end>  'gl'
@@ -59,12 +78,6 @@ map global normal Q B
 map global normal <a-q> <a-b>
 map global normal <a-Q> <a-B>
 
-# Show buffers
-map global normal b ':buffer '
-
-# Word wrap toggle
-map global normal <c-w> ': wrap-toggle<ret>'
-
 # Backspace, delete and enter work in normal mode
 map global normal <backspace> 'h<a-d>'
 map global normal <ret> 'i<ret><esc>'
@@ -78,17 +91,33 @@ map global normal '<a-#>' ': comment-block<ret>'
 map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
 map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
 
-# Paste
-map global normal P '<a-!>xsel -ob<ret>'
-map global normal p '!xsel -ob<ret>'
-
 # Tab to cycle buffers
 map global normal <tab> ': buffer-next<ret>'
 map global normal <s-tab> ': buffer-previous<ret>'
 
-# Select lines
-map global normal x ': extend-line-down %val{count}<ret>'
-map global normal X ': extend-line-up %val{count}<ret>'
+# Buffer navigation
+map global tabs a "ga" -docstring "↔ alt"
+# map global tabs f ": find-edit " -docstring "find & edit"
+map global tabs f ": fzf-file<ret>" -docstring "find & edit"
+map global tabs l ": tab-nav next<ret>" -docstring "→ next"
+map global tabs h ": tab-nav prev<ret>" -docstring "← prev"
+
+map global tabs L ": tab-move next<ret>" -docstring "→ drag right"
+map global tabs H ": tab-move prev<ret>" -docstring "← drag left"
+
+map global tabs d ": delete-buffer<ret>" -docstring "delete (current)"
+map global tabs D ": delete-saved-buffers<ret>" -docstring "delete (saved)"
+map global tabs o ": delete-all-saved-except-current<ret>" -docstring "only (saved)"
+
+# Readline mappings
+map -docstring "move the cursor to the start of the line"        global insert <c-a> '<a-;>gh'
+map -docstring "move the cursor to the end of the line"          global insert <c-e> '<esc>glli'
+map -docstring "delete the character under the anchor"           global insert <c-d> '<a-;>c'
+map -docstring "delete from the cursor to the start of the line" global insert <c-u> '<esc>h<a-h>c'
+map -docstring "delete from the cursor to the end of the line"   global insert <c-k> '<esc><a-l>c'
+map -docstring "delete until the next word boundary"             global insert <a-d> '<esc>ec'
+map -docstring "delete until the previous word boundary"         global insert <c-w> '<esc>bc'
+map -docstring "paste before the cursor"                         global insert <c-y> '<esc>Pi'
 
 # Remove trailing whitespaces on file save
 hook global BufWritePre .* %{ try %{
@@ -98,6 +127,9 @@ hook global BufWritePre .* %{ try %{
 # Highlight the currently focused line and columns 80 & 120.
 hook global WinCreate .* %{ update_line_highlighter }
 hook global -group crosshairs RawKey .* %{ update_line_highlighter }
+
+# Enable smooth scroll
+hook global WinCreate [^*].* %{ hook -once window WinDisplay .* smooth-scroll-enable }
 
 # Add some highlighters for Rust and C++
 hook global WinSetOption filetype=(c|cpp|rust) %{
@@ -129,28 +161,35 @@ hook global RegisterModified '"' %{ nop %sh{
 		printf %s "$kak_main_reg_dquote" | xclip -in -selection clipboard >&- 2>&-
 
 	elif [ -n "$TMUX" ]; then
-		tmux set-buffer -- "$kak_main_reg_dquote"
+		printf %s "$kak_main_reg_dquote" | tmux loadb -
 	fi
 }}
 
-# Show current buffer and total buffer in status bar
-hook global WinCreate .* %{ hook window WinDisplay .* %{ evaluate-commands %sh{
-	current=0
-	i=0
+define-command -hidden paste-before %{
+	execute-keys ! %sh{
+		if [ -n "$DISPLAY" ]; then
+			printf 'xclip -o -selection clipboard'
 
-	for b in $kak_buflist; do
-		i=$(( i + 1 ))
-
-		if [ "$b" = "$kak_bufname" ]; then
-			current=$i
+		elif [ -n "$TMUX" ]; then
+			printf 'tmux saveb -'
 		fi
-	done
+	} <ret>
+}
 
-	current=$(( current - 1 ))
-	i=$(( i - 1 ))
+define-command -hidden paste-after %{
+	execute-keys <a-!> %sh{
+		if [ -n "$DISPLAY" ]; then
+			printf 'xclip -o -selection clipboard'
 
-	echo "set window buffer_status '[$current/$i]'"
-}}}
+		elif [ -n "$TMUX" ]; then
+			printf 'tmux saveb -'
+		fi
+	} <ret>
+}
+
+# Paste
+map global normal P ': paste-after<ret>'
+map global normal p ': paste-before<ret>'
 
 # Update focused line and columns
 define-command update_line_highlighter %{
@@ -167,9 +206,8 @@ define-command update_line_highlighter %{
 	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
 }
 
-# Move lines
-define-command move-line-above -params 0..1 %{ execute-keys -itersel "<a-x>yd%arg{1}k<a-P>" }
-define-command move-line-below -params 0..1 %{ execute-keys -itersel "<a-x>yd%arg{1}j<a-P>" }
+# New opens in the same buffer
+map -docstring 'New client' global normal <c-t> ': new buffer %val{bufname}<ret>'
 
 # Tmux
 define-command -docstring "vsplit [<commands>]: split tmux vertically" vsplit -params .. -command-completion %{
@@ -184,38 +222,9 @@ define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -
 	tmux-terminal-window kak -c %val{session} -e "%arg{@}"
 }
 
-# Toggle wordwrap
-define-command wrap-toggle %{
-	try %{
-		addhl global/wrap wrap -word -indent -width 120  # line wrapping on
-		set global modelinefmt %opt{status_wrap}
-
-
-	} catch %{
-		rmhl global/wrap # line wrapping off
-		set global modelinefmt %opt{status_default}
-	}
-}
-
 # Set filetype of buffer
 define-command -params 1 filetype %{
 	eval "set-option buffer filetype %arg{1}"
-}
-
-# Select lines down/up
-define-command -params 1 extend-line-down %{
-	exec "<a-:>%arg{1}X"
-}
-
-define-command -params 1 extend-line-up %{
-	exec "<a-:><a-;>%arg{1}K<a-;>"
-
-	try %{
-		exec -draft ';<a-K>\n<ret>'
-		exec X
-	}
-
-	exec '<a-;><a-X>'
 }
 
 # Don't overwrite existing files on save
@@ -238,28 +247,6 @@ define-command -params 0..1 secure_write %{ evaluate-commands %sh{
 # Don't overwrite existing files
 unalias global w write
 alias global w secure_write
-
-# Statusbar
-set global status_default %{
-{{context_info}} {{mode_info}}
-%val{bufname}
-[%opt{filetype}]
-%opt{buffer_status}
-%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%% (%val{buf_line_count})
-%val{client}|%val{session}
-}
-
-set global status_wrap %{
-{{context_info}} {{mode_info}}
-{StatusLineValue}wordwrap{Default}
-%val{bufname}
-[%opt{filetype}]
-%opt{buffer_status}
-%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%% (%val{buf_line_count})
-%val{client}|%val{session}
-}
-
-set global modelinefmt %opt{status_default}
 
 # Change colours on focus change
 hook global FocusIn .* %{
