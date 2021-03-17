@@ -1,27 +1,43 @@
 colorscheme yuloo
 
 # Plugins
-source "%val{config}/rc/inc-dec.kak"
-source "%val{config}/rc/idsession.kak"
 source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/tabs.kak"
-source "%val{config}/rc/select-view.kak"
-source "%val{config}/rc/move-line.kak"
-source "%val{config}/rc/edit.kak"
-source "%val{config}/rc/out-of-view.kak"
 source "%val{config}/rc/smooth-scroll.kak"
-source "%val{config}/rc/fzf.kak"
-source "%val{config}/rc/fzf-file.kak"
+source "%val{config}/rc/interactively.kak"
 
 require-module "byline"
-require-module "move-line"
-require-module "edit"
-require-module "out-of-view"
-require-module "fzf"
 
-out-of-view-enable
+# Declare
+declare-option str out_of_view_format ''
+declare-option -hidden str out_of_view_status_line
+declare-option -hidden int out_of_view_selection_above_count 0
+declare-option -hidden int out_of_view_selection_below_count 0
+
+# Default terminal emulator
+declare-option str termcmd %sh{ printf %s\\n "st -e sh -c" }
+
+# Words arrays to use for idsession.
+declare-option str-list idsession_adjectives \
+	"kantian"   "kaput"     "kashmiri"  "katabolic" "katari"    \
+	"kayoed"    "kadenced"  "kaesarian" "kaffeinic" "kalcific"  \
+	"kalorific" "kancelled" "kanicular" "kanine"    "kanonized" \
+	"kapable"   "kapillary" "karamel"   "kareful"   "kasual"    \
+
+declare-option str-list idsession_nouns \
+	"keeper"    "keg"       "kernel"  "kerosene" "ketchup" "kettle"  \
+	"key"       "keyboard"  "keyhole" "keynote"  "kick"    "kickoff" \
+	"kid"       "kilometer" "kimono"  "kingdom"  "kiosk"   "kit"     \
+	"kitchen"   "kite"      "kitten"  "klaxon"   "knife"   "knight"  \
+	"knockdown" "knot"      "konga"   "kinesis"  "kicker"  "koala"   \
+	"kangaroo"  "kraken"
+
+# Temporary to store scrolloff when doing select view.
+declare-option -hidden str _scrolloff
 
 # Options
+set-option global out_of_view_format '(↑%opt{out_of_view_selection_above_count}|↓%opt{out_of_view_selection_below_count})'
+
 set-option global tabstop 4
 set-option global indentwidth 0
 set-option global scrolloff 3,3
@@ -32,9 +48,7 @@ set-option global autoreload yes
 set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=false
 set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
 set-option global scroll_options speed=0 interval=5 max_duration=250
-set-option global fzf_file_command 'rg'
-set-option global fzf_highlight_command 'bat'
-set-option global fzf_preview_tmux_height '10'
+set-option global yes_or_no_instant true
 
 # Highlighters
 add-highlighter global/ show-whitespaces
@@ -42,8 +56,8 @@ add-highlighter global/ show-matching
 add-highlighter global/ number-lines -relative -hlcursor -min-digits 2
 add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 
-# Default terminal emulator
-declare-option str termcmd %sh{ printf %s\\n "st -e sh -c" }
+# New opens in the same buffer
+map global normal <c-t> ': new buffer %val{bufname}<ret>' -docstring 'new client with same buffer'
 
 # Show tab mode
 map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
@@ -67,6 +81,10 @@ map global normal <s-home> 'Gh'
 # Do not yank when using d/c
 map global normal d <a-d>
 map global normal c <a-c>
+
+# Paste
+map global normal P ': paste-after<ret>'
+map global normal p ': paste-before<ret>'
 
 # Remap b to q
 map global normal = q
@@ -96,18 +114,18 @@ map global normal <tab> ': buffer-next<ret>'
 map global normal <s-tab> ': buffer-previous<ret>'
 
 # Buffer navigation
-map global tabs a "ga" -docstring "↔ alt"
-# map global tabs f ": find-edit " -docstring "find & edit"
-map global tabs f ": fzf-file<ret>" -docstring "find & edit"
-map global tabs l ": tab-nav next<ret>" -docstring "→ next"
-map global tabs h ": tab-nav prev<ret>" -docstring "← prev"
+map global tabs a "ga" -docstring "↔ switch last buffer"
+map global tabs F ": find-edit " -docstring "find & edit new file"
+map global tabs f ": buffer " -docstring "show open buffers"
+map global tabs l ": tab-nav next<ret>" -docstring "→ next tab"
+map global tabs h ": tab-nav prev<ret>" -docstring "← prev tab"
 
-map global tabs L ": tab-move next<ret>" -docstring "→ drag right"
-map global tabs H ": tab-move prev<ret>" -docstring "← drag left"
+map global tabs L ": tab-move next<ret>" -docstring "→ drag tab right"
+map global tabs H ": tab-move prev<ret>" -docstring "← drag tab left"
 
 map global tabs d ": delete-buffer<ret>" -docstring "delete (current)"
 map global tabs D ": delete-saved-buffers<ret>" -docstring "delete (saved)"
-map global tabs o ": delete-all-saved-except-current<ret>" -docstring "only (saved)"
+map global tabs o ": delete-all-saved-except-current<ret>" -docstring "delete (saved, except current)"
 
 # Readline mappings
 map -docstring "move the cursor to the start of the line"        global insert <c-a> '<a-;>gh'
@@ -122,7 +140,20 @@ map -docstring "paste before the cursor"                         global insert <
 # Remove trailing whitespaces on file save
 hook global BufWritePre .* %{ try %{
 	execute-keys -draft '%s[\h\v]+$<ret><a-d>'
-} }
+}}
+
+# Update out-of-view status.
+hook global NormalIdle .* %{
+	out-of-view-update
+
+	set-option window out_of_view_status_line ''
+
+	evaluate-commands %sh{
+		if test "$kak_opt_out_of_view_selection_above_count" -gt 0 -o "$kak_opt_out_of_view_selection_below_count" -gt 0; then
+			printf 'set-option window out_of_view_status_line "%s"\n' "$kak_opt_out_of_view_format"
+		fi
+	}
+}
 
 # Highlight the currently focused line and columns 80 & 120.
 hook global WinCreate .* %{ update_line_highlighter }
@@ -187,9 +218,109 @@ define-command -hidden paste-after %{
 	} <ret>
 }
 
-# Paste
-map global normal P ': paste-after<ret>'
-map global normal p ': paste-before<ret>'
+# Change session name to something more memorable.
+define-command idsession %{ evaluate-commands %sh{
+	seed="${kak_session}"
+
+	# Pick a random adjective.
+	eval set -- "${kak_opt_idsession_adjectives}"
+
+	n=$(( seed % $# + 1 ))
+	name_session=$(eval "printf %s \${${n}}")
+
+	# Pick a random noun.
+	eval set -- "${kak_opt_idsession_nouns}"
+
+	n=$((seed % $# + 1))
+	name_session="${name_session}-"$(eval "printf %s \${${n}}")
+
+	printf 'rename-session "%s"' $(printf %s "${name_session}" | sed 's/"/""/g')
+}}
+
+# Incr/Decr.
+define-command -params 2 inc-dec-modify-numbers %{
+	evaluate-commands -save-regs 'c' %{
+		# "c" stores the count we want to use (in decimal)
+		set-register c %sh{ echo $(( $2 == 0 ? 1 : $2 )) }
+
+		try %{
+			# Search for tokens that look like hex numbers.
+			execute-keys s \b0[Xx][0-9A-Fa-f]+\b <ret>
+			# Apply our operator with shell arithmetic.
+			execute-keys | "read val; printf '0x%%0*X\n' $((${#val} - 2)) $(($val %arg{1} %reg{c}))" <ret>
+
+		} catch %{
+			# Search for tokens that look like like new-style octal numbers.
+			execute-keys s \b0[Oo][0-7]+\b <ret>
+			# Convert them to old-style octal numbers, because that's all the
+			# shell understands.
+			execute-keys | "tr -d Oo" <ret>
+			# Apply our operator with shell arithmetic.
+			execute-keys | "read val; printf '0o%%0*o\n' $((${#val} - 1)) $(($val %arg{1} %reg{c}))" <ret>
+
+		} catch %{
+			# Search for tokens that look like zero-padded decimal numbers.
+			execute-keys s [+-]?\b0[0-9]*\b <ret>
+			# Apply our operator with shell arithmetic.
+			execute-keys | "read val; printf '%%0*d\n' ${#val} $(($(echo ""$val"" | sed -E 's/^([-+])?0+/\1/') %arg{1} %reg{c}))" <ret>
+
+		} catch %{
+			# Search for tokens that look like unpadded decimal numbers.
+			execute-keys s [+-]?\b[1-9][0-9]*\b <ret>
+			# Apply our operator with shell arithmetic.
+			execute-keys | "read val; printf '%%d\n' $(($val %arg{1} %reg{c}))" <ret>
+		}
+	}
+}
+
+# Edit commands.
+define-command find-edit -params 1 -shell-script-candidates 'fd --type file' -docstring 'edit file' %{
+	edit %arg{1}
+}
+
+define-command find-edit-all -params 1 -shell-script-candidates 'fd --hidden --no-ignore --type file' -docstring 'edit file' %{
+	edit %arg{1}
+}
+
+define-command read-only -docstring 'make the buffer read-only' %{
+	edit -readonly %val{bufname}
+}
+
+# Move selected lines below
+define-command move-line-below -docstring 'move selected lines below' %{
+	# Select whole lines
+	execute-keys '<a-x><a-_><a-:>'
+
+	# Iterate each selection and move the lines below
+	evaluate-commands -itersel %{
+		execute-keys -draft 'w'
+		execute-keys -draft 'Zj<a-x>dzP'
+	}
+}
+
+# Move selected lines above
+define-command move-line-above -docstring 'move selected lines above' %{
+	# Select whole lines
+	execute-keys '<a-x><a-_><a-:>'
+
+	# Iterate each selection and move the lines above
+	evaluate-commands -itersel %{
+		execute-keys -draft '<a-;>b'
+		execute-keys -draft '<a-;>Zk<a-x>dzp'
+	}
+}
+
+# Select current view.
+define-command select-view -docstring 'select visible part of buffer' %{
+	set-option window _scrolloff %opt{scrolloff}
+	set-option window scrolloff 0,0
+
+	execute-keys gtGbGl
+
+	hook window -once NormalKey .* %{
+		set-option window scrolloff %opt{_scrolloff}
+	}
+}
 
 # Update focused line and columns
 define-command update_line_highlighter %{
@@ -206,16 +337,13 @@ define-command update_line_highlighter %{
 	try %{ add-highlighter window/highlight_column_120 column 120 FocusedLine }
 }
 
-# New opens in the same buffer
-map -docstring 'New client' global normal <c-t> ': new buffer %val{bufname}<ret>'
-
 # Tmux
 define-command -docstring "vsplit [<commands>]: split tmux vertically" vsplit -params .. -command-completion %{
-	tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
+	tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
 }
 
-define-command -docstring "split [<commands>]: split tmux horizontally" split -params .. -command-completion %{
-	tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
+define-command -docstring "hsplit [<commands>]: split tmux horizontally" split -params .. -command-completion %{
+	tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
 }
 
 define-command -docstring "tabnew [<commands>]: create new tmux window" tabnew -params .. -command-completion %{
@@ -228,7 +356,7 @@ define-command -params 1 filetype %{
 }
 
 # Don't overwrite existing files on save
-define-command -params 0..1 secure_write %{ evaluate-commands %sh{
+define-command -params 0..1 better_write %{ evaluate-commands %sh{
 	if [ -z ${1+x} ]; then
 		# no param given: usual write
 		echo "write"
@@ -244,9 +372,65 @@ define-command -params 0..1 secure_write %{ evaluate-commands %sh{
 	fi
 }}
 
-# Don't overwrite existing files
+# Show out of view selections on status bar.
+define-command -hidden out-of-view-update %{
+	# Restore _t_ (top) and _b_ (bottom) registers.
+	evaluate-commands -save-regs 'tb' %{
+		# Window top line:
+		evaluate-commands -draft %{
+			execute-keys 'gt'
+			set-register t %val{cursor_line}
+		}
+
+		# Window bottom line:
+		evaluate-commands -draft %{
+			execute-keys 'gb'
+			set-register b %val{cursor_line}
+		}
+
+		# Proceed selections
+		evaluate-commands %sh{
+			selection_above_count=0
+			selection_below_count=0
+			window_top_line=$kak_reg_t
+			window_bottom_line=$kak_reg_b
+
+			eval "set -- $kak_selections_desc"
+
+			# Selection description format: {anchor-line}.{anchor-column},{cursor-line}.{cursor-column}
+			for selection do
+				cursor=${selection#*,}
+				cursor_line=${cursor%.*}
+				cursor_column=${cursor#*.}
+
+				if test "$cursor_line" -lt "$window_top_line"; then
+					selection_above_count=$((selection_above_count + 1))
+
+				elif test "$cursor_line" -gt "$window_bottom_line"; then
+					selection_below_count=$((selection_below_count + 1))
+				fi
+			done
+
+			printf 'set-option window out_of_view_selection_above_count %d\n' "$selection_above_count"
+			printf 'set-option window out_of_view_selection_below_count %d\n' "$selection_below_count"
+		}
+	}
+}
+
+# Aliases
+alias global n new
+
+alias global cd i-change-directory
+alias global db i-delete-buffer
+alias global q i-quit
+alias global w i-write
+
 unalias global w write
-alias global w secure_write
+alias global w better_write
+
+alias global ro read-only
+alias global fa find-edit-all
+alias global f find-edit
 
 # Change colours on focus change
 hook global FocusIn .* %{

@@ -15,9 +15,9 @@ provide-module -override wpp %{
 	add-highlighter shared/wpp/other/ regex "\b(drop|var|map|let|run|file|eval|assert|prefix|pipe|escape|error|log|slice|find|length)\b" 0:keyword
 	add-highlighter shared/wpp/other/ regex "=|!|\.\.|->" 0:operator
 
-	add-highlighter shared/wpp/raw_string region -match-capture %{r([^\s])"} %{"([^\s])} fill string
-	add-highlighter shared/wpp/code_string region -match-capture %{c([^\s])"} %{"([^\s])} group
-	add-highlighter shared/wpp/para_string region -match-capture %{p([^\s])"} %{"([^\s])} group
+	add-highlighter shared/wpp/raw_string region -match-capture %{\br([^\s])"} %{"([^\s])} fill string
+	add-highlighter shared/wpp/code_string region -match-capture %{\bc([^\s])"} %{"([^\s])} group
+	add-highlighter shared/wpp/para_string region -match-capture %{\bp([^\s])"} %{"([^\s])} group
 
 	add-highlighter shared/wpp/code_string/ fill string
 	add-highlighter shared/wpp/para_string/ fill string
