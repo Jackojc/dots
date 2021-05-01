@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+fname="${SAMPLER_SAVE_DIRECTORY:-$(pwd)}/$(date +'%d_%m_%Y_%H_%M_%S').wav"
+
+input="$(pactl list short sources | rg 'stereo\.monitor' | awk '{ print $2 }')"
+command="ffmpeg -f pulse -i $input -ac 2 $fname"
+
+$(pkill -f SAMPLER && notify_sampler "saved as $(basename $fname)") ||
+	$(bash -c "exec -a SAMPLER $command &" && notify_sampler "recording") &
