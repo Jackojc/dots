@@ -49,6 +49,7 @@ sct           # blue light filter
 
 dtrx          # handy tool for extracting archives
 unzip
+unrar
 tar
 
 curl
