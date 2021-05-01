@@ -264,8 +264,11 @@ super + o
 super + {h,v}
 	bspc node -p \~{east,south}
 
+# super + s
+# 	bspwm_node_presel
+
 super + s
-	bspwm_node_presel
+	sampler
 
 
 
