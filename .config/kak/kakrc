@@ -3,10 +3,8 @@ colorscheme yuloo
 # Plugins
 source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/tabs.kak"
-source "%val{config}/rc/smooth-scroll.kak"
+# source "%val{config}/rc/smooth-scroll.kak"
 source "%val{config}/rc/interactively.kak"
-
-require-module "byline"
 
 # Declare
 declare-option str out_of_view_format ''
@@ -47,7 +45,7 @@ set-option global startup_info_version 99999999999
 set-option global autoreload yes
 set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=false
 set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
-set-option global scroll_options speed=0 interval=5 max_duration=250
+# set-option global scroll_options speed=0 interval=5 max_duration=250
 set-option global yes_or_no_instant true
 
 # Highlighters
@@ -70,6 +68,10 @@ map global view s '<esc>: select-view<ret>' -docstring 'select view'
 # Move lines
 map global normal <c-down> ': move-line-below<ret>'
 map global normal <c-up> ': move-line-above<ret>'
+
+# Select lines
+map global "normal" "x" ": byline-drag-down<ret>"
+map global "normal" "X" ": byline-drag-up<ret>"
 
 # Home/End
 map global normal <end>  'gl'
@@ -160,7 +162,7 @@ hook global WinCreate .* %{ update_line_highlighter }
 hook global -group crosshairs RawKey .* %{ update_line_highlighter }
 
 # Enable smooth scroll
-hook global WinCreate [^*].* %{ hook -once window WinDisplay .* smooth-scroll-enable }
+# hook global WinCreate [^*].* %{ hook -once window WinDisplay .* smooth-scroll-enable }
 
 # Add some highlighters for Rust and C++
 hook global WinSetOption filetype=(c|cpp|rust) %{
