@@ -19,11 +19,16 @@ zeal        # docs
 patch
 broot
 graphviz
+radare2
 
 cmake
 make
 git
 
+
+# disk monitoring tools
+smartmontools
+gsmartcontrol
 
 
 # terminal programs

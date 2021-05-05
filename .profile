@@ -5,16 +5,16 @@
 export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
 
 export TODO="$HOME/notes/todo"
-export DIR_WALLPAPERS="$HOME/media/wallpapers"
+export DIR_WALLPAPERS="$HOME/wallpapers"
 
 export XDG_PUBLICSHARE_DIR="/dev/null"
 export XDG_TEMPLATES_DIR="/dev/null"
 export XDG_DESKTOP_DIR="$HOME"
 export XDG_DOCUMENTS_DIR="$HOME/docs"
 export XDG_DOWNLOAD_DIR="$HOME/downloads"
-export XDG_MUSIC_DIR="$HOME/media/music"
-export XDG_PICTURES_DIR="$HOME/media/pictures"
-export XDG_VIDEOS_DIR="$HOME/media/videos"
+export XDG_MUSIC_DIR="$HOME/music"
+export XDG_PICTURES_DIR="$HOME/pictures"
+export XDG_VIDEOS_DIR="$HOME/videos"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"

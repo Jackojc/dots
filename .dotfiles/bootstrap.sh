@@ -41,12 +41,11 @@ cd $HOME 1> /dev/null 2>&1
 
 # Setup home directory structure.
 notice "setting up home directory structure"
-mkdir -pv docs downloads media notes projects scraps scripts 1> /dev/null 2>&1
-mkdir -pv media/music media/movies media/tv media/videos media/pictures 1> /dev/null 2>&1
+mkdir -pv docs downloads media notes projects scraps scripts music movies tv videos pictures 1> /dev/null 2>&1
 
 # Download wallpapers.
 notice "downloading wallpapers"
-git clone https://github.com/Jackojc/wallpapers.git media/wallpapers 1> /dev/null 2>&1 || notice "\twallpapers already downloaded"
+git clone https://github.com/Jackojc/wallpapers.git wallpapers 1> /dev/null 2>&1 || notice "\twallpapers already downloaded"
 
 # Setup dotfiles.
 notice "checking out dotfiles"
