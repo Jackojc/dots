@@ -103,7 +103,7 @@ test -f /swapfile && notice "\tswapfile already exists" || (
 
 	# Swapiness
 	notice "set swappiness"
-	sudo sysctl -w vm.swappiness=35 1> /dev/null 2>&1
+	sudo sysctl -w vm.swappiness=45 1> /dev/null 2>&1
 	sudo mkdir -p /etc/sysctl.d 1> /dev/null 2>&1
 	echo "vm.swappiness=35" | sudo tee /etc/sysctl.d/99-swappiness.conf 1> /dev/null 2>&1
 )
