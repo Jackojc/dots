@@ -1,13 +1,14 @@
 [colors]
-background = #080808
-background-alt = #151515
-modules-background = ${colors.background-alt}
-foreground = #FFF
-foreground-alt = #FFF
+background = #000
+background-alt = #000
+modules-background = #000
+modules-foreground = #fff
+foreground = #fff
+foreground-alt = #000
 
-primary = #252525
-secondary = #101010
-alert = #303030
+primary = #fff
+secondary = #fff
+alert = #fff
 
 
 [global/wm]
@@ -36,11 +37,11 @@ fixed-center = true
 
 enable-ipc = true
 
-modules-right = keyboard cpu memory custom_battery temperature
+modules-right = keyboard cpu memory custom_battery temperature state
 modules-center = date
-modules-left = state bspwm
+modules-left = bspwm
 
-separator = " "
+separator = ""
 
 padding-left = 0
 padding-right = 0
@@ -86,12 +87,15 @@ format = <label-state>
 
 label-focused = " %index% "
 label-focused-background = ${colors.primary}
+label-focused-foreground= ${colors.foreground-alt}
 
 label-occupied = " %index% "
 label-occupied-background = ${colors.background-alt}
+label-occupied-foreground = ${colors.foreground}
+
 
 label-urgent = " %index% "
-label-urgent-background = ${colors.alert}
+label-urgent-background = ${colors.primary}
 
 label-empty =
 label-empty-background = ${colors.background-alt}
@@ -208,6 +212,6 @@ type = custom/ipc
 hook-0 = workspace_state_human
 initial = 1
 
-format = " <output> "
+format = <output>
 format-background = ${colors.background-alt}
 

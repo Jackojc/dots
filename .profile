@@ -2,7 +2,7 @@
 
 [[ $- != *i* ]] && return
 
-export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin"
+export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin:/home/jack/.local/share/cargo/bin"
 
 export TODO="$HOME/notes/todo"
 export DIR_WALLPAPERS="$HOME/wallpapers"
@@ -115,15 +115,18 @@ alias ..1='cd ..'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
-alias install="sudo xbps-install -S"
-alias remove="sudo xbps-remove -R"
-alias query="xbps-query -Rs"
-alias update="sudo xbps-install -Su"
-alias cleanup="sudo xbps-remove -Oo"
+alias xi="sudo xbps-install -S"
+alias xr="sudo xbps-remove -R"
+alias xu="sudo xbps-install -Su"
+alias xc="sudo xbps-remove -Oo"
+
+# Allows us to pass multiple arguments that will be expanded into a single string.
+# i.e: `xq a b c`
+xq() {
+	xbps-query -Rs "$(eval echo \"$@\")"
+}
 
 alias todo="$EDITOR $TODO"
-
-# alias tmux="attach_to_tmux"
 
 # use sane flags
 alias sudo="sudo -E"
@@ -137,7 +140,10 @@ alias df="df -h"
 alias free="free -m"
 alias sxiv="sxiv -aq"
 alias qmv="qmv -fdo"
-alias ls="exa -F --group-directories-first"
+alias ls="exa --classify --color always --group-directories-first"
+alias du="dust"
+alias hexdump="hexyl"
+alias cat="bat"
 
 # git
 alias gc="git commit"
@@ -152,18 +158,28 @@ alias gpsh="git push"
 # shortened
 alias e="$EDITOR"
 alias c="clear"
-alias l="ls"
 alias s="fzf"
 alias b="bat"
 alias v="$READER"
+alias hd="hexdump"
+alias img="sxiv"
+
+alias l="ls"
+alias la="l -a"
+alias ll="l -l"
+alias lal="l -al"
+alias lt="l -T"
+alias l.="la | rg --color never '^\.'"
 
 alias jump='cd "$(find_dir)"'
 alias goto='jump'
 alias dots='git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
 
 
-function cm {
-	mkdir "$1" && cd "$1"
+# Make directory and cd into it.
+cm() {
+	mkdir "$1" 2>&1 > /dev/null
+	cd "$1" 2>&1 > /dev/null
 }
 
 

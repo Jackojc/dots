@@ -44,6 +44,8 @@ bat           # cat with syntax highlighting
 bc            # calculator
 eva
 jq            # json manipulation
+dust
+hexyl
 
 ncdu          # disk usage monitor
 fzf           # fuzzy finder for files
@@ -63,6 +65,9 @@ wget
 htop
 cpupower
 lm_sensors    # monitor thermals
+
+parallel
+mediainfo
 
 
 
