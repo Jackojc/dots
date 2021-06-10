@@ -7,7 +7,6 @@ autorandr --load mobile
 sleep 1
 
 keyboard_set
-wallpaper_reset
 bspwm_monitor_dist
 launch_polybar
 

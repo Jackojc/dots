@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-choices="pick\nnew\nreset"
+choices="pick\nnew"
 chosen=$(echo "$choices" | dmenu -p "wallpaper")
 
 
@@ -9,6 +9,5 @@ case "$chosen" in
 
 	new)           wallpaper_random;;
 	pick)          wallpaper_choose;;
-	reset)         wallpaper_reset;;
 
 esac

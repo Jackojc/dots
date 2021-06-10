@@ -1,7 +1,4 @@
 #!/usr/bin/env sh
 
 file="$(basename $1)"
-
 xwallpaper --zoom "$DIR_WALLPAPERS/$file"
-
-ln -sf "$DIR_WALLPAPERS/$file" $TMPDIR/bg.tmp

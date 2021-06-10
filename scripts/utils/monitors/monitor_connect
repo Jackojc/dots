@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
 autorandr horizontal
-wallpaper_reset
 bspwm_monitor_dist
 launch_polybar
