@@ -70,7 +70,7 @@ export CDPATH="."
 export HISTSIZE=500000
 export HISTFILESIZE=100000
 export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="&:[ ]*:exit:ls:l:z:s:bg:fg:history:clear:c"
+export HISTIGNORE="&:[ ]*:exit:ls:l:la:ll:lal:lt:l.:jump:goto:z:s:bg:fg:history:clear:c"
 
 
 # Set PWD of `st` after every command.

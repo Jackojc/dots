@@ -102,13 +102,13 @@ shift + XF86AudioRaiseVolume
 
 
 
-# Caps_Lock
+# @Caps_Lock
 # 	notify_keyboard "caps" "$(keyboard_caps)"
 
-# ~Scroll_Lock
+# @Scroll_Lock
 # 	notify_keyboard "scroll" "$(keyboard_scroll)"
 
-# ~Num_Lock
+# @Num_Lock
 # 	notify_keyboard "num" "$(keyboard_num)"
 
 
@@ -122,10 +122,10 @@ XF86Sleep
 	power_suspend
 
 XF86MonBrightnessDown
-	backlight_decr 10 && notify_backlight $(backlight_get)%
+	backlight_decr 5 && notify_backlight $(backlight_get)%
 
 XF86MonBrightnessUp
-	backlight_incr 10 && notify_backlight $(backlight_get)%
+	backlight_incr 5 && notify_backlight $(backlight_get)%
 
 Print
 	prompt_screenshot

@@ -5,7 +5,7 @@ input=$(zenity --entry --text input)
 
 if [ -z "$input" ]; then
 	zenity --error --text "input cannot be empty!"
-    _prompt_text
+    prompt_text; exit 0
 fi
 
 

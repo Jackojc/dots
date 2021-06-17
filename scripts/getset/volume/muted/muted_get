@@ -2,12 +2,10 @@
 
 muted="$(pamixer --get-mute)"
 
-
 case "$muted" in
 	true)  echo "on" && exit 0;;
 	false) echo "off" && exit 1;;
 esac
-
 
 echo "unknown"
 exit 1

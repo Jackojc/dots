@@ -1,10 +1,10 @@
 [colors]
-background = #000
-background-alt = #000
-modules-background = #000
+background = #090909
+background-alt = #090909
+modules-background = #090909
 modules-foreground = #fff
 foreground = #fff
-foreground-alt = #000
+foreground-alt = #090909
 
 primary = #fff
 secondary = #fff
@@ -139,8 +139,8 @@ hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input
 warn-temperature = 999
 units = true
 
-label = " %temperature-c% "
-label-warn = " %temperature-c% "
+label = " TMP %temperature-c% "
+label-warn = " TMP %temperature-c% "
 
 label-background = ${colors.modules-background}
 label-warn-background = ${colors.modules-background}

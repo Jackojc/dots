@@ -1,14 +1,9 @@
 #!/usr/bin/env sh
 
-# fname=$(echo "cancel" | dmenu -i -p "enter a filename (directories will be created automatically)")
-
-
 fname=$(zenity --file-selection --save --confirm-overwrite --filename "$1")
-
 
 if [ -z "$fname" ]; then
 	exit 1
 fi
-
 
 xclip -selection clipboard -o > "$fname"  # save to file from clipboard

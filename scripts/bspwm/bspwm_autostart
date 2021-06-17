@@ -50,6 +50,7 @@ x240_setup_kb_mouse() {
 
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.3
 	xinput set-prop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
+	synclient TapButton1=1
 
 	xmodmap -e "keycode 118 = End"
 }
