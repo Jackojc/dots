@@ -127,6 +127,12 @@ XF86MonBrightnessDown
 XF86MonBrightnessUp
 	backlight_incr 5 && notify_backlight $(backlight_get)%
 
+shift + XF86MonBrightnessDown
+	backlight_decr 1 && notify_backlight $(backlight_get)%
+
+shift + XF86MonBrightnessUp
+	backlight_incr 1 && notify_backlight $(backlight_get)%
+
 Print
 	prompt_screenshot
 

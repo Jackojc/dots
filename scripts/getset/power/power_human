@@ -15,11 +15,11 @@ if [ "$lvl" -ge 98 ]; then
 	if power_ac > /dev/null 2>&1; then
 		exit 1
 	else
-		echo "BAT FULL"
+		echo "FULL"
 	fi
 
 else
-	echo "BAT $lvl%[$is_charging]"
+	echo "$lvl%[$is_charging]"
 
 fi
 
