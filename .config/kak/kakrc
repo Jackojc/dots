@@ -3,8 +3,8 @@ colorscheme yuloo
 # Plugins
 source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/tabs.kak"
-# source "%val{config}/rc/smooth-scroll.kak"
-source "%val{config}/rc/interactively.kak"
+source "%val{config}/rc/surround.kak"
+# source "%val{config}/rc/interactively.kak"
 
 # Declare
 declare-option str out_of_view_format ''
@@ -36,6 +36,9 @@ declare-option -hidden str _scrolloff
 # Options
 set-option global out_of_view_format '(↑%opt{out_of_view_selection_above_count}|↓%opt{out_of_view_selection_below_count})'
 
+# Disable fancy indentation hooks.
+set-option global disabled_hooks '(?!auto)\K(.+)-(trim-indent|insert|indent)'
+
 set-option global tabstop 4
 set-option global indentwidth 0
 set-option global scrolloff 3,3
@@ -45,8 +48,7 @@ set-option global startup_info_version 99999999999
 set-option global autoreload yes
 set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=false
 set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
-# set-option global scroll_options speed=0 interval=5 max_duration=250
-set-option global yes_or_no_instant true
+# set-option global yes_or_no_instant true
 
 # Highlighters
 add-highlighter global/ show-whitespaces
@@ -56,6 +58,9 @@ add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 
 # New opens in the same buffer
 map global normal <c-t> ': new buffer %val{bufname}<ret>' -docstring 'new client with same buffer'
+
+# Surround mode
+map global normal <a-s> ':surround<ret>'
 
 # Show tab mode
 map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
@@ -139,10 +144,25 @@ map -docstring "delete until the next word boundary"             global insert <
 map -docstring "delete until the previous word boundary"         global insert <c-w> '<esc>bc'
 map -docstring "paste before the cursor"                         global insert <c-y> '<esc>Pi'
 
+# Indent bindings
+map -docstring 'indent' global insert <tab> '<a-;><a-gt>'
+map -docstring 'deindent' global insert <s-tab> '<a-;><lt>'
+
 # Remove trailing whitespaces on file save
 hook global BufWritePre .* %{ try %{
 	execute-keys -draft '%s[\h\v]+$<ret><a-d>'
 }}
+
+# Enable editorconfig
+hook global WinCreate ^[^*]+$ %{ editorconfig-load }
+
+# Copy indentation from last line on newline.
+hook -group auto-indent global InsertChar '\n' %{
+	# Copy previous line indent
+	try %{ execute-keys -draft 'K<a-&>' }
+	# Clean previous line indent
+	try %{ execute-keys -draft 'k<a-x>s^\h+$<ret>d' }
+}
 
 # Update out-of-view status.
 hook global NormalIdle .* %{
@@ -160,9 +180,6 @@ hook global NormalIdle .* %{
 # Highlight the currently focused line and columns 80 & 120.
 hook global WinCreate .* %{ update_line_highlighter }
 hook global -group crosshairs RawKey .* %{ update_line_highlighter }
-
-# Enable smooth scroll
-# hook global WinCreate [^*].* %{ hook -once window WinDisplay .* smooth-scroll-enable }
 
 # Add some highlighters for Rust and C++
 hook global WinSetOption filetype=(c|cpp|rust) %{
@@ -422,10 +439,10 @@ define-command -hidden out-of-view-update %{
 # Aliases
 alias global n new
 
-alias global cd i-change-directory
-alias global db i-delete-buffer
-alias global q i-quit
-alias global w i-write
+# alias global cd i-change-directory
+# alias global db i-delete-buffer
+# alias global q i-quit
+# alias global w i-write
 
 unalias global w write
 alias global w better_write
@@ -480,3 +497,4 @@ hook global FocusOut .* %{
 	set-face window Error              InactiveError
 	set-face window Prompt             InactivePrompt
 }
+
