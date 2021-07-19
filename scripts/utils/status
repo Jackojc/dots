@@ -4,10 +4,14 @@ cpu=$(rg 'cpu ' /proc/stat | awk '{printf("%.0f\n", ($2 + $4) * 100 / ($2 + $4 +
 mem=$(free | rg Mem | awk '{printf("%.0f\n", ($2 - $7) / $2 * 100)}')
 bat=$(power_human)
 tmp=$(cat /sys/class/thermal/thermal_zone*/temp | sort -nr | head -n1 | awk '{printf("%d°C\n", $1 / 1000)}')
+dsk=$(df -h / 2> /dev/null | awk 'END {print $4}')
+upt=$(uptime -p | cut -f2- -d' ')
 
 echo "CPU $cpu% (avg)"
 echo "MEM $mem%"
 echo "BAT $bat"
 echo "TMP $tmp"
+echo "DSK $dsk"
+echo "UP  $upt"
 
 

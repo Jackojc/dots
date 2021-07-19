@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+cd $DIR_NOTES
+
+choices="$(fd -tf --exec-batch ls -1t)"
+chosen=$(echo "$choices" | dmenu -p "notes")
+
+[ -z "$chosen" ] && exit 1
+
+$TERMINAL -e $EDITOR $chosen

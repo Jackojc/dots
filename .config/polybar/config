@@ -37,9 +37,9 @@ fixed-center = true
 
 enable-ipc = true
 
-modules-right = keyboard state
-modules-center = date
-modules-left = bspwm
+modules-right = keyboard date
+modules-center =
+modules-left = bspwm state
 
 separator = ""
 
@@ -76,7 +76,7 @@ cursor-scroll =
 [module/bspwm]
 type = internal/bspwm
 
-pin-workspaces = true
+pin-workspaces = false
 inline-mode = false
 
 enable-click = false

@@ -33,8 +33,11 @@ super + w
 super + t
 	launch_st -e $EDITOR $TODO
 
+super + n
+	prompt_notes
+
 super + c
-	launch_st -e eva
+	launch_st -e calc
 
 super + b
 	launch_st -e $EDITOR $SHOPPING

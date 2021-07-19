@@ -59,8 +59,12 @@ add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 # New opens in the same buffer
 map global normal <c-t> ': new buffer %val{bufname}<ret>' -docstring 'new client with same buffer'
 
+# Scroll by halves rather than full pages
+map global normal <pageup> '<c-u>'
+map global normal <pagedown> '<c-d>'
+
 # Surround mode
-map global normal <a-s> ':surround<ret>'
+map global normal <c-s> ':surround<ret>'
 
 # Show tab mode
 map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
@@ -235,6 +239,10 @@ define-command -hidden paste-after %{
 			printf 'tmux saveb -'
 		fi
 	} <ret>
+}
+
+define-command reset-search-register %{
+	set-register slash ""
 }
 
 # Change session name to something more memorable.

@@ -42,7 +42,7 @@ cd $HOME 2>&1 > /dev/null
 # Setup home directory structure.
 notice "setting up home directory structure"
 mkdir -pv docs downloads notes projects scraps scripts 2>&1 > /dev/null
-mkdir -pv media/tv media/wallpaper media/videos media/pictures media/movies media/music 2>&1 > /dev/null
+mkdir -pv media/tv media/wallpaper media/videos media/pictures media/movies media/music media/torrents 2>&1 > /dev/null
 
 # Download wallpapers.
 notice "downloading wallpapers"

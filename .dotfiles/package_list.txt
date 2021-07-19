@@ -88,6 +88,9 @@ pulseaudio
 pamixer     # manage pulseaudio
 apulse
 alsa-utils
+alsa-tools
+alsa-plugins-pulseaudio
+alsa-firmware
 
 
 
@@ -118,6 +121,7 @@ Solaar
 plymouth
 gnome-ssh-askpass
 tealdeer
+flashrom
 
 zathura
 zathura-cb

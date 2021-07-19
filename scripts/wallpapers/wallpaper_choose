@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
 
-wallpaper_set "$(ls -1 $DIR_WALLPAPERS/* | sxiv -tioq | tail -n 1)"
+chosen="$(ls -1 $DIR_WALLPAPERS/* | sxiv -tioq | tail -n 1)"
+
+[ -z "$chosen" ] && exit 1
+
+wallpaper_set "$chosen"
 

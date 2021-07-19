@@ -6,7 +6,9 @@ export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin:/home
 
 export TODO="$HOME/notes/todo"
 export DIR_MEDIA="$HOME/media"
+export DIR_MUSIC="$DIR_MEDIA/music"
 export DIR_WALLPAPERS="$DIR_MEDIA/wallpapers"
+export DIR_NOTES="$HOME/notes"
 
 export XDG_PUBLICSHARE_DIR="/dev/null"
 export XDG_TEMPLATES_DIR="/dev/null"

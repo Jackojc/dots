@@ -1,7 +1,13 @@
 #!/usr/bin/env sh
 
-
 mpv \
---term-status-msg "( \${media-title} )\n[ \${duration}: \${time-pos} / \${time-remaining} ]" \
---term-osd-bar --term-osd-bar-chars="[=>-]" --display-tags= \
---gapless-audio --terminal --no-resume-playback --no-video "$@"
+--no-resume-playback \
+--msg-level=file=fatal,cplayer=fatal,ao=fatal \
+--term-status-msg="( \${media-title} )\n[ \${duration}: \${time-pos} / \${time-remaining} ]" \
+--term-osd-bar \
+--term-osd-bar-chars="[=>-]" \
+--display-tags= \
+--gapless-audio \
+--terminal \
+--no-resume-playback \
+--no-video "$@"

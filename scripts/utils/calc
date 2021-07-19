@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+python3 -Bic "from math import *"

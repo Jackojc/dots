@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-choices="fullcharge\n"
+choices="fullcharge"
 chosen=$(echo "$choices" | dmenu -p "utils")
 
 

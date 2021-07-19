@@ -1,20 +1,12 @@
 #!/usr/bin/env sh
 
-
-
 list_all_songs() {
 	fd -tf -i -eflac -emp3 -em4a -eogg -ewav -em4b -eaac . $DIR_MUSIC
 }
 
-
-
 query="$(echo "$@" | tr ' ' '\ ')"
 selected=$(list_all_songs | fzf -q "$query")
 
-
-if [ -z "$selected" ]; then
-	exit 1
-fi
-
+[ -z "$selected" ] && exit 1
 
 music_run_mpv "$selected"

@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 cd $(focused_pwd)
-echo $TERMINAL $@ | sh &
+$TERMINAL $@
