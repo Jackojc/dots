@@ -50,7 +50,6 @@ ncdu          # disk usage monitor
 fzf           # fuzzy finder for files
 nnn           # terminal file manager
 
-pass          # password manager
 sct           # blue light filter
 
 dtrx          # handy tool for extracting archives
@@ -75,6 +74,7 @@ pfetch
 # core desktop environment programs
 bspwm    # window manager
 sxhkd    # hotkey daemon
+xcape
 picom    # compositor (fork of compton)
 dunst    # notification daemon
 polybar  # statusbar
