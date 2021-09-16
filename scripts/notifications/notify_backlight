@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u low -r 1111 "backlight " "$@"
+dunstify -u low -r 1111 "backlight " "$@" -h int:value:"$@"
