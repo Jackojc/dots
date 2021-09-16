@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+version="$1"
+gpu="$2"  # i915/amdgpu
+out="initramfs-$version.img"
+
+[ -z "$version" ] && echo "need version" && exit 1
+[ -z "$gpu" ] && echo "need gpu" && exit 1
+
+echo "purge old kernels"
+sudo vkpurge rm all
+
+echo "build initramfs"
+sudo dracut --force --force-drivers "$gpu" --kver "$version" "/boot/$out"
+
+echo "copy new images"
+sudo cp "/boot/vmlinuz-$version" /boot/efi/EFI/default/vmlinuz-linux
+sudo cp "/boot/$out" /boot/efi/EFI/default/initramfs-linux.img
+
+

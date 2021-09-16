@@ -1,17 +1,31 @@
 #!/usr/bin/env sh
 
-cpu=$(rg 'cpu ' /proc/stat | awk '{printf("%.0f\n", ($2 + $4) * 100 / ($2 + $4 + $5))}')
-mem=$(free | rg Mem | awk '{printf("%.0f\n", ($2 - $7) / $2 * 100)}')
+# cpu=$(rg 'cpu ' /proc/stat | awk '{printf("%.0f\n", ($2 + $4) * 100 / ($2 + $4 + $5))}')
+# mem=$(free | rg Mem | awk '{printf("%.0f\n", ($2 - $7) / $2 * 100)}')
+# temp=$(sort -nr /sys/class/thermal/thermal_zone*/temp | head -n1 | awk '{printf("%d°C\n", $1 / 1000)}')
+# date="$(LC_TIME=C date +'%a, %d/%m/%Y (%b)')"
+
 bat=$(power_human)
-tmp=$(cat /sys/class/thermal/thermal_zone*/temp | sort -nr | head -n1 | awk '{printf("%d°C\n", $1 / 1000)}')
-dsk=$(df -h / 2> /dev/null | awk 'END {print $4}')
-upt=$(uptime -p | cut -f2- -d' ')
+date="$(LC_TIME=C date +'%-d/%-m (%b)')"
+time="$(LC_TIME=C date +'%I:%M %p')"
 
-echo "CPU $cpu% (avg)"
-echo "MEM $mem%"
-echo "BAT $bat"
-echo "TMP $tmp"
-echo "DSK $dsk"
-echo "UP  $upt"
+current="$(workspace_name)"
+bar=""
 
+for ws in $(bspwm_workspace_list); do
+	if [ "$current" = "$ws" ]; then
+		bar="$bar<b>[$ws]</b> "
+	else
+		bar="$bar$ws "
+	fi
+done
 
+bar=${bar%?}
+
+notify_status \
+"$bar
+<b>time</b> $time
+<b>date</b> $date
+<b>bat</b>  $bat
+<b>mode</b> $(workspace_state)
+"
