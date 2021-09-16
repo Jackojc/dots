@@ -42,7 +42,6 @@ exa           # better alternative to ls
 fd            # better alternative to find
 bat           # cat with syntax highlighting
 bc            # calculator
-eva
 jq            # json manipulation
 dust
 hexyl
@@ -69,6 +68,8 @@ lm_sensors    # monitor thermals
 parallel
 mediainfo
 
+pfetch
+
 
 
 # core desktop environment programs
@@ -79,6 +80,7 @@ dunst    # notification daemon
 polybar  # statusbar
 wmutils-core
 wmutils-opt
+disputils
 
 
 
@@ -122,6 +124,12 @@ plymouth
 gnome-ssh-askpass
 tealdeer
 flashrom
+gnupg2
+aspell
+aspell-en
+chroma
+aerc
+w3m
 
 zathura
 zathura-cb
