@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-$(pkill screenkey && notify_general "kill screenkey") || $(screenkey --no-systray --no-whitespace --opacity 0.75 --compr-cnt 1 --vis-shift -m -t 0.8 -s small --scr 1; notify_general "launch screenkey")
+$(pkill screenkey && notify_general "kill screenkey") || $(setsid -f screenkey --no-systray --no-whitespace --opacity 0.75 --compr-cnt 1 --vis-shift -m -t 0.8 -s small --scr 1; notify_general "launch screenkey")

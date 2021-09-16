@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 cd $(focused_pwd)
-$TERMINAL $@
+setsid -f $TERMINAL $@

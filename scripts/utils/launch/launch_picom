@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+setsid -f picom --experimental-backends
