@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u critical -r 4444 "network" "$@"
+dunstify -u critical -r 4444 "network " "$@"

@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u low -r 3333 "node" "$@"
+dunstify -u low -r 3333 "node " "$@"

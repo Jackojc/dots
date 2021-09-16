@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u low -r 7777 "$1" "$2"
+dunstify -u low -r 7777 "$1 " "$2"

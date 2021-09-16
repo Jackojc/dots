@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u low -r 6666 "usb" "$@"
+dunstify -u low -r 6666 "usb " "$@"
