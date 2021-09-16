@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
 
-
-
 G=$(slop --highlight --tolerance=9999999 --color=0.3,0.4,0.6,0.4 -f "%g") || exit 1
-
 
 import -window root -crop $G png:- | convert - \( +clone -background black -shadow 40x5+0+0 \) +swap -background none -layers merge +repage - | xclip -selection clipboard -t image/png

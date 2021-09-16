@@ -1,19 +1,12 @@
 #!/usr/bin/env sh
 
+file="$XDG_RUNTIME_DIR/dimmer"
 
-THEFILE="$TMPDIR/dimmer"
-touch $THEFILE
-
-
-val="$(cat $THEFILE)"
-
-
-if [ "$val" = "1" ]; then
+if [ -f "$file" ]; then
 	sct
-	echo 0 > $THEFILE
+	rm "$file"
 
 else
 	sct 4000
-	echo 1 > $THEFILE
-
+	touch "$file"
 fi

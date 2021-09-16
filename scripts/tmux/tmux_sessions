@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+
+# Read heredoc into a variable avoiding external call to cat
+# read_heredoc varname
+NEWLINE="
+"
+
+read_heredoc() {
+	read_heredoc_result=""
+
+	while IFS="${NEWLINE}" read -r read_heredoc_line; do
+		read_heredoc_result="${read_heredoc_result}${read_heredoc_line}${NEWLINE}"
+	done
+
+	eval $1'=${read_heredoc_result}'
+}
+
+
+# turn a list of sessions into the form:
+# tmux display-menu -T switch -- \
+#     -a 0 "switch-client -t a"
+#     b 1 "switch-client -t b"
+#     c 2 "switch-client -t c"
+
+# current session name
+current="$(tmux display-message -p '#S')"
+
+read_heredoc code <<EOF
+
+BEGIN {
+	ORS=" ";
+	i=1
+}
+
+{
+	if (\$1 != "$current") {
+		print \$1, i++, "\"switch-client -t", \$1 "\"\n"
+	}
+}
+
+EOF
+
+tmux list-sessions -F '#S' \
+| awk "$code" \
+| xargs tmux display-menu -T "switch session" -- \
+"create new" "" "new-session" \
+"-$current (focused)" "" "" \
+
+

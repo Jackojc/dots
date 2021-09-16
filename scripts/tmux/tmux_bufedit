@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+file=`mktemp`.sh
+tmux capture-pane -pS -32768 > $file
+tmux display-popup -E "$EDITOR -ro +: $file"
