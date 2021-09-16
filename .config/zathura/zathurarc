@@ -3,7 +3,7 @@ set font "Consolas normal 11"
 set guioptions hv
 set scroll-page-aware true
 set adjust-open "best-fit"
-set pages-per-row 2
+# set pages-per-row 2
 
 # set default-fg "#444444"
 # set default-bg "#090909"

@@ -19,7 +19,6 @@ margin-top = 0
 [settings]
 throttle-output = 5
 throttle-output-for = 10
-throttle-input-for = 100
 
 screenchange-reload = true
 
@@ -37,8 +36,8 @@ fixed-center = true
 
 enable-ipc = true
 
-modules-right = keyboard date
-modules-center =
+modules-right = keyboard temperature custom_battery
+modules-center = date
 modules-left = bspwm state
 
 separator = ""
@@ -96,6 +95,7 @@ label-occupied-foreground = ${colors.foreground}
 
 label-urgent = " %index% "
 label-urgent-background = ${colors.primary}
+label-urgent-foreground= ${colors.foreground-alt}
 
 label-empty =
 label-empty-background = ${colors.background-alt}
@@ -111,9 +111,9 @@ label-empty-background = ${colors.background-alt}
 [module/keyboard]
 type = internal/xkeyboard
 
-label-indicator-padding = 1
-label-indicator = "%name%"
-label-indicator-background = ${colors.modules-background}
+label-indicator-on-padding = 1
+label-indicator-on = "%name%"
+label-indicator-on-background = ${colors.modules-background}
 
 label-layout-padding = 1
 label-layout =
@@ -136,8 +136,8 @@ hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input
 warn-temperature = 999
 units = true
 
-label = " TMP %temperature-c% "
-label-warn = " TMP %temperature-c% "
+label = " %temperature-c% "
+label-warn = " %temperature-c% "
 
 label-background = ${colors.modules-background}
 label-warn-background = ${colors.modules-background}

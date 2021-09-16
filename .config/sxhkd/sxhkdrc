@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+
+super + comma
+	status
+
 super + F1
 	scratch_toggle 1
 
@@ -22,8 +26,12 @@ super + control + c
 	webcam
 
 
+# super + w
+# 	wallpaper_random
+
+
 super + w
-	wallpaper_random
+	launch_st -e iwctl
 
 # toggle screen backlight
 # super + o
@@ -40,7 +48,7 @@ super + c
 	launch_st -e calc
 
 super + b
-	launch_st -e $EDITOR $SHOPPING
+	launch_st -e bluetoothctl
 
 super + Return
 	launch_st
@@ -83,10 +91,10 @@ super + d
 
 
 XF86AudioMute
-	muted_toggle && notify_mute "mute $(muted_get)"
+	muted_toggle && notify_mute "$(muted_get)"
 
 XF86AudioMicMute
-	mic_toggle && notify_mic "mute $(mic_get)"
+	mic_toggle && notify_mic "$(mic_get)"
 
 XF86AudioLowerVolume
 	volume_decr 5 && notify_volume $(volume_get)%
@@ -106,12 +114,15 @@ shift + XF86AudioRaiseVolume
 
 
 # @Caps_Lock
-# 	notify_keyboard "caps" "$(keyboard_caps)"
+# 	notify_keyboard "caps" "off"
 
-# @Scroll_Lock
+# ~Caps_Lock
+# 	notify_keyboard "caps" "on"
+
+# ~@Scroll_Lock
 # 	notify_keyboard "scroll" "$(keyboard_scroll)"
 
-# @Num_Lock
+# ~@Num_Lock
 # 	notify_keyboard "num" "$(keyboard_num)"
 
 
@@ -226,7 +237,7 @@ super + Right
 
 
 alt + {_,shift} + Tab
-	bspc node -f {next,prev}.local
+	bspc node -f {next,prev}.local.!hidden.window
 
 
 
