@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+bspc query -D -d .local.occupied --names

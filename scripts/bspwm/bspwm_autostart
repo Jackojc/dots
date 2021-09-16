@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 notice() {
-	echo "[*] $@"
+	echo "$@"
 }
 
 
@@ -19,18 +19,19 @@ keyboard_set &
 
 # Launch programs.
 run_once sxhkd
-run_once picom
+run_once xcape -t 125 -e 'Super_L=Super_L|comma'  # If we press super once, forward it as if we had pressed super + ,
+run_once launch_picom
 run_once pulseaudio --start
 run_once dunst
 
 wallpaper_random
-launch_polybar &
+# launch_polybar &
 
 # Hide cursor after a period of inactivity.
 unclutter -idle 2 -jitter 1 -reset &
 
 # Don't destroy my ears.
-volume_set 25
+volume_set 20
 
 
 # Relaunch daemons for tracking battery and network.
@@ -49,7 +50,7 @@ x240_setup_kb_mouse() {
 	notice "setting up x240 keyboard & mouse"
 
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" -.3
-	xinput set-prop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
+	# xinput set-prop "Synaptics TM3075-008" "libinput Tapping Enabled" 1
 	synclient TapButton1=1
 
 	xmodmap -e "keycode 118 = End"
@@ -65,29 +66,29 @@ x230_setup_kb_mouse() {
 # Setup model specific settings.
 model="$(cat /sys/devices/virtual/dmi/id/product_version /sys/devices/virtual/dmi/id/product_name)"
 
-if echo $model | rg "ThinkPad X240"; then
+if echo "$model" | rg "ThinkPad X240"; then
 	notice "detected x240"
 
 	launch_daemons
 	x240_setup_kb_mouse
 
-elif echo $model | rg "ThinkPad X230"; then
+elif echo "$model" | rg "ThinkPad X230"; then
 	notice "detected x230"
 
 	launch_daemons
 	x230_setup_kb_mouse
 
-elif echo $model | rg "MS-7693"; then
+elif echo "$model" | rg "MS-7693"; then
 	notice "detected amd fx desktop"
 fi
 
 
 # use gpu scaler
 displays="$(xrandr -q | rg '[^dis]connected' | cut -d' ' -f1)"
-for output in "$displays"; do
+for output in $displays; do
 	xrandr --output "$output" --set "scaling mode" "Full"
 done
 
-for output in "$displays"; do
+for output in $displays; do
 	xrandr --output "$output" --set "TearFree" "on"
 done
