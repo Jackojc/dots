@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-
 test -f "/sys/class/power_supply/AC/online" || exit 1
 
 is_connect="$(cat /sys/class/power_supply/AC/online)"
@@ -9,7 +8,6 @@ case "$is_connect" in
 	0) echo "disconnected" && exit 1;;
 	1) echo "connected" && exit 0;;
 esac
-
 
 echo "unknown"
 exit 0

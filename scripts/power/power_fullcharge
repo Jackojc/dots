@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+ret=0
+
 for battery in `ls /sys/class/power_supply/ | grep BAT`; do
-	\sudo tlp fullcharge "$battery"
+	\sudo tlp fullcharge "$battery" || ret=1
 done
+
+[ $ret = 1 ] && notify_power "could not set fullcharge" && exit 1
+
+notify_power "charging battery to full"
