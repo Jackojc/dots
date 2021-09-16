@@ -19,20 +19,37 @@ export XDG_MUSIC_DIR="$DIR_MEDIA/music"
 export XDG_PICTURES_DIR="$DIR_MEDIA/pictures"
 export XDG_VIDEOS_DIR="$DIR_MEDIA/videos"
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CONFIG_HOME="$HOME/.config"
 
-export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export GTK2_RC_FILES="XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export HISTFILE="$XDG_DATA_HOME/bash/history"
 export LESSHISTFILE="-"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export GOPATH="XDG_DATA_HOME/go"
+export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
+export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
+export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
+export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 
 export GPG_TTY=$(tty)
 export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
 export SAMPLER_SAVE_DIRECTORY="$HOME/samples"
+export PF_INFO="ascii title os host uptime pkgs editor wm"
+
+export PASH_LENGTH=50
+export PASH_PATTERN="_[:alnum:][:graph:]"
+export PASH_KEYID=jackojc@gmail.com
+export PASH_DIR=~/.local/share/passwords
+export PASH_CLIP='xclip -sel c'
+export PASH_TIMEOUT=6
 
 export WINDOWMANAGER="bspwm"
 export TERMINAL="st"
@@ -69,8 +86,8 @@ export PS2='| \[${PS2COL}\]=>\[${RESET}\] '
 export PROMPT_DIRTRIM=3
 export CDPATH="."
 
-export HISTSIZE=500000
-export HISTFILESIZE=100000
+export HISTSIZE=
+export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="&:[ ]*:exit:ls:l:la:ll:lal:lt:l.:jump:goto:z:s:bg:fg:history:clear:c"
 
@@ -87,14 +104,15 @@ export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
 
 
 shopt -s checkwinsize
-shopt -s globstar 2> /dev/null
+shopt -s globstar
 shopt -s nocaseglob
 shopt -s histappend
 shopt -s cmdhist
-shopt -s autocd 2> /dev/null
-shopt -s dirspell 2> /dev/null
-shopt -s cdspell 2> /dev/null
+shopt -s autocd
+shopt -s dirspell
+shopt -s cdspell
 shopt -s cdable_vars
+shopt -s expand_aliases
 
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
@@ -129,8 +147,6 @@ xq() {
 	xbps-query -Rs "$(eval echo \"$@\")"
 }
 
-alias todo="$EDITOR $TODO"
-
 # use sane flags
 alias sudo="sudo -E"
 alias uptime="uptime -p"
@@ -147,6 +163,8 @@ alias ls="exa --classify --color always --group-directories-first"
 alias du="dust"
 alias hexdump="hexyl"
 alias cat="bat"
+alias pass="pash"
+alias ip="ip -br -c"
 
 # git
 alias gc="git commit"
@@ -166,6 +184,7 @@ alias b="bat"
 alias v="$READER"
 alias hd="hexdump"
 alias img="sxiv"
+alias o="xdg-open"
 
 alias l="ls"
 alias la="l -a"
@@ -188,7 +207,7 @@ cm() {
 
 
 if [ "$(tty)" = "/dev/tty2" ]; then
-	pgrep -x $WINDOWMANAGER || exec startx $WINDOWMANAGER 1> /dev/null 2>&1
+	pgrep -x $WINDOWMANAGER || setsid -f startx $WINDOWMANAGER 1> /dev/null 2>&1
 fi
 
 
