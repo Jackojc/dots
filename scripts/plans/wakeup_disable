@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
-
-for device in `cat /proc/acpi/wakeup | tail -n +2 | grep enabled | cut -f1`; do
+for device in `tail -n +2 /proc/acpi/wakeup | grep enabled | cut -f1`; do
 	echo $device | sudo tee /proc/acpi/wakeup;
 done
 
