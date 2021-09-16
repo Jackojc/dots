@@ -4,6 +4,7 @@ colorscheme yuloo
 source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/tabs.kak"
 source "%val{config}/rc/surround.kak"
+source "%val{config}/rc/kakboard.kak"
 # source "%val{config}/rc/interactively.kak"
 
 # Declare
@@ -46,7 +47,7 @@ set-option global incsearch false
 set-option global aligntab false
 set-option global startup_info_version 99999999999
 set-option global autoreload yes
-set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=false
+set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=true
 set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
 # set-option global yes_or_no_instant true
 
@@ -94,8 +95,12 @@ map global normal d <a-d>
 map global normal c <a-c>
 
 # Paste
-map global normal P ': paste-after<ret>'
-map global normal p ': paste-before<ret>'
+# map global normal P ': paste-after<ret>'
+# map global normal p ': paste-before<ret>'
+# map global normal R ': paste-replace<ret>'
+
+# map global normal p P
+# map global normal P p
 
 # Remap b to q
 map global normal = q
@@ -210,14 +215,15 @@ hook global InsertCompletionHide .* %{
 }
 
 # Copy/paste
-hook global RegisterModified '"' %{ nop %sh{
-	if [ -n "$DISPLAY" ]; then
-		printf %s "$kak_main_reg_dquote" | xclip -in -selection clipboard >&- 2>&-
+hook global WinCreate .* %{ kakboard-enable }
+# hook global RegisterModified '"' %{ nop %sh{
+# 	if [ -n "$DISPLAY" ]; then
+# 		printf %s "$kak_main_reg_dquote" | xclip -in -selection clipboard >&- 2>&-
 
-	elif [ -n "$TMUX" ]; then
-		printf %s "$kak_main_reg_dquote" | tmux loadb -
-	fi
-}}
+# 	elif [ -n "$TMUX" ]; then
+# 		printf %s "$kak_main_reg_dquote" | tmux loadb -
+# 	fi
+# }}
 
 define-command -hidden paste-before %{
 	execute-keys ! %sh{
@@ -232,6 +238,18 @@ define-command -hidden paste-before %{
 
 define-command -hidden paste-after %{
 	execute-keys <a-!> %sh{
+		if [ -n "$DISPLAY" ]; then
+			printf 'xclip -o -selection clipboard'
+
+		elif [ -n "$TMUX" ]; then
+			printf 'tmux saveb -'
+		fi
+	} <ret>
+}
+
+define-command -hidden paste-replace %{
+	execute-keys <d>
+	execute-keys ! %sh{
 		if [ -n "$DISPLAY" ]; then
 			printf 'xclip -o -selection clipboard'
 
