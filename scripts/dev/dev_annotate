@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 
-
 cg_annotate --show=Ir,Dr,D1mr,DLmr,Dw,D1mw,DLmw,Bc,Bcm --auto=yes cg.out $PWD/$@

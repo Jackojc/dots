@@ -19,7 +19,7 @@ if [ "$lvl" -ge 98 ]; then
 	fi
 
 else
-	echo "$lvl%[$is_charging]"
+	echo "${is_charging}${lvl}%"
 
 fi
 

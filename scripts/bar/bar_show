@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+bar_raise
+xdotool windowmap "$(xdotool search --name $BAR_NAME)"

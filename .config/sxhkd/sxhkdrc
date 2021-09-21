@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
 
 
-super + comma
-	status
+Super_L
+	bar_show
+
+@Super_L
+	bar_hide
+
 
 super + F1
 	scratch_toggle 1
@@ -65,8 +69,8 @@ super + control + r
 super + control + f
 	launch_st -e nnn $(focused_pwd)
 
-super + m
-	prompt_passmenu --type
+# super + m
+# 	prompt_passmenu --type
 
 super + u
 	prompt_usb
@@ -111,10 +115,11 @@ shift + XF86AudioRaiseVolume
 
 
 
+# # {_,@}Caps_Lock
+# 	notify_keyboard "caps" {on, off}
 
-
-# @Caps_Lock
-# 	notify_keyboard "caps" "off"
+# ~@Caps_Lock
+# 	notify_keyboard "caps" "$(keyboard_caps)"
 
 # ~Caps_Lock
 # 	notify_keyboard "caps" "on"
@@ -129,8 +134,8 @@ shift + XF86AudioRaiseVolume
 
 
 
-XF86PowerOff
-	prompt_power
+# XF86PowerOff
+# 	prompt_power
 
 XF86Sleep
 	power_suspend
@@ -165,27 +170,11 @@ Print
 
 
 super + e
-	bspc desktop -f next.\!occupied.local && notify_workspace $(workspace_name); update_workspace_state
+	bspc desktop -f next.\!occupied.local && notify_workspace $(workspace_name)
 
 super + shift + e
 	notify_node "moved to $(bspc query -D -d next.\!occupied --names)"; bspc node --to-desktop next.\!occupied
 
-
-
-super + r
-	bspc node @focused:/ -R 90
-
-super + q
-	bspc node -s biggest.local
-
-
-
-
-super + grave
-	bspc node -f last; update_workspace_state
-
-# super + c
-# 	bspwm_node_center
 
 
 @super + x
@@ -194,6 +183,15 @@ super + grave
 @super + shift + x
 	id="$(pfw)"; prompt_yesno kill? && bspc node "$id" -k
 
+
+super + r
+	bspc node @/ -C forward
+
+super + shift + r
+	bspc node @focused:/ -R 90
+
+super + shift + m
+	bspc node -n last.!automatic
 
 
 super + shift + Up
@@ -210,12 +208,15 @@ super + shift + Right
 
 
 
-super + alt + {Left,Down,Up,Right}
-	bspwm_node_resize {left,bottom,top,right} 5
+super + s : {Left, Down, Up, Right}
+	bspwm_node_resize {left, bottom, top, right} 5
+
+# super + alt + {Left,Down,Up,Right}
+# 	bspwm_node_resize {left,bottom,top,right} 5
 
 # -- equalise size of all windows
-super + alt + r
-	for n in `bspc query -N -d`; do bspc node $n --equalize; done
+# super + alt + r
+# 	for n in `bspc query -N -d`; do bspc node $n --equalize; done
 
 
 
@@ -224,16 +225,16 @@ super + alt + r
 
 # Focus
 super + Up
-	bspwm_node_focus north; update_workspace_state
+	bspwm_node_focus north
 
 super + Down
-	bspwm_node_focus south; update_workspace_state
+	bspwm_node_focus south
 
 super + Left
-	bspwm_node_focus west; update_workspace_state
+	bspwm_node_focus west
 
 super + Right
-	bspwm_node_focus east; update_workspace_state
+	bspwm_node_focus east
 
 
 alt + {_,shift} + Tab
@@ -257,18 +258,18 @@ super + f
 	bspc node -t fullscreen || bspc node -t tiled; notify_node $(node_get)
 
 super + space
-	bspc desktop -l next; update_workspace_state; notify_workspace $(workspace_get)
+	bspc desktop -l next; notify_workspace $(workspace_get)
 
 
 
 # super + control + left
 	# corner_push 0
 
-super + p
-	corner_push 2
+# super + p
+# 	corner_push 2
 
-super + o
-	corner_pop
+# super + o
+# 	corner_pop
 
 # super + control + right
 # 	corner_push 2
@@ -287,8 +288,8 @@ super + {h,v}
 # super + s
 # 	bspwm_node_presel
 
-super + s
-	sampler
+# super + s
+# 	sampler
 
 
 
@@ -302,7 +303,7 @@ super + s
 
 # Desktop manipulation
 super + Escape
-	bspc desktop -f last.local; update_workspace_state
+	bspc desktop -f last.local
 
 super + shift + Escape
 	bspc node --to-desktop last.local --follow
@@ -310,7 +311,7 @@ super + shift + Escape
 
 
 super + {1-9}
-	bspc desktop -f focused:^{1-9}; update_workspace_state
+	bspc desktop -f focused:^{1-9}
 
 super + shift + {1-9}
 	bspc node --to-desktop focused:^{1-9}.local
@@ -318,20 +319,10 @@ super + shift + {1-9}
 
 
 super + bracket{left,right}
-	bspc desktop -f {prev,next}.local.occupied; update_workspace_state
+	bspc desktop -f {prev,next}.local.occupied
 
 super + shift + bracket{left,right}
 	bspc node -d {prev,next}.local --follow
-
-
-
-super + shift + s
-	prompt_workspace_swap
-
-
-
-
-
 
 
 

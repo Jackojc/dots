@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-perf record -R --mmap-pages=100 $@
-perf report
+perf record -g $@
+perf report -g 'graph,0.5,caller'
 

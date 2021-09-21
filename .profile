@@ -44,12 +44,16 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
 export SAMPLER_SAVE_DIRECTORY="$HOME/samples"
 export PF_INFO="ascii title os host uptime pkgs editor wm"
 
-export PASH_LENGTH=50
+export PASH_LENGTH="50"
 export PASH_PATTERN="_[:alnum:][:graph:]"
-export PASH_KEYID=jackojc@gmail.com
-export PASH_DIR=~/.local/share/passwords
+export PASH_KEYID="jackojc@gmail.com"
+export PASH_DIR="$XDG_DATA_HOME/passwords"
 export PASH_CLIP='xclip -sel c'
-export PASH_TIMEOUT=6
+export PASH_TIMEOUT="6"
+
+export BAR_FIFO="$XDG_RUNTIME_DIR/bar_fifo"
+export BAR_FONT="Terminus (TTF)"
+export BAR_NAME=bspwm_bar
 
 export WINDOWMANAGER="bspwm"
 export TERMINAL="st"
@@ -204,11 +208,7 @@ cm() {
 	cd "$1" 2>&1 > /dev/null
 }
 
-
-
 if [ "$(tty)" = "/dev/tty2" ]; then
-	pgrep -x $WINDOWMANAGER || setsid -f startx $WINDOWMANAGER 1> /dev/null 2>&1
+	pgrep $WINDOWMANAGER || exec startx $WINDOWMANAGER >/dev/null 2>&1
 fi
 
-
-source /home/jack/.config/broot/launcher/bash/br

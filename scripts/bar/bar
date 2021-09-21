@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+
+wm=
+time=
+date=
+battery=
+
+while read -r line; do
+	bar_raise
+
+	case "$line" in
+		S*) bar_hide ;; # Hide on startup
+
+		D*) date=" ${line#?} " ;; # Date
+		T*) time=" ${line#?} " ;; # Time
+		B*) battery=" ${line#?} " ;;  # Battery
+
+		# Window manager events.
+		W*)
+			# https://github.com/baskerville/bspwm/blob/master/doc/bspwm.1.asciidoc#report-format
+			wm=
+
+			IFS=':'
+			set -- ${line#?}
+
+			while [ $# -gt 0 ]; do
+				item=$1
+				name=${item#?}
+
+				case "$item" in
+					# Monitors
+						[mM]*) ;; # Monitor (unfocused/focused)
+
+					# Desktops/Workspaces
+						o*) # Occupied desktop (unfocused)
+							wm="${wm} ${name} "
+						;;
+
+						[OF]*) # Occupied/Free desktop (focused)
+							wm="${wm}%{R} ${name} %{R}"
+						;;
+
+						f*) ;; # Free desktop unfocused
+						[uU]*) ;; # Urgent desktop (unfocused/focused)
+
+					# Desktop layout
+						LM|LT) # Monocle/Tiled
+							wm="${wm} ${name} "
+						;;
+
+					# Node state
+						TT|TP|TF) ;; # Tiled/Pseudo-tiled/Fullscreen
+				esac
+
+				shift
+			done
+		;;
+	esac
+
+	SC="%{F#FFF}%{B#090909}"
+	RC="%{F-}%{B-}"
+
+	printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC}"
+done
