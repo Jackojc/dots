@@ -34,11 +34,13 @@ super + l; {s,w,f,c,b,n}
 	}
 
 # tools
-super + t; {n,d,u}
+super + t; {n,d,u,w,r}
 	{ \
 		prompt_notes, \
 		prompt_dim, \
-		prompt_usb \
+		prompt_usb, \
+		prompt_wallpaper, \
+		wallpaper_random \
 	}
 
 
@@ -174,7 +176,7 @@ XF86AudioMute
 XF86AudioMicMute
 	mic_toggle && notify_mic "$(mic_get)"
 
-{_,shift + } XF86Audio{LowerVolume,RaiseVolume}
+XF86Audio{LowerVolume,RaiseVolume}
 	{volume_decr,volume_incr} 5 && notify_volume "$(volume_get)%"
 
 shift + XF86Audio{LowerVolume,RaiseVolume}

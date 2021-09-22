@@ -3,7 +3,7 @@
 # Loop until the bar has launched
 # then tell it to hide.
 while true; do
-	sleep 0.01
+	sleep 0.1
 	pgrep -f "$BAR_NAME" >/dev/null 2>&1 && bar_hide && break
 done
 

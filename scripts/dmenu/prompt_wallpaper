@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-choices="pick\nnew"
+choices="new\npick"
 chosen=$(echo "$choices" | dmenu -p "wallpaper")
 
 
