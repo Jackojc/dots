@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-xdotool windowunmap "$(xdotool search --name $BAR_NAME)"
+printf 'U\n' > "$BAR_FIFO"
 

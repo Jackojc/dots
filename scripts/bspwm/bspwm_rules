@@ -5,7 +5,6 @@ bspc rule -a mpv:WEBCAM sticky=on state=floating locked=on
 bspc rule -a FLOAT state=floating
 bspc rule -a Arandr state=floating sticky=on monitor=focused
 bspc rule -a Zathura:zathura state=tiled
-bspc rule -a lemonbar layer=above
 
 bspc rule -a '*:libreofficedev' state=tiled
 bspc rule -a '*:soffice' state=tiled

@@ -26,15 +26,16 @@ while true; do
 	printf 'D%s\n' "$(get_date)"; sleep 3600
 done > "$BAR_FIFO" &
 
-bspc subscribe report > "$BAR_FIFO" &
+while read -r hk; do
+	printf 'H%s\n' "${hk}" > "$BAR_FIFO" &
+done < "$HOTKEY_FIFO" &
 
-# Force refresh on startup
-while true; do
-	sleep 0.1
-	pgrep -f "$BAR_NAME" && printf 'S\n' && break
-done > "$BAR_FIFO" &
+bspc subscribe report > "$BAR_FIFO" &
 
 # Launch bar.
 bar < "$BAR_FIFO" | lemonbar -f "$BAR_FONT" -d -b -g 'x+10+10' -n "$BAR_NAME" | sh &
+
+# Force refresh on startup
+bar_refresh
 
 wait

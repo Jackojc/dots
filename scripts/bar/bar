@@ -5,19 +5,64 @@ time=
 date=
 battery=
 
-while read -r line; do
-	bar_raise
+hotkey=
+pressed=
 
+# If this is set to 1, visibility requests are ignored
+toggle_visibility=1
+
+raise() {
+	xdotool windowraise "$(xdotool search --name $BAR_NAME)"
+}
+
+show() {
+	raise
+	xdotool windowmap "$(xdotool search --name $BAR_NAME)"
+}
+
+hide() {
+	xdotool windowunmap "$(xdotool search --name $BAR_NAME)"
+}
+
+while read -r line; do
 	case "$line" in
-		S*) bar_hide ;; # Hide on startup
+		S*) [ "$toggle_visibility" = 1 ] && show ;; # Show the bar
+		U*) [ "$toggle_visibility" = 1 ] && hide ;; # Hide the bar
 
 		D*) date=" ${line#?} " ;; # Date
 		T*) time=" ${line#?} " ;; # Time
 		B*) battery=" ${line#?} " ;;  # Battery
 
+		H*) # SXHKD
+			item="${line#?}"
+
+			# We capture chord begin events
+			# and the key which started the chord
+			# so we can display it on the statusbar.
+			case "$item" in
+				H*) pressed="${item#?}" ;; # Hotkey
+
+				B*) # Begin chain
+					toggle_visibility=0 # Show the bar and prevent hide/show requests
+					show
+					hotkey=" CHORD (${pressed}) "
+				;;
+
+				E*)
+					toggle_visibility=1 # Hide the bar again and re-enable hide/show requests
+					hide
+					hotkey=
+				;; # End chain
+
+				T*) ;; # Timeout
+				C*) ;; # Command
+			esac
+		;;
+
 		# Window manager events.
 		W*)
 			# https://github.com/baskerville/bspwm/blob/master/doc/bspwm.1.asciidoc#report-format
+			raise
 			wm=
 
 			IFS=':'
@@ -60,5 +105,5 @@ while read -r line; do
 	SC="%{F#FFF}%{B#090909}"
 	RC="%{F-}%{B-}"
 
-	printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC}"
+	printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC} ${SC}${hotkey}${RC}"
 done

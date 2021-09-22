@@ -15,10 +15,10 @@ bspwm_rules
 
 # Launch programs.
 run_once bar_run
-run_once sxhkd
+run_once launch_sxhkd
 run_once launch_picom
-# run_once pulseaudio --start
 
+# run_once pulseaudio --start
 pidof -s runit &&
 	! pidof -s pulseaudio >/dev/null 2>&1 &&
 	setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1

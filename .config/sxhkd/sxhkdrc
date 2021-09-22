@@ -1,79 +1,46 @@
 #!/usr/bin/env sh
 
 
-Super_L
-	bar_show
-
-@Super_L
-	bar_hide
+# Show statusbar while super is held
+{@Super_L,Super_L}
+	{bar_hide,bar_show}
 
 
-super + F1
-	scratch_toggle 1
-
-F1
-	scratch_visibility 1
-
-super + F2
-	scratch_toggle 2
-
-F2
-	scratch_visibility 2
-
-
+# scratchpad
+{_,super + } {F1,F2}
+	{scratch_visibility,scratch_toggle} {1,2}
 
 super + BackSpace
 	scratch_pop && bspc node --state tiled --layer normal --flag locked=off --flag sticky=off --flag private=off
 
 
-super + control + c
-	webcam
-
-
-# super + w
-# 	wallpaper_random
-
-
-super + w
-	launch_st -e iwctl
-
-# toggle screen backlight
-# super + o
-# 	if [ "$(xbacklight -get)" = "100.000000" ]; then xbacklight -set 0; else xbacklight -set 100; fi
-
-
-super + t
-	launch_st -e $EDITOR $TODO
-
-super + n
-	prompt_notes
-
-super + c
-	launch_st -e calc
-
-super + b
-	launch_st -e bluetoothctl
-
+# term
 super + Return
 	launch_st
 
 super + shift + Return
 	launch_st -e "tmux_attach"
 
-super + control + w
-	firefox
 
-super + control + r
-	prompt_dim
+# launch programs
+super + l; {s,w,f,c,b,n}
+	{ \
+		sampler, \
+		firefox, \
+		launch_st -e nnn "$(focused_pwd)", \
+		launch_st -e calc, \
+		launch_st -e bluetoothctl, \
+		launch_st -e iwctl, \
+	}
 
-super + control + f
-	launch_st -e nnn $(focused_pwd)
+# tools
+super + t; {n,d,u}
+	{ \
+		prompt_notes, \
+		prompt_dim, \
+		prompt_usb \
+	}
 
-# super + m
-# 	prompt_passmenu --type
-
-super + u
-	prompt_usb
 
 super + Tab
 	dmenu_run -i
@@ -81,102 +48,22 @@ super + Tab
 super + shift + Tab
 	prompt_general
 
-super + control + Tab
-	nodeswitcher
-
-super + shift + slash
-	prompt_man
-
-super + d
-	ddg_search
-
-
-
-
-
-XF86AudioMute
-	muted_toggle && notify_mute "$(muted_get)"
-
-XF86AudioMicMute
-	mic_toggle && notify_mic "$(mic_get)"
-
-XF86AudioLowerVolume
-	volume_decr 5 && notify_volume $(volume_get)%
-
-XF86AudioRaiseVolume
-	volume_incr 5 && notify_volume $(volume_get)%
-
-shift + XF86AudioLowerVolume
-	volume_decr 1 && notify_volume $(volume_get)%
-
-shift + XF86AudioRaiseVolume
-	volume_incr 1 && notify_volume $(volume_get)%
-
-
-
-
-# # {_,@}Caps_Lock
-# 	notify_keyboard "caps" {on, off}
-
-# ~@Caps_Lock
-# 	notify_keyboard "caps" "$(keyboard_caps)"
-
-# ~Caps_Lock
-# 	notify_keyboard "caps" "on"
-
-# ~@Scroll_Lock
-# 	notify_keyboard "scroll" "$(keyboard_scroll)"
-
-# ~@Num_Lock
-# 	notify_keyboard "num" "$(keyboard_num)"
-
-
-
-
-
-# XF86PowerOff
-# 	prompt_power
-
-XF86Sleep
-	power_suspend
-
-XF86MonBrightnessDown
-	backlight_decr 5 && notify_backlight $(backlight_get)%
-
-XF86MonBrightnessUp
-	backlight_incr 5 && notify_backlight $(backlight_get)%
-
-shift + XF86MonBrightnessDown
-	backlight_decr 1 && notify_backlight $(backlight_get)%
-
-shift + XF86MonBrightnessUp
-	backlight_incr 1 && notify_backlight $(backlight_get)%
-
+# screenshot
 Print
 	prompt_screenshot
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+# goto empty desktop
 super + e
-	bspc desktop -f next.\!occupied.local && notify_workspace $(workspace_name)
+	bspc desktop -f next.\!occupied.local
 
+# move node to empty desktop
 super + shift + e
-	notify_node "moved to $(bspc query -D -d next.\!occupied --names)"; bspc node --to-desktop next.\!occupied
+	bspc node --to-desktop next.\!occupied
 
 
-
+# close/kill window
 @super + x
 	id="$(pfw)"; prompt_yesno close? && bspc node "$id" -c
 
@@ -184,124 +71,65 @@ super + shift + e
 	id="$(pfw)"; prompt_yesno kill? && bspc node "$id" -k
 
 
+# rotate window tree (node placement stays the same)
 super + r
 	bspc node @/ -C forward
 
+# rotate windows
 super + shift + r
 	bspc node @focused:/ -R 90
 
+# move window into preselected area
 super + shift + m
 	bspc node -n last.!automatic
 
 
-super + shift + Up
-	bspwm_node_move north
+# focus or move nodes
+super + {Up,Down,Left,Right}
+	bspwm_node_focus {north,south,west,east}
 
-super + shift + Down
-	bspwm_node_move south
-
-super + shift + Left
-	bspwm_node_move west
-
-super + shift + Right
-	bspwm_node_move east
-
-
-
-super + s : {Left, Down, Up, Right}
-	bspwm_node_resize {left, bottom, top, right} 5
-
-# super + alt + {Left,Down,Up,Right}
-# 	bspwm_node_resize {left,bottom,top,right} 5
-
-# -- equalise size of all windows
-# super + alt + r
-# 	for n in `bspc query -N -d`; do bspc node $n --equalize; done
-
-
-
-
-
-
-# Focus
-super + Up
-	bspwm_node_focus north
-
-super + Down
-	bspwm_node_focus south
-
-super + Left
-	bspwm_node_focus west
-
-super + Right
-	bspwm_node_focus east
-
+super + shift + {Up,Down,Left,Right}
+	bspwm_node_move {north,south,west,east}
 
 alt + {_,shift} + Tab
 	bspc node -f {next,prev}.local.!hidden.window
 
 
+# resize nodes
+super + s: {Left,Down,Up,Right}
+	bspwm_node_resize {left,bottom,top,right} 5
+
+super + s: r
+	for n in `bspc query -N -d`; do bspc node $n --equalize; done; notify_node "equalised"; xdotool key Escape
 
 
+# pre-select
+super + {h,v}
+	bspc node -p \~{east,south}
 
 
-
-
-
-
-
-# Layouts
+# change node flags
 super + shift + space
 	bspc node -t floating || bspc node -t tiled; $(bspc query -N -n && notify_node $(node_get))
 
 super + f
 	bspc node -t fullscreen || bspc node -t tiled; notify_node $(node_get)
 
+
+# change desktop layout
 super + space
 	bspc desktop -l next; notify_workspace $(workspace_get)
 
 
+# dock window in corner
+super + d: {1,2,3,4}
+	corner_push {0,1,2,3}
 
-# super + control + left
-	# corner_push 0
-
-# super + p
-# 	corner_push 2
-
-# super + o
-# 	corner_pop
-
-# super + control + right
-# 	corner_push 2
-
-# super + control + down
-# 	corner_push 3
+super + d; BackSpace
+	corner_pop && notify_node "undocked"; xdotool key Escape
 
 
-
-
-
-# Preselection
-super + {h,v}
-	bspc node -p \~{east,south}
-
-# super + s
-# 	bspwm_node_presel
-
-# super + s
-# 	sampler
-
-
-
-
-
-
-
-
-
-
-
-# Desktop manipulation
+# focus or move node to last desktop
 super + Escape
 	bspc desktop -f last.local
 
@@ -309,14 +137,12 @@ super + shift + Escape
 	bspc node --to-desktop last.local --follow
 
 
-
+# focus desktops
 super + {1-9}
 	bspc desktop -f focused:^{1-9}
 
 super + shift + {1-9}
 	bspc node --to-desktop focused:^{1-9}.local
-
-
 
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local.occupied
@@ -328,12 +154,35 @@ super + shift + bracket{left,right}
 
 
 
-# Gaps
-super + equal
-	gaps_incr 5; notify_node $(( $(gaps_get) + 1 ))px
+# BSPWM CONFIG
+# gaps
+super + c: {minus,equal}
+	{gaps_decr,gaps_incr} 5 && notify_node $(( $(gaps_get) + 1 ))px
 
-super + minus
-	gaps_decr 5; notify_node $(( $(gaps_get) + 1 ))px
+super + c; 0
+	gaps_reset && notify_node "reset"; xdotool key Escape
 
-super + 0
-	gaps_reset; notify_node "gap reset"
+
+
+# SPECIAL FUNCTION KEYS
+XF86Sleep
+	power_suspend
+
+XF86AudioMute
+	muted_toggle && notify_mute "$(muted_get)"
+
+XF86AudioMicMute
+	mic_toggle && notify_mic "$(mic_get)"
+
+{_,shift + } XF86Audio{LowerVolume,RaiseVolume}
+	{volume_decr,volume_incr} 5 && notify_volume "$(volume_get)%"
+
+shift + XF86Audio{LowerVolume,RaiseVolume}
+	{volume_decr,volume_incr} 1 && notify_volume "$(volume_get)%"
+
+XF86MonBrightness{Down,Up}
+	{backlight_decr,backlight_incr} 5 && notify_backlight $(backlight_get)%
+
+shift + XF86MonBrightness{Down,Up}
+	{backlight_decr,backlight_incr} 1 && notify_backlight $(backlight_get)%
+

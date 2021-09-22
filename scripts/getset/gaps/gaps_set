@@ -1,15 +1,6 @@
 #!/usr/bin/env sh
 
 gaps="$1"
-
-if [ "$gaps" -lt "-1" ]; then
-	gaps="-1"
-
-elif [ "$gaps" -gt "19" ]; then
-	gaps="19"
-
-fi
-
-
+[ "$gaps" -lt "-1" ] && gaps="-1"
 bspc config window_gap $gaps
 

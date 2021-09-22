@@ -55,6 +55,9 @@ export BAR_FIFO="$XDG_RUNTIME_DIR/bar_fifo"
 export BAR_FONT="Terminus (TTF)"
 export BAR_NAME=bspwm_bar
 
+export HOTKEY_FIFO="$XDG_RUNTIME_DIR/hotkey_fifo"
+export HOTKEY_TIMEOUT="3"
+
 export WINDOWMANAGER="bspwm"
 export TERMINAL="st"
 export BROWSER="firefox"

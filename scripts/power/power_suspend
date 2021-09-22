@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
 sudo zzz
+sleep 5
+bar_refresh

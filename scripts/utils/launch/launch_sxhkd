@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+[ -e "$HOTKEY_FIFO" ] && rm "$HOTKEY_FIFO"
+mkfifo "$HOTKEY_FIFO"
+sxhkd -t "$HOTKEY_TIMEOUT" -s "$HOTKEY_FIFO" &

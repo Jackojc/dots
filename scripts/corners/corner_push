@@ -2,7 +2,7 @@
 
 
 perc=35    # percentage of the screen the node will occupy
-offset=10   # percentage of screen gap around the outside
+offset=3   # percentage of screen gap around the outside
 
 
 # 0 = top left
@@ -22,9 +22,7 @@ elif [ $corner -gt 3 ]; then
 fi
 
 
-
-
-set screen=$(bspc query -T -m | jq '.rectangle[]')
+set $(bspc query -T -m | jq '.rectangle[]')
 screen_x=$1
 screen_y=$2
 screen_w=$3
@@ -80,8 +78,6 @@ elif [ $corner = 3 ]; then
 	new_y=$(( ((screen_h - new_h) - border_gap) - border_bottom ))
 
 fi
-
-
 
 
 xdotool getactivewindow windowmove $(( (screen_x + new_x) - 1 )) $(( (screen_y + new_y) - 1 ))
