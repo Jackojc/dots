@@ -10,7 +10,7 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 mkfifo "$BAR_FIFO"
 
 # Functions
-get_date() { LC_TIME=C date +'%-d/%-m'; }
+get_date() { LC_TIME=C date +'%-d/%-m (%A)'; }
 get_time() { LC_TIME=C date +'%I:%M %p'; }
 
 # Daemons

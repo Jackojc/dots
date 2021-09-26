@@ -77,7 +77,7 @@ sxhkd    # hotkey daemon
 xcape
 picom    # compositor (fork of compton)
 dunst    # notification daemon
-polybar  # statusbar
+lemombar # statusbar
 wmutils-core
 wmutils-opt
 disputils
@@ -197,6 +197,10 @@ mesa-vdpau
 mesa-vdpau-32bit
 mesa-vaapi
 mesa-vaapi-32bit
+
+
+# coreboot
+mtools
 
 
 
