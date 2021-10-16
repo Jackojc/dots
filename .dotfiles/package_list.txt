@@ -77,7 +77,7 @@ sxhkd    # hotkey daemon
 xcape
 picom    # compositor (fork of compton)
 dunst    # notification daemon
-lemombar # statusbar
+lemonbar # statusbar
 wmutils-core
 wmutils-opt
 disputils
@@ -97,6 +97,7 @@ alsa-firmware
 
 
 # misc
+oath-toolkit
 scc              # count lines of code
 xdg-user-dirs
 xdg-utils

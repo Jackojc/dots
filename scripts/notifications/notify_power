@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 
-dunstify -u critical -r 2222 "power " "$@" -h int:value:"$@"
+dunstify -u critical -r 2222 "power " "$@"

@@ -90,7 +90,11 @@ while read -r line; do
 
 					# Desktop layout
 						LM|LT) # Monocle/Tiled
-							wm="${wm} ${name} "
+							# wm="${wm} ${name} "
+							case "$(bspc query -T -d | jq -r .userLayout)" in
+								tiled)   wm="${wm} T " ;;
+								monocle) wm="${wm} M " ;;
+							esac
 						;;
 
 					# Node state

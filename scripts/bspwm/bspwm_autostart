@@ -62,7 +62,7 @@ x240_setup_kb_mouse() {
 
 x230_setup_kb_mouse() {
 	notice "setting up x230 keyboard & mouse"
-	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 0.5
+	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 0.75
 
 	# Remap back/forward to pgup/pgdown
 	xmodmap -e "keycode 167 = Next"

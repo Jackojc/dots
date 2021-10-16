@@ -5,7 +5,6 @@ source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/tabs.kak"
 source "%val{config}/rc/surround.kak"
 source "%val{config}/rc/kakboard.kak"
-# source "%val{config}/rc/interactively.kak"
 
 # Declare
 declare-option str out_of_view_format ''
@@ -43,7 +42,7 @@ set-option global disabled_hooks '(?!auto)\K(.+)-(trim-indent|insert|indent)'
 set-option global tabstop 4
 set-option global indentwidth 0
 set-option global scrolloff 3,3
-set-option global incsearch false
+set-option global incsearch true
 set-option global aligntab false
 set-option global startup_info_version 99999999999
 set-option global autoreload yes
@@ -55,7 +54,7 @@ set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}
 add-highlighter global/ show-whitespaces
 add-highlighter global/ show-matching
 add-highlighter global/ number-lines -relative -hlcursor -min-digits 2
-add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
+# add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 
 # New opens in the same buffer
 map global normal <c-t> ': new buffer %val{bufname}<ret>' -docstring 'new client with same buffer'
