@@ -184,6 +184,7 @@ alias gpl="git pull"
 alias gpsh="git push"
 
 # shortened
+alias m="make"
 alias e="$EDITOR"
 alias c="clear"
 alias s="fzf"

@@ -49,5 +49,12 @@ hook -group ebnf-highlight global WinSetOption filetype=ebnf %{
 	hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/ebnf }
 }
 
+# comment token
+hook global BufSetOption filetype=ebnf %{
+	set-option buffer comment_line '//'
+	set-option buffer comment_block_begin '//'
+	set-option buffer comment_block_end ''
+}
+
 
 
