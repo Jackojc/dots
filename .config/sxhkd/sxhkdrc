@@ -5,6 +5,9 @@
 {@Super_L,Super_L}
 	{bar_hide,bar_show}
 
+{@Super_R,Super_R}
+	{bar_hide,bar_show}
+
 
 # scratchpad
 {_,super + } {F1,F2}

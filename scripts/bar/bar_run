@@ -33,7 +33,7 @@ done > "$BAR_FIFO" &
 bspc subscribe report > "$BAR_FIFO" &
 
 # Launch bar.
-bar < "$BAR_FIFO" | lemonbar -f "$BAR_FONT" -d -b -g 'x+10+10' -n "$BAR_NAME" | sh &
+bar < "$BAR_FIFO" | lemonbar -f "$BAR_FONT" -d -b -n "$BAR_NAME" | sh &
 
 # Force refresh on startup
 bar_refresh

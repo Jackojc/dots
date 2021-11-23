@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 
+pgrep -f "$BAR_NAME" >/dev/null 2>&1 || exit 1
 printf 'U\n' > "$BAR_FIFO"
 

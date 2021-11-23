@@ -5,8 +5,8 @@
 # sleep 0.3
 
 # Wait until the processes have been shut down
-while pgrep -x polybar >/dev/null; do sleep 0.3; done
+# while pgrep -x polybar >/dev/null; do sleep 0.3; done
 
-for m in $(polybar --list-monitors | cut -d":" -f1); do
-	MONITOR=$m setsid -f polybar --reload main &
-done
+# for m in $(polybar --list-monitors | cut -d":" -f1); do
+# 	MONITOR=$m setsid -f polybar --reload main &
+# done

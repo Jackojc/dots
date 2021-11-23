@@ -6,7 +6,7 @@ autorandr --load docked
 
 sleep 1
 
-keyboard_set
 bspwm_monitor_dist
-launch_polybar
+keyboard_set
+wallpaper_random
 

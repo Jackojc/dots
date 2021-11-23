@@ -7,7 +7,7 @@ screen_w=$3
 screen_h=$4
 border=$5
 
-perc=5
+perc=2
 
 shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
 resize_px=$(( (shortest * perc ) / 100 ))

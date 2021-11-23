@@ -3,7 +3,7 @@
 pid=$(focused_pid)
 
 pkill picom
-pkill polybar
+# pkill polybar
 
 sudo cpupower frequency-set -g performance
 sudo renice -n -20 "$pid"

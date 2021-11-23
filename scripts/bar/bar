@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+perc=2  # Bar offset from edges of screen
+
 wm=
 time=
 date=
@@ -8,24 +10,64 @@ battery=
 hotkey=
 pressed=
 
+# BAR_ID=
+
 # If this is set to 1, visibility requests are ignored
 toggle_visibility=1
 
+move_bar() {
+	# >&2 echo "id = $(xdotool search --name $BAR_NAME | head -n1)"
+
+	backup_ifs="$IFS"; unset IFS
+
+	# Get bar width and height
+	set $(xdotool getwindowgeometry $(xdotool search --name $BAR_NAME | head -n1) | rg -o '\d+' | tail -n2)
+
+	bar_width="$1"
+	bar_height="$2"
+
+	# Get screen position and size
+	set $(bspc query -T -m | jq -r '[.rectangle[],.borderWidth][]')
+
+	screen_x=$1
+	screen_y=$2
+	screen_w=$3
+	screen_h=$4
+	border=$5
+
+	# Find shortest axis
+	shortest=$(( screen_w < screen_h ? screen_w : screen_h ))
+	resize_px=$(( ( shortest * perc ) / 100 ))
+
+	new_w=$((screen_w - (resize_px * 2)))
+	new_x=$((screen_x + resize_px - (border / 2)))
+	new_y=$((screen_y + screen_h - bar_height - resize_px + (border * 2)))
+
+	xdotool windowmove $(xdotool search --name $BAR_NAME | head -n1) $new_x $new_y windowsize $(xdotool search --name $BAR_NAME | head -n1) $new_w h
+
+	IFS="$backup_ifs"
+}
+
 raise() {
-	xdotool windowraise "$(xdotool search --name $BAR_NAME)"
+	xdotool windowraise $(xdotool search --name $BAR_NAME | head -n1)
 }
 
 show() {
+	move_bar
 	raise
-	xdotool windowmap "$(xdotool search --name $BAR_NAME)"
+	xdotool windowmap $(xdotool search --name $BAR_NAME | head -n1)
 }
 
 hide() {
-	xdotool windowunmap "$(xdotool search --name $BAR_NAME)"
+	xdotool windowunmap $(xdotool search --name $BAR_NAME | head -n1)
 }
 
 while read -r line; do
+	pgrep -f "$BAR_NAME" >/dev/null 2>&1 || exit 1
+
 	case "$line" in
+		# I*) BAR_ID="${line#?}" ;;
+
 		S*) [ "$toggle_visibility" = 1 ] && show ;; # Show the bar
 		U*) [ "$toggle_visibility" = 1 ] && hide ;; # Hide the bar
 
@@ -62,7 +104,7 @@ while read -r line; do
 		# Window manager events.
 		W*)
 			# https://github.com/baskerville/bspwm/blob/master/doc/bspwm.1.asciidoc#report-format
-			raise
+			# raise
 			wm=
 
 			IFS=':'
@@ -74,7 +116,24 @@ while read -r line; do
 
 				case "$item" in
 					# Monitors
-						[mM]*) ;; # Monitor (unfocused/focused)
+						[m]*)
+							shift  # Skip this one.
+
+							while [ $# -gt 0 ]; do
+								# Shift until next monitor report.
+								case "$1" in
+									M*) break ;;
+									*) shift ;;
+								esac
+							done
+
+							# Break outer loop if we consumed everything.
+							[ $# -eq 0 ] && break
+						;; # Monitor (unfocused)
+
+						M*)
+
+						;; # Monitor (focused)
 
 					# Desktops/Workspaces
 						o*) # Occupied desktop (unfocused)
@@ -89,6 +148,8 @@ while read -r line; do
 						[uU]*) ;; # Urgent desktop (unfocused/focused)
 
 					# Desktop layout
+					# Node state
+						# TT|TP|TF) ;; # Tiled/Pseudo-tiled/Fullscreen
 						LM|LT) # Monocle/Tiled
 							# wm="${wm} ${name} "
 							case "$(bspc query -T -d | jq -r .userLayout)" in
@@ -96,9 +157,6 @@ while read -r line; do
 								monocle) wm="${wm} M " ;;
 							esac
 						;;
-
-					# Node state
-						TT|TP|TF) ;; # Tiled/Pseudo-tiled/Fullscreen
 				esac
 
 				shift

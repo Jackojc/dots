@@ -2,4 +2,4 @@
 
 autorandr horizontal
 bspwm_monitor_dist
-launch_polybar
+# launch_polybar

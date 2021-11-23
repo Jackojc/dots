@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+pgrep -f "$BAR_NAME" >/dev/null 2>&1 || exit 1
+printf 'I%s\n' "$(xdotool search --name $BAR_NAME | head -n1)" > "$BAR_FIFO"
+
