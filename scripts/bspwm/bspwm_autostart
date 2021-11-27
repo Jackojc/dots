@@ -34,6 +34,9 @@ wallpaper_random
 # Hide cursor after a period of inactivity.
 run_once unclutter -idle 2 -jitter 1 -reset
 
+# Disable touchpad while typing.
+run_once syndaemon -K -i 0.125 -R
+
 # Don't destroy my ears.
 volume_set 20
 
@@ -63,6 +66,11 @@ x240_setup_kb_mouse() {
 x230_setup_kb_mouse() {
 	notice "setting up x230 keyboard & mouse"
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 1
+
+	synclient PalmDetect=1   # ignore palm
+	synclient PalmMinZ=50
+	synclient PalmMinWidth=4
+	synclient TapButton1=1   # tap to click
 
 	# Remap back/forward to pgup/pgdown
 	xmodmap -e "keycode 167 = Next"

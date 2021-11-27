@@ -2,12 +2,12 @@
 	monitor = 0
 	follow = mouse
 
-	geometry = "0x5-70+70"
+	# geometry = "0x5-70+70"
 	indicate_hidden = yes
 	shrink = yes
 
 	transparency = 10
-	notification_height = 0
+	# notification_height = 0
 	separator_height = 1
 
 	padding = 10
@@ -20,7 +20,7 @@
 	sort = yes
 	idle_threshold = 0
 	font = JetBrains Mono 14
-	line_height = 2.5
+	line_height = 2
 	markup = full
 
 	progress_bar_frame_width = 1
@@ -54,7 +54,7 @@
 	#  mesg: Important Messages
 	#  info: all unimportant stuff
 	# debug: all less than unimportant stuff
-	verbosity = mesg
+	# verbosity = mesg
 
 	corner_radius = 0
 
