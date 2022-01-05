@@ -169,5 +169,14 @@ while read -r line; do
 	SC="%{F#FFF}%{B#090909}"
 	RC="%{F-}%{B-}"
 
-	printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC} ${SC}${hotkey}${RC}"
+	out=""
+
+	[ -z "$wm" ]      && out="$out${SC}${wm}${RC} "
+	[ -z "$time" ]    && out="$out${SC}${time}${RC} "
+	[ -z "$date" ]    && out="$out${SC}${date}${RC} "
+	[ -z "$battery" ] && out="$out${SC}${battery}${RC} "
+	[ -z "$hotkey" ]  && out="$out${SC}${hotkey}${RC}"
+
+	# printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC} ${SC}${hotkey}${RC}"
+	printf "%s\n" "$out"
 done
