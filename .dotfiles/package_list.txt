@@ -77,7 +77,7 @@ sxhkd    # hotkey daemon
 xcape
 picom    # compositor (fork of compton)
 dunst    # notification daemon
-lemonbar # statusbar
+lemonbar-xft # statusbar
 wmutils-core
 wmutils-opt
 disputils

@@ -6,6 +6,3 @@ case "$?" in
 	0) exit 0 ;;
 	*) exit 1 ;;
 esac
-
-echo "unknown"
-exit 0
