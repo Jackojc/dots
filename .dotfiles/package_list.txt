@@ -131,6 +131,8 @@ aspell-en
 chroma
 aerc
 w3m
+xtools     # xbps packaging tools
+entr
 
 zathura
 zathura-cb

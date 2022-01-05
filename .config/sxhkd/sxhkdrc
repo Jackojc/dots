@@ -31,9 +31,9 @@ super + l; {s,w,f,c,b,n}
 		sampler, \
 		firefox, \
 		launch_st -e nnn "$(focused_pwd)", \
-		launch_st -e calc, \
-		launch_st -e bluetoothctl, \
-		launch_st -e iwctl, \
+		bspwm_float launch_st -e calc, \
+		bspwm_float launch_st -e bluetoothctl, \
+		bspwm_float launch_st -e iwctl, \
 	}
 
 # tools
@@ -48,7 +48,7 @@ super + t; {n,d,u,w,r}
 
 
 super + Tab
-	dmenu_run -i
+	dmenu_run
 
 super + shift + Tab
 	prompt_general

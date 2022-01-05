@@ -9,7 +9,7 @@ fi
 
 
 
-TARGET=$(echo "$THING" | dmenu -l 5 -p "mount")
+TARGET=$(echo "$THING" | dmenu -p "mount")
 
 if [ -z "$TARGET" ]; then
     exit 1

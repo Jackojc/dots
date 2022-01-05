@@ -1,12 +1,15 @@
 #!/usr/bin/env sh
 
-run_once launch_picom
+# run_once launch_picom
 
-autorandr --load mobile
+# autorandr --load mobile
 
-sleep 1
+# sleep 1
 
-bspwm_monitor_dist
-keyboard_set
-wallpaper_random
+# bspwm_monitor_dist
+# keyboard_set
+# wallpaper_random
+
+
+bspwm_autostart
 

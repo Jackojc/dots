@@ -4,7 +4,6 @@ notice() {
 	echo "$@"
 }
 
-
 # Setup monitors and workspaces.
 autorandr -c
 bspwm_monitor_dist
@@ -68,9 +67,13 @@ x230_setup_kb_mouse() {
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 1
 
 	synclient PalmDetect=1   # ignore palm
-	synclient PalmMinZ=50
-	synclient PalmMinWidth=4
+	synclient PalmMinZ=100
+	synclient PalmMinWidth=8
 	synclient TapButton1=1   # tap to click
+	synclient HorizTwoFingerScroll=1
+	synclient CoastingSpeed=0
+	synclient FingerLow=35
+	synclient FingerHigh=40
 
 	# Remap back/forward to pgup/pgdown
 	xmodmap -e "keycode 167 = Next"

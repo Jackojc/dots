@@ -9,7 +9,7 @@ fi
 
 
 
-TARGET=$(echo "$THING" | dmenu -l 5 -p "unmount")
+TARGET=$(echo "$THING" | dmenu -p "unmount")
 
 if [ -z "$TARGET" ]; then
     exit 1

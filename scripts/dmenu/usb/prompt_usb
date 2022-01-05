@@ -2,13 +2,13 @@
 
 
 choices="mount\nunmount\neject"
-chosen=$(echo "$choices" | dmenu -i -p "usb")
+chosen=$(echo "$choices" | dmenu -p "usb")
 
 
 case "$chosen" in
 
-	mount)            prompt_usb_mount;;
-	unmount)          prompt_usb_unmount;;
-	eject)          prompt_usb_eject;;
+	mount)   prompt_usb_mount;;
+	unmount) prompt_usb_unmount;;
+	eject)   prompt_usb_eject;;
 
 esac

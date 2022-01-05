@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-ans=$(printf 'yes\nno' | dmenu -i -r -p "$1")
+ans=$(printf 'yes\nno' | dmenu -p "$1")
 
 case "$ans" in
 	"yes") exit 0 ;;

@@ -9,7 +9,7 @@ fi
 
 
 
-TARGET=$(echo "$THING" | dmenu -l 5 -p "eject")
+TARGET=$(echo "$THING" | dmenu -p "eject")
 
 if [ -z "$TARGET" ]; then
     exit 1

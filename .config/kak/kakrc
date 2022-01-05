@@ -2,6 +2,7 @@ colorscheme yuloo
 
 # Plugins
 source "%val{config}/rc/byline.kak"
+source "%val{config}/rc/luar.kak"
 source "%val{config}/rc/tabs.kak"
 source "%val{config}/rc/surround.kak"
 source "%val{config}/rc/kakboard.kak"
@@ -37,7 +38,7 @@ declare-option -hidden str _scrolloff
 set-option global out_of_view_format '(↑%opt{out_of_view_selection_above_count}|↓%opt{out_of_view_selection_below_count})'
 
 # Disable fancy indentation hooks.
-set-option global disabled_hooks '(?!auto)\K(.+)-(trim-indent|insert|indent)'
+set-option global disabled_hooks '(?!auto)(?!detect)\K(.+)-(trim-indent|insert|indent)'
 
 set-option global tabstop 4
 set-option global indentwidth 0
@@ -48,13 +49,11 @@ set-option global startup_info_version 99999999999
 set-option global autoreload yes
 set-option global ui_options ncurses_set_title=true ncurses_assistant=none ncurses_enable_mouse=true
 set-option global modelinefmt_tabs '%opt{out_of_view_status_line}{{context_info}} {{mode_info}} %val{cursor_line}:%val{cursor_char_column}'
-# set-option global yes_or_no_instant true
 
 # Highlighters
 add-highlighter global/ show-whitespaces
 add-highlighter global/ show-matching
 add-highlighter global/ number-lines -relative -hlcursor -min-digits 2
-# add-highlighter global/ dynregex '%reg{/}' 0:+u  # highlight search matches
 
 # New opens in the same buffer
 map global normal <c-t> ': new buffer %val{bufname}<ret>' -docstring 'new client with same buffer'
@@ -92,14 +91,6 @@ map global normal <s-home> 'Gh'
 # Do not yank when using d/c
 map global normal d <a-d>
 map global normal c <a-c>
-
-# Paste
-# map global normal P ': paste-after<ret>'
-# map global normal p ': paste-before<ret>'
-# map global normal R ': paste-replace<ret>'
-
-# map global normal p P
-# map global normal P p
 
 # Remap b to q
 map global normal = q
@@ -155,6 +146,12 @@ map -docstring "paste before the cursor"                         global insert <
 # Indent bindings
 map -docstring 'indent' global insert <tab> '<a-;><a-gt>'
 map -docstring 'deindent' global insert <s-tab> '<a-;><lt>'
+
+# Autostar
+map global normal n ': auto-star n<ret>'            -docstring 'auto-star n'
+map global normal N ': auto-star N<ret>'            -docstring 'auto-star N'
+map global normal <a-n> ': auto-star <lt>a-n><ret>' -docstring 'auto-star <a-n>'
+map global normal <a-N> ': auto-star <lt>a-N><ret>' -docstring 'auto-star <a-N>'
 
 # Remove trailing whitespaces on file save
 hook global BufWritePre .* %{ try %{
@@ -215,47 +212,15 @@ hook global InsertCompletionHide .* %{
 
 # Copy/paste
 hook global WinCreate .* %{ kakboard-enable }
-# hook global RegisterModified '"' %{ nop %sh{
-# 	if [ -n "$DISPLAY" ]; then
-# 		printf %s "$kak_main_reg_dquote" | xclip -in -selection clipboard >&- 2>&-
 
-# 	elif [ -n "$TMUX" ]; then
-# 		printf %s "$kak_main_reg_dquote" | tmux loadb -
-# 	fi
-# }}
-
-define-command -hidden paste-before %{
-	execute-keys ! %sh{
-		if [ -n "$DISPLAY" ]; then
-			printf 'xclip -o -selection clipboard'
-
-		elif [ -n "$TMUX" ]; then
-			printf 'tmux saveb -'
-		fi
-	} <ret>
-}
-
-define-command -hidden paste-after %{
-	execute-keys <a-!> %sh{
-		if [ -n "$DISPLAY" ]; then
-			printf 'xclip -o -selection clipboard'
-
-		elif [ -n "$TMUX" ]; then
-			printf 'tmux saveb -'
-		fi
-	} <ret>
-}
-
-define-command -hidden paste-replace %{
-	execute-keys <d>
-	execute-keys ! %sh{
-		if [ -n "$DISPLAY" ]; then
-			printf 'xclip -o -selection clipboard'
-
-		elif [ -n "$TMUX" ]; then
-			printf 'tmux saveb -'
-		fi
-	} <ret>
+# Automatically set * register if empty when pressing `n`
+define-command -hidden auto-star -params 1 %{
+	try %{
+		exec %val{count}%arg{1}
+	} catch %{
+		exec -save-regs '' *
+		exec %val{count}%arg{1}
+	}
 }
 
 define-command reset-search-register %{
@@ -463,11 +428,6 @@ define-command -hidden out-of-view-update %{
 
 # Aliases
 alias global n new
-
-# alias global cd i-change-directory
-# alias global db i-delete-buffer
-# alias global q i-quit
-# alias global w i-write
 
 unalias global w write
 alias global w better_write

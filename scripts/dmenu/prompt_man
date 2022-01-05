@@ -3,7 +3,7 @@
 
 
 
-choice="$(man -k . | dmenu -i -r -l 18 -p "man" | cut -d'(' -f1)"
+choice="$(man -k . | dmenu -p "man" | cut -d'(' -f1)"
 
 if [ -z "$choice" ]; then
 	exit 1
