@@ -46,7 +46,9 @@ jq            # json manipulation
 dust
 hexyl
 
+gping
 ncdu          # disk usage monitor
+duf           # better df
 fzf           # fuzzy finder for files
 nnn           # terminal file manager
 
