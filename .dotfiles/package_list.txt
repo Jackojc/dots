@@ -99,6 +99,7 @@ alsa-firmware
 
 
 # misc
+time
 oath-toolkit
 scc              # count lines of code
 xdg-user-dirs
@@ -182,8 +183,6 @@ xsel
 
 
 # drivers
-xboxdrv
-
 xf86-input-synaptics
 xf86-input-wacom      # wacom drawing tablet
 
@@ -224,8 +223,6 @@ powertop   # power management
 thinkfan   # fan management
 chrony     # network time
 dhcpcd     # dhcp manager
-earlyoom   # prevent OOM conditions
-irqbalance
 
 
 

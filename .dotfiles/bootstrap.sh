@@ -41,7 +41,7 @@ cd $HOME 2>&1 > /dev/null
 
 # Setup home directory structure.
 notice "setting up home directory structure"
-mkdir -pv docs downloads notes projects scraps scripts 2>&1 > /dev/null
+mkdir -pv docs downloads notes projects scraps scripts misc 2>&1 > /dev/null
 mkdir -pv media/tv media/wallpaper media/videos media/pictures media/movies media/music media/torrents 2>&1 > /dev/null
 
 # Download wallpapers.
@@ -64,8 +64,6 @@ tic .config/kak/tmux-256color.terminfo 2>&1 > /dev/null
 notice "enable services"
 sudo ln -s /etc/sv/dbus       /var/service 2>&1 > /dev/null
 sudo ln -s /etc/sv/chronyd    /var/service 2>&1 > /dev/null
-sudo ln -s /etc/sv/irqbalance /var/service 2>&1 > /dev/null
-sudo ln -s /etc/sv/earlyoom   /var/service 2>&1 > /dev/null
 
 if [ "$platform" = "x230" ] || [ "$platform" = "x240" ]; then
 	sudo ln -s /etc/sv/iwd        /var/service 2>&1 > /dev/null
