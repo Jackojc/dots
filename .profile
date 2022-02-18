@@ -2,6 +2,8 @@
 
 [[ $- != *i* ]] && return
 
+export $(dbus-launch)
+
 export PATH="$PATH:$(find $HOME/scripts -type d | tr '\n' ':')~/.local/bin:/home/jack/.local/share/cargo/bin"
 
 export TODO="$HOME/notes/todo"
@@ -24,13 +26,13 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CONFIG_HOME="$HOME/.config"
 
-export GTK2_RC_FILES="XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export HISTFILE="$XDG_DATA_HOME/bash/history"
 export LESSHISTFILE="-"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-export GOPATH="XDG_DATA_HOME/go"
+export GOPATH="$XDG_DATA_HOME/go"
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
@@ -56,7 +58,6 @@ export BAR_FONT="Terminus (TTF)"
 export BAR_NAME=bspwm_bar
 
 export HOTKEY_FIFO="$XDG_RUNTIME_DIR/hotkey_fifo"
-export HOTKEY_TIMEOUT="3"
 
 export WINDOWMANAGER="bspwm"
 export TERMINAL="st"

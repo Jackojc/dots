@@ -42,7 +42,7 @@ set-option global disabled_hooks '(?!auto)(?!detect)\K(.+)-(trim-indent|insert|i
 
 set-option global tabstop 4
 set-option global indentwidth 0
-set-option global scrolloff 3,3
+set-option global scrolloff 1,3
 set-option global incsearch true
 set-option global aligntab false
 set-option global startup_info_version 99999999999
@@ -121,7 +121,7 @@ map global normal <s-tab> ': buffer-previous<ret>'
 
 # Buffer navigation
 map global tabs a "ga" -docstring "↔ switch last buffer"
-map global tabs F ": find-edit " -docstring "find & edit new file"
+map global tabs F ": find-edit-all " -docstring "find & edit new file"
 map global tabs f ": buffer " -docstring "show open buffers"
 map global tabs l ": tab-nav next<ret>" -docstring "→ next tab"
 map global tabs h ": tab-nav prev<ret>" -docstring "← prev tab"
@@ -212,6 +212,38 @@ hook global InsertCompletionHide .* %{
 
 # Copy/paste
 hook global WinCreate .* %{ kakboard-enable }
+
+
+# REPL
+declare-option -hidden str fifo_send_in
+
+map global user 's' ': fifo-send<ret>' -docstring 'send selection to fifo'
+map global user 'c' ': fifo-connect ' -docstring 'connect to fifo'
+
+define-command -docstring 'connect to fifo' fifo-connect -params 1 %{
+	evaluate-commands %sh{
+		name="$1"
+
+		if [ -p "$name" ]; then
+			echo "set-option buffer fifo_send_in $name"
+		else
+			echo "echo 'fifo \"$name\" does not exist!'"
+		fi
+	}
+}
+
+define-command -docstring 'send selection to fifo' fifo-send %{
+	evaluate-commands %sh{
+		eval set -- "$kak_quoted_selections"
+
+		out=""
+
+		while [ $# -gt 0 ]; do
+			printf '%s' "$1" > "$kak_opt_fifo_send_in" &
+			shift
+		done
+	}
+}
 
 # Automatically set * register if empty when pressing `n`
 define-command -hidden auto-star -params 1 %{

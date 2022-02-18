@@ -18,9 +18,13 @@ run_once launch_sxhkd
 run_once launch_picom
 
 # run_once pulseaudio --start
-pidof -s runit &&
-	! pidof -s pulseaudio >/dev/null 2>&1 &&
-	setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1
+# pidof -s runit &&
+# 	! pidof -s pulseaudio >/dev/null 2>&1 &&
+# 	setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1
+
+# Pipewire
+run_once pipewire
+run_once pipewire-pulse
 
 run_once dunst
 
@@ -78,6 +82,13 @@ x230_setup_kb_mouse() {
 	# Remap back/forward to pgup/pgdown
 	xmodmap -e "keycode 167 = Next"
 	xmodmap -e "keycode 166 = Prior"
+
+	# # Remap Home/PgUp to Home/End
+	# xmodmap -e "keycode 110 = Home"
+	# xmodmap -e "keycode 112 = End"
+
+	# xmodmap -e "keycode 115 = Prior"
+	# xmodmap -e "keycode 117 = Next"
 }
 
 

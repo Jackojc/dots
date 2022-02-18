@@ -1,16 +1,12 @@
 #!/usr/bin/env sh
 
-
 run_once launch_picom
-run_once pulseaudio --start
 
-xbacklight =40 &
-networking_wifi_enable &
+xbacklight =40
+networking_wifi_enable
 
-
-sudo cpupower frequency-set -g powersave &
-sudo powertop --auto-tune &
-
+sudo cpupower frequency-set -g powersave
+sudo powertop --auto-tune
 
 wakeup_disable
 usb_disable

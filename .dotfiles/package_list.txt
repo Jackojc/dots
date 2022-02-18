@@ -87,13 +87,14 @@ disputils
 
 
 # audio
+pipewire
+alsa-pipewire
+rtkit
+elogind
 pavucontrol # gui app for managing sound devices and apps
-pulseaudio
 pamixer     # manage pulseaudio
-apulse
 alsa-utils
 alsa-tools
-alsa-plugins-pulseaudio
 alsa-firmware
 
 
