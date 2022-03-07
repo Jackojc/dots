@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+[ -z "$@" ] && echo "no destination specified" && exit 1
+
+sxiv -ro . | xargs -d '\n' -I{} cp -aiv "{}" "$@"
