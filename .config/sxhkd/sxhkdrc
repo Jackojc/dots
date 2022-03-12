@@ -26,7 +26,7 @@ super + shift + Return
 
 
 # launch programs
-super + l; {s,w,f,c,b,n}
+super + l; {s,w,f,c,b,n,l}
 	{ \
 		sampler, \
 		firefox, \
@@ -34,6 +34,7 @@ super + l; {s,w,f,c,b,n}
 		bspwm_float launch_st -e calc, \
 		bspwm_float launch_st -e bluetoothctl, \
 		bspwm_float launch_st -e iwctl, \
+		xsecurelock, \
 	}
 
 # tools

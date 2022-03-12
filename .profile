@@ -53,6 +53,12 @@ export PASH_DIR="$XDG_DATA_HOME/passwords"
 export PASH_CLIP='xclip -sel c'
 export PASH_TIMEOUT="6"
 
+export XSECURELOCK_PROMPT=time_hex
+export XSECURELOCK_SHOW_HOSTNAME=0
+export XSECURELOCK_SHOW_USERNAME=0
+export XSECURELOCK_SHOW_DATETIME=0
+export XSECURELOCK_FONT="Terminus (TTF)"
+
 export BAR_FIFO="$XDG_RUNTIME_DIR/bar_fifo"
 export BAR_FONT="Terminus (TTF)"
 export BAR_NAME=bspwm_bar
