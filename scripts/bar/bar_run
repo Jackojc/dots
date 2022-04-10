@@ -26,9 +26,9 @@ while true; do
 	printf 'D%s\n' "$(get_date)"; sleep 3600
 done > "$BAR_FIFO" &
 
-cat "$HOTKEY_FIFO" | while read -r hk; do
-	printf 'H%s\n' "${hk}"
-done > "$BAR_FIFO" &
+# cat "$HOTKEY_FIFO" | while read -r hk; do
+# 	printf 'H%s\n' "${hk}"
+# done > "$BAR_FIFO" &
 
 bspc subscribe report > "$BAR_FIFO" &
 

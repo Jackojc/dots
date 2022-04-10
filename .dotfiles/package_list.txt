@@ -88,6 +88,10 @@ disputils
 
 # audio
 pipewire
+helvum
+pulseaudio
+libjack-pipewire
+wireplumber
 alsa-pipewire
 rtkit
 elogind

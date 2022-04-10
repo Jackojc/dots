@@ -7,7 +7,7 @@ time=
 date=
 battery=
 
-hotkey=
+# hotkey=
 pressed=
 
 # BAR_ID=
@@ -77,31 +77,31 @@ while read -r line; do
 			power_has_battery && battery=" ${line#?} "
 		;;
 
-		H*) # SXHKD
-			item="${line#?}"
+		# H*) # SXHKD
+		# 	item="${line#?}"
 
-			# We capture chord begin events
-			# and the key which started the chord
-			# so we can display it on the statusbar.
-			case "$item" in
-				H*) pressed="${item#?}" ;; # Hotkey
+		# 	# We capture chord begin events
+		# 	# and the key which started the chord
+		# 	# so we can display it on the statusbar.
+		# 	case "$item" in
+		# 		H*) pressed="${item#?}" ;; # Hotkey
 
-				B*) # Begin chain
-					toggle_visibility=0 # Show the bar and prevent hide/show requests
-					show
-					hotkey=" CHORD (${pressed}) "
-				;;
+		# 		B*) # Begin chain
+		# 			toggle_visibility=0 # Show the bar and prevent hide/show requests
+		# 			show
+		# 			hotkey=" CHORD (${pressed}) "
+		# 		;;
 
-				E*)
-					toggle_visibility=1 # Hide the bar again and re-enable hide/show requests
-					hide
-					hotkey=
-				;; # End chain
+		# 		E*)
+		# 			toggle_visibility=1 # Hide the bar again and re-enable hide/show requests
+		# 			hide
+		# 			hotkey=
+		# 		;; # End chain
 
-				T*) ;; # Timeout
-				C*) ;; # Command
-			esac
-		;;
+		# 		T*) ;; # Timeout
+		# 		C*) ;; # Command
+		# 	esac
+		# ;;
 
 		# Window manager events.
 		W*)
@@ -175,7 +175,7 @@ while read -r line; do
 	[ ! -z "$time" ]    && out="$out${SC}${time}${RC} "
 	[ ! -z "$date" ]    && out="$out${SC}${date}${RC} "
 	[ ! -z "$battery" ] && out="$out${SC}${battery}${RC} "
-	[ ! -z "$hotkey" ]  && out="$out${SC}${hotkey}${RC}"
+	# [ ! -z "$hotkey" ]  && out="$out${SC}${hotkey}${RC}"
 
 	# printf "%s\n" "${SC}${wm}${RC} ${SC}${time}${RC} ${SC}${date}${RC} ${SC}${battery}${RC} ${SC}${hotkey}${RC}"
 	printf "%s\n" "$out"

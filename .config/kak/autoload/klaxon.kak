@@ -15,7 +15,7 @@ provide-module -override klx %{
 	add-highlighter shared/klx/other/ regex "(\s|^)\K(0b[0-1]{8})(\s|$)(0b[0-1]{8}(\s|$))*" 0:value                # binary
 
 	# keywords and operators
-	add-highlighter shared/klx/other/ regex "\b(move|copy|remove|while|if|else|fn|decl|extern)\b" 0:keyword
+	add-highlighter shared/klx/other/ regex "\b(move|copy|remove|while|if|else|decl|extern)\b" 0:keyword
 
 	# string
 	add-highlighter shared/klx/string region '"' (?<!\\)(\\\\)*" group

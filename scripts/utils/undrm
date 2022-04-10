@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+# Fix for EPUB with obfuscated fonts.
+# https://bugs.ghostscript.com/show_bug.cgi?id=697619
+dedrm() {
+	CSS="page_styles.css"
+	zip -d "$1" META-INF/encryption.xml
+	zip -d "$1" fonts/\*
+
+	# remove references to fonts/* in the $css file.
+	unzip -qc "$1" "$CSS" | sed '/@font-face/{:a /}/d; N; ba}' > "$CSS"
+	zip "$1" "$CSS" && rm "$CSS"
+}
+
+dedrm $@

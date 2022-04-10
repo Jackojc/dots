@@ -3,9 +3,9 @@ require-module luar
 declare-user-mode tabs
 
 declare-option str modelinefmt_tabs %opt{modelinefmt}
-declare-option str tabs_overlow "scroll"
+declare-option str tabs_overlow "shrink"
 declare-option str modeline_tabs_percentage 85
-declare-option str tab_separator "|"
+declare-option str tab_separator "│"
 
 declare-option -hidden str modeline_buflist
 
