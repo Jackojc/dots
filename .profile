@@ -70,6 +70,7 @@ export TERMINAL="st"
 export BROWSER="firefox"
 export READER="zathura"
 export EDITOR="kak"
+export VIEWER="sxiv"
 
 
 # prompt
