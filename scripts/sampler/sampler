@@ -2,13 +2,13 @@
 
 fname="${SAMPLER_SAVE_DIRECTORY:-$(pwd)}/$(date +'%d_%m_%Y_%H_%M_%S').wav"
 
-input="$(pactl list short sources | rg 'stereo\.monitor' | awk '{ print $2 }')"
+input="$(pactl list short sources | rg '\.monitor' | awk '{ print $2 }')"
 command="ffmpeg -f pulse -i $input -ac 2 $fname"
 
 
 not_running() {
-	prompt_yesno "record?" &&
-		bash -c "exec -a SAMPLER $command &" && notify_sampler "recording"
+	prompt_yesno "sample?" &&
+		bash -c "exec -a SAMPLER $command &" && notify_sampler "sampling"
 }
 
 

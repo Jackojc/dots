@@ -26,8 +26,9 @@ super + shift + Return
 
 
 # launch programs
-super + l; {s,w,f,c,b,n,l}
+super + l; {r,s,w,f,c,b,n,l}
 	{ \
+		recorder, \
 		sampler, \
 		firefox, \
 		launch_st -e nnn "$(focused_pwd)", \

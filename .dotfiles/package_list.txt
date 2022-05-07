@@ -128,6 +128,7 @@ pavucontrol
 transmission-gtk
 audacity
 lmms
+a2jmidid
 xournalpp
 youtube-dl
 Solaar

@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+fname="${RECORDER_SAVE_DIRECTORY:-$(pwd)}/$(date +'%d_%m_%Y_%H_%M_%S').mp4"
+
+set $(dattr xywh $(pfd))
+
+x=$1
+y=$2
+w=$3
+h=$4
+
+input="$(pactl list short sources | rg 'stereo\.monitor' | awk '{ print $2 }')"
+command="ffmpeg -f x11grab -framerate 60 -video_size $((w))x$((h)) -i +$((x)),$((y)) -f pulse -i $input -ac 2 -c:v libx264rgb -crf 0 -preset ultrafast -t 10 $fname"
+
+not_running() {
+	prompt_yesno "record?" &&
+		bash -c "exec -a RECORDER $command &" && notify_recorder "recording"
+}
+
+
+running() {
+	pkill -f RECORDER && notify_recorder "saved as $(basename $fname)"
+}
+
+
+running || not_running &

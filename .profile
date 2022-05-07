@@ -44,6 +44,7 @@ export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 export GPG_TTY=$(tty)
 export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
 export SAMPLER_SAVE_DIRECTORY="$HOME/samples"
+export RECORDER_SAVE_DIRECTORY="$HOME/recordings"
 export PF_INFO="ascii title os host uptime pkgs editor wm"
 
 export PASH_LENGTH="50"
