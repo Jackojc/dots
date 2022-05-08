@@ -1,20 +1,19 @@
 #!/usr/bin/env sh
 
 fname="${SAMPLER_SAVE_DIRECTORY:-$(pwd)}/$(date +'%d_%m_%Y_%H_%M_%S').wav"
+touch "$SAMPLER_TMP_FILE"
 
 input="$(pactl list short sources | rg '\.monitor' | awk '{ print $2 }')"
-command="ffmpeg -f pulse -i $input -ac 2 $fname"
-
+command="ffmpeg -f pulse -i $input -ac 2 \$(cat \$SAMPLER_TMP_FILE)"
 
 not_running() {
+	echo "$fname" > "$SAMPLER_TMP_FILE"
 	prompt_yesno "sample?" &&
 		bash -c "exec -a SAMPLER $command &" && notify_sampler "sampling"
 }
 
-
 running() {
-	pkill -f SAMPLER && notify_sampler "saved as $(basename $fname)"
+	pkill -f SAMPLER && notify_sampler "saved as $(basename $(cat $SAMPLER_TMP_FILE))"
 }
-
 
 running || not_running &
