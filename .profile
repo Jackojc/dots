@@ -43,9 +43,13 @@ export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 
 export GPG_TTY=$(tty)
 export FZF_DEFAULT_OPTS="--layout=reverse --height 25%"
-export SAMPLER_SAVE_DIRECTORY="$HOME/samples"
-export RECORDER_SAVE_DIRECTORY="$HOME/recordings"
 export PF_INFO="ascii title os host uptime pkgs editor wm"
+
+export SAMPLER_SAVE_DIRECTORY="$HOME/samples"
+export SAMPLER_TMP_FILE="$XDG_RUNTIME_DIR/SAMPLER"
+
+export RECORDER_SAVE_DIRECTORY="$HOME/recordings"
+export RECORDER_TMP_FILE="$XDG_RUNTIME_DIR/RECORDER"
 
 export PASH_LENGTH="50"
 export PASH_PATTERN="_[:alnum:][:graph:]"
@@ -113,6 +117,7 @@ export HISTIGNORE="&:[ ]*:exit:ls:l:la:ll:lal:lt:l.:jump:goto:z:s:bg:fg:history:
 # in the same directory.
 if [ "$DISPLAY" ]; then
 	export PROMPT_COMMAND='echo -en "\033_;${PWD}\007\033]2;\007"'
+	echo -en "\033_;${PWD}\007\033]2;\007"
 fi
 
 # Append history after every command.

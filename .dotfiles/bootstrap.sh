@@ -41,7 +41,7 @@ cd $HOME 2>&1 > /dev/null
 
 # Setup home directory structure.
 notice "setting up home directory structure"
-mkdir -pv docs downloads notes projects recordings samples scraps scripts misc 2>&1 > /dev/null
+mkdir -pv docs downloads notes projects recordings samples albums scraps scripts misc 2>&1 > /dev/null
 mkdir -pv media/tv media/wallpaper media/videos media/pictures media/movies media/music media/torrents 2>&1 > /dev/null
 
 # Download wallpapers.
@@ -134,6 +134,10 @@ xbps-query spotify 2>&1 > /dev/null && notice "\tdiscord already installed" || (
 	sudo xbps-install --repository=hostdir/binpkgs/nonfree discord 2>&1 > /dev/null
 )
 
+
+notice "replacing jack libs"
+echo "/usr/lib/pipewire-0.3/jack" | sudo tee /etc/ld.so.conf.d/pipewire-jack.conf
+sudo ldconfig
 
 sudo plymouth-set-default-theme deus_ex 2>&1 > /dev/null
 notice "make sure to run dracut to enable plymouth module"

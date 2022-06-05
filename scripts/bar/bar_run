@@ -23,7 +23,7 @@ while true; do
 done > "$BAR_FIFO" &
 
 while true; do
-	printf 'D%s\n' "$(get_date)"; sleep 3600
+	printf 'D%s\n' "$(get_date)"; sleep 60
 done > "$BAR_FIFO" &
 
 # cat "$HOTKEY_FIFO" | while read -r hk; do

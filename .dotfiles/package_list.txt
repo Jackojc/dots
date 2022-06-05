@@ -89,6 +89,7 @@ disputils
 # audio
 pipewire
 helvum
+qpwgraph
 pulseaudio
 libjack-pipewire
 wireplumber
