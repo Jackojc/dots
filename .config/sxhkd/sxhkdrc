@@ -39,9 +39,10 @@ super + l; {r,s,w,f,c,b,n,l}
 	}
 
 # tools
-super + t; {n,d,u,w,r}
+super + t; {n,s,d,u,w,r}
 	{ \
 		prompt_notes, \
+		prompt_stickers, \
 		prompt_dim, \
 		prompt_usb, \
 		prompt_wallpaper, \

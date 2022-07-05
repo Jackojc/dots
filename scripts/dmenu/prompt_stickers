@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+cd $DIR_STICKERS
+
+# the reason we pipe to `ls` here is to sort by edit time
+# so entries are presented as most recently edited first.
+choices="$(fd --strip-cwd-prefix -tf | xargs ls -1t --)"
+chosen=$(echo "$choices" | dmenu -p "stickers")
+
+[ -z "$chosen" ] && exit 1
+
+img2clip "$chosen"

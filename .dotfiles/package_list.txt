@@ -24,6 +24,7 @@ radare2
 cmake
 make
 git
+git-lfs
 
 
 # disk monitoring tools

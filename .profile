@@ -11,6 +11,7 @@ export DIR_MEDIA="$HOME/media"
 export DIR_MUSIC="$DIR_MEDIA/music"
 export DIR_WALLPAPERS="$DIR_MEDIA/wallpapers"
 export DIR_NOTES="$HOME/notes"
+export DIR_STICKERS="$HOME/stickers"
 
 export XDG_PUBLICSHARE_DIR="/dev/null"
 export XDG_TEMPLATES_DIR="/dev/null"
@@ -76,6 +77,8 @@ export BROWSER="firefox"
 export READER="zathura"
 export EDITOR="kak"
 export VIEWER="sxiv"
+
+export WM="bspwm"
 
 
 # prompt
