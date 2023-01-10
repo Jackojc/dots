@@ -41,7 +41,7 @@ cd $HOME 2>&1 > /dev/null
 
 # Setup home directory structure.
 notice "setting up home directory structure"
-mkdir -pv docs downloads notes projects recordings samples albums scraps scripts misc stickers 2>&1 > /dev/null
+mkdir -pv docs downloads notes projects recordings samples albums writing scraps scripts misc stickers 2>&1 > /dev/null
 mkdir -pv media/tv media/wallpaper media/videos media/pictures media/movies media/music media/torrents 2>&1 > /dev/null
 
 # Download wallpapers.
@@ -120,7 +120,7 @@ echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
 
 
 notice "installing spotify"
-xbps-query discord 2>&1 > /dev/null && notice "\tspotify already installed" || (
+xbps-query spotify 2>&1 > /dev/null && notice "\tspotify already installed" || (
 	./xbps-src pkg spotify 2>&1 > /dev/null
 	./xbps-src install spotify 2>&1 > /dev/null
 	sudo xbps-install --repository=hostdir/binpkgs/nonfree spotify 2>&1 > /dev/null
@@ -128,7 +128,7 @@ xbps-query discord 2>&1 > /dev/null && notice "\tspotify already installed" || (
 
 
 notice "installing discord"
-xbps-query spotify 2>&1 > /dev/null && notice "\tdiscord already installed" || (
+xbps-query discord 2>&1 > /dev/null && notice "\tdiscord already installed" || (
 	./xbps-src pkg discord 2>&1 > /dev/null
 	./xbps-src install discord 2>&1 > /dev/null
 	sudo xbps-install --repository=hostdir/binpkgs/nonfree discord 2>&1 > /dev/null

@@ -231,6 +231,6 @@ cm() {
 }
 
 if [ "$(tty)" = "/dev/tty2" ]; then
-	pgrep $WINDOWMANAGER || exec startx $WINDOWMANAGER >/dev/null 2>&1
+	pgrep $WINDOWMANAGER || exec dbus-run-session startx $WINDOWMANAGER >/dev/null 2>&1
 fi
 

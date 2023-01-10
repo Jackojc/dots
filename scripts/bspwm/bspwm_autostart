@@ -68,7 +68,10 @@ x240_setup_kb_mouse() {
 
 x230_setup_kb_mouse() {
 	notice "setting up x230 keyboard & mouse"
+
 	xinput set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 1
+	xinput set-prop "TPPS/2 IBM TrackPoint" "Coordinate Transformation Matrix" \
+		1.0, 0, 0, 0, 1.0, 0, 0, 0, 0.2
 
 	synclient PalmDetect=1   # ignore palm
 	synclient PalmMinZ=100
