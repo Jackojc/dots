@@ -1,4 +1,4 @@
-colorscheme yuloo
+colorscheme ayu-dark
 
 # Plugins
 source "%val{config}/rc/byline.kak"
@@ -469,49 +469,49 @@ alias global fa find-edit-all
 alias global f find-edit
 
 # Change colours on focus change
-hook global FocusIn .* %{
-	set-face window FocusedLine        FocusedLine
-	set-face window Default            Default
-	set-face window BufferPadding      BufferPadding
-	set-face window PrimarySelection   PrimarySelection
-	set-face window SecondarySelection SecondarySelection
-	set-face window PrimaryCursor      PrimaryCursor
-	set-face window SecondaryCursor    SecondaryCursor
-	set-face window PrimaryCursorEol   PrimaryCursorEol
-	set-face window SecondaryCursorEol SecondaryCursorEol
-	set-face window MenuForeground     MenuForeground
-	set-face window MenuBackground     MenuBackground
-	set-face window MenuInfo           MenuInfo
-	set-face window StatusLine         StatusLine
-	set-face window StatusLineMode     StatusLineMode
-	set-face window StatusLineInfo     StatusLineInfo
-	set-face window StatusLineValue    StatusLineValue
-	set-face window StatusCursor       StatusCursor
-	set-face window Information        Information
-	set-face window Error              Error
-	set-face window Prompt             Prompt
-}
+# hook global FocusIn .* %{
+# 	set-face window FocusedLine        FocusedLine
+# 	set-face window Default            Default
+# 	set-face window BufferPadding      BufferPadding
+# 	set-face window PrimarySelection   PrimarySelection
+# 	set-face window SecondarySelection SecondarySelection
+# 	set-face window PrimaryCursor      PrimaryCursor
+# 	set-face window SecondaryCursor    SecondaryCursor
+# 	set-face window PrimaryCursorEol   PrimaryCursorEol
+# 	set-face window SecondaryCursorEol SecondaryCursorEol
+# 	set-face window MenuForeground     MenuForeground
+# 	set-face window MenuBackground     MenuBackground
+# 	set-face window MenuInfo           MenuInfo
+# 	set-face window StatusLine         StatusLine
+# 	set-face window StatusLineMode     StatusLineMode
+# 	set-face window StatusLineInfo     StatusLineInfo
+# 	set-face window StatusLineValue    StatusLineValue
+# 	set-face window StatusCursor       StatusCursor
+# 	set-face window Information        Information
+# 	set-face window Error              Error
+# 	set-face window Prompt             Prompt
+# }
 
-hook global FocusOut .* %{
-	set-face window FocusedLine        InactiveFocusedLine
-	set-face window Default            InactiveDefault
-	set-face window BufferPadding      InactiveBufferPadding
-	set-face window PrimarySelection   InactivePrimarySelection
-	set-face window SecondarySelection InactiveSecondarySelection
-	set-face window PrimaryCursor      InactivePrimaryCursor
-	set-face window SecondaryCursor    InactiveSecondaryCursor
-	set-face window PrimaryCursorEol   InactivePrimaryCursorEol
-	set-face window SecondaryCursorEol InactiveSecondaryCursorEol
-	set-face window MenuForeground     InactiveMenuForeground
-	set-face window MenuBackground     InactiveMenuBackground
-	set-face window MenuInfo           InactiveMenuInfo
-	set-face window StatusLine         InactiveStatusLine
-	set-face window StatusLineMode     InactiveStatusLineMode
-	set-face window StatusLineInfo     InactiveStatusLineInfo
-	set-face window StatusLineValue    InactiveStatusLineValue
-	set-face window StatusCursor       InactiveStatusCursor
-	set-face window Information        InactiveInformation
-	set-face window Error              InactiveError
-	set-face window Prompt             InactivePrompt
-}
+# hook global FocusOut .* %{
+# 	set-face window FocusedLine        InactiveFocusedLine
+# 	set-face window Default            InactiveDefault
+# 	set-face window BufferPadding      InactiveBufferPadding
+# 	set-face window PrimarySelection   InactivePrimarySelection
+# 	set-face window SecondarySelection InactiveSecondarySelection
+# 	set-face window PrimaryCursor      InactivePrimaryCursor
+# 	set-face window SecondaryCursor    InactiveSecondaryCursor
+# 	set-face window PrimaryCursorEol   InactivePrimaryCursorEol
+# 	set-face window SecondaryCursorEol InactiveSecondaryCursorEol
+# 	set-face window MenuForeground     InactiveMenuForeground
+# 	set-face window MenuBackground     InactiveMenuBackground
+# 	set-face window MenuInfo           InactiveMenuInfo
+# 	set-face window StatusLine         InactiveStatusLine
+# 	set-face window StatusLineMode     InactiveStatusLineMode
+# 	set-face window StatusLineInfo     InactiveStatusLineInfo
+# 	set-face window StatusLineValue    InactiveStatusLineValue
+# 	set-face window StatusCursor       InactiveStatusCursor
+# 	set-face window Information        InactiveInformation
+# 	set-face window Error              InactiveError
+# 	set-face window Prompt             InactivePrompt
+# }
 

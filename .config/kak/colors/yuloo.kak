@@ -74,37 +74,37 @@ face global StatusLineValue         rgb:d9d9d9,rgb:1a1a1a
 face global Information             rgb:d9d9d9,rgb:1a1a1a
 
 
-face global InactiveFocusedLine             default,rgb:050505
-face global InactiveWhitespace              rgb:0d0d0d+f
+face global InactiveFocusedLine             default,rgb:050505+F
+face global InactiveWhitespace              rgb:0d0d0d+F
 
-face global InactiveBufferPadding           rgb:000000,rgb:000000
+face global InactiveBufferPadding           rgb:000000,rgb:000000+F
 
-face global InactivePrimarySelection        rgb:0d0d0d,rgb:d9d9d9
-face global InactiveSecondarySelection      rgb:0d0d0d,rgb:bfbfbf
+face global InactivePrimarySelection        rgb:0d0d0d,rgb:d9d9d9+F
+face global InactiveSecondarySelection      rgb:0d0d0d,rgb:bfbfbf+F
 
-face global InactiveStatusCursor            rgb:0d0d0d,rgb:f2f2f2
-face global InactivePrimaryCursor           rgb:0d0d0d,rgb:f2f2f2
-face global InactivePrimaryCursorEol        rgb:0d0d0d,rgb:f2f2f2
-face global InactiveSecondaryCursor         rgb:0d0d0d,rgb:d9d9d9
-face global InactiveSecondaryCursorEol      rgb:0d0d0d,rgb:d9d9d9
+face global InactiveStatusCursor            rgb:0d0d0d,rgb:f2f2f2+F
+face global InactivePrimaryCursor           rgb:0d0d0d,rgb:f2f2f2+F
+face global InactivePrimaryCursorEol        rgb:0d0d0d,rgb:f2f2f2+F
+face global InactiveSecondaryCursor         rgb:0d0d0d,rgb:d9d9d9+F
+face global InactiveSecondaryCursorEol      rgb:0d0d0d,rgb:d9d9d9+F
 
-face global InactiveLineNumbers             rgb:121212
-face global InactiveLineNumberCursor        rgb:262626
+face global InactiveLineNumbers             rgb:121212+F
+face global InactiveLineNumberCursor        rgb:262626+F
 
 face global InactiveMatchingChar            rgb:e6e6e6,rgb:1a1a1a+Fb
-face global InactiveSearch                  rgb:c7c7c7,rgb:262626
+face global InactiveSearch                  rgb:c7c7c7,rgb:262626+F
 
-face global InactiveMenuBackground          rgb:ffffff,rgb:050505
+face global InactiveMenuBackground          rgb:ffffff,rgb:050505+F
 face global InactiveMenuForeground          rgb:ffffff,rgb:0d0d0d+b
-face global InactiveMenuInfo                rgb:ffffff,rgb:0d0d0d
+face global InactiveMenuInfo                rgb:ffffff,rgb:0d0d0d+F
 
-face global InactiveDefault                 rgb:d9d9d9,rgb:000000
-face global InactiveError                   rgb:8c8c8c,rgb:000000
-face global InactivePrompt                  rgb:8c8c8c,rgb:000000
-face global InactiveStatusLine              rgb:8c8c8c,rgb:000000
-face global InactiveStatusLineInfo          rgb:8c8c8c,rgb:000000
+face global InactiveDefault                 rgb:d9d9d9,rgb:000000+F
+face global InactiveError                   rgb:8c8c8c,rgb:000000+F
+face global InactivePrompt                  rgb:8c8c8c,rgb:000000+F
+face global InactiveStatusLine              rgb:8c8c8c,rgb:000000+F
+face global InactiveStatusLineInfo          rgb:8c8c8c,rgb:000000+F
 
-face global InactiveStatusLineMode          rgb:8c8c8c,rgb:0d0d0d
-face global InactiveStatusLineValue         rgb:8c8c8c,rgb:0d0d0d
-face global InactiveInformation             rgb:8c8c8c,rgb:0d0d0d
+face global InactiveStatusLineMode          rgb:8c8c8c,rgb:0d0d0d+F
+face global InactiveStatusLineValue         rgb:8c8c8c,rgb:0d0d0d+F
+face global InactiveInformation             rgb:8c8c8c,rgb:0d0d0d+F
 
