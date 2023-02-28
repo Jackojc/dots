@@ -1,7 +1,7 @@
 colorscheme ayu-dark
 
 # Plugins
-source "%val{config}/rc/byline.kak"
+# source "%val{config}/rc/byline.kak"
 source "%val{config}/rc/luar.kak"
 source "%val{config}/rc/tabs.kak"
 source "%val{config}/rc/surround.kak"
@@ -77,10 +77,6 @@ map global view s '<esc>: select-view<ret>' -docstring 'select view'
 map global normal <c-down> ': move-line-below<ret>'
 map global normal <c-up> ': move-line-above<ret>'
 
-# Select lines
-map global "normal" "x" ": byline-drag-down<ret>"
-map global "normal" "X" ": byline-drag-up<ret>"
-
 # Home/End
 map global normal <end>  'gl'
 map global normal <home> 'gh'
@@ -110,10 +106,6 @@ map global normal <del> '<a-d>'
 # Comments
 map global normal '#' ': comment-line<ret>'
 map global normal '<a-#>' ': comment-block<ret>'
-
-# Incr/decr
-map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
-map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
 
 # Tab to cycle buffers
 map global normal <tab> ': buffer-next<ret>'
