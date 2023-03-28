@@ -3,11 +3,12 @@
 fname="${SAMPLER_SAVE_DIRECTORY:-$(pwd)}/$(date +'%d_%m_%Y_%H_%M_%S').wav"
 touch "$SAMPLER_TMP_FILE"
 
-input="$(pactl list short sources | rg '\.monitor' | awk '{ print $2 }')"
-command="ffmpeg -f pulse -i $input -ac 2 \$(cat \$SAMPLER_TMP_FILE)"
+input="$(pactl list short sources | rg '\.monitor' | head -n1 | awk '{ print $2 }')"
 
 not_running() {
 	echo "$fname" > "$SAMPLER_TMP_FILE"
+	command="ffmpeg -f pulse -i '$input' -ac 2 $(cat $SAMPLER_TMP_FILE)"
+	echo "$command"
 	prompt_yesno "sample?" &&
 		bash -c "exec -a SAMPLER $command &" && notify_sampler "sampling"
 }

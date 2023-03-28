@@ -12,11 +12,22 @@ output VGA1
 off
 output VIRTUAL1
 off
-output LVDS1
-off
 output HDMI3
 crtc 0
 mode 1440x900
 pos 0x0
 primary
 rate 59.90
+x-prop-aspect_ratio Automatic
+x-prop-audio auto
+x-prop-broadcast_rgb Automatic
+x-prop-colorspace Default
+x-prop-max_bpc 12
+x-prop-non_desktop 0
+output LVDS1
+crtc 1
+mode 1366x768
+pos 37x900
+rate 60.00
+x-prop-non_desktop 0
+x-prop-scaling_mode Full
