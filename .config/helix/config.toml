@@ -26,6 +26,12 @@ completion-trigger-len = 1
 idle-timeout = 0
 
 
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+
 [editor.gutters]
 layout = ["diff", "line-numbers", "spacer"]
 line-numbers.min-width = 0
