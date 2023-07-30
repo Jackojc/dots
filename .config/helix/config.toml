@@ -1,0 +1,171 @@
+theme = "ayu_mirage"
+
+
+[editor]
+line-number = "relative"
+mouse = true
+
+color-modes = true  # mode indicator changes colour
+text-width = 120
+
+true-color = true  # terminal features
+undercurl = true
+
+bufferline = "multiple"  # show tabs when muliple buffers
+
+scrolloff = 0
+scroll-lines = 3
+
+rulers = [80, 120]
+cursorline = true
+
+auto-format = true
+
+completion-replace = true
+completion-trigger-len = 1
+idle-timeout = 0
+
+
+[editor.gutters]
+layout = ["diff", "line-numbers", "spacer"]
+line-numbers.min-width = 0
+
+
+[editor.whitespace]
+render = "all"
+characters = { newline = "¬" }
+
+
+[editor.indent-guides]
+render = true
+character = "▏"
+skip-levels = 0
+
+
+[editor.soft-wrap]
+enable = true
+
+
+[editor.lsp]
+enable = true
+display-messages = true
+display-inlay-hints = true
+display-signature-help-docs = true
+auto-signature-help = true
+snippets = true
+goto-reference-include-declaration = true
+
+
+[editor.search]
+wrap-around = true
+
+
+[editor.statusline]
+left = ["selections", "mode", "spacer", "file-modification-indicator", "spinner"]
+center = ["version-control"]
+right = ["file-name", "separator", "file-type"]
+
+separator = "│"
+
+mode.normal = "normal"
+mode.insert = "insert"
+mode.select = "select"
+
+
+[keys.insert]
+# Half page movement is better
+pageup = ["half_page_up", "goto_window_center"]
+pagedown = ["half_page_down", "goto_window_center"]
+
+# Better selections with movement keys
+"S-left" = "extend_char_left"
+"S-right" = "extend_char_right"
+"S-up" = "extend_line_up"
+"S-down" = "extend_line_down"
+"S-home" = "extend_to_line_start"
+"S-end" = "extend_to_line_end"
+
+# ctrl-left/right to jump around words in insert mode
+"C-left" = ["move_prev_long_word_start", "collapse_selection"]
+"C-right" = ["move_next_long_word_end", "move_char_right", "collapse_selection"]
+
+
+[keys.normal]
+q = ["move_prev_word_start", "trim_selections"]
+Q = ["move_prev_long_word_start", "trim_selections"]
+
+w = ["move_next_word_end", "trim_selections"]
+W = ["move_next_long_word_end", "trim_selections"]
+
+"[" = { "[" = "select_prev_sibling" }
+"]" = { "]" = "select_next_sibling" }
+
+# Switch buffers
+tab = ":bn"
+S-tab = ":bp"
+
+# Allow adding a newline in normal mode with enter
+# "A-o" = "add_newline_below"   # use ]space or [space
+# "A-S-o" = "add_newline_above"
+
+X = "extend_line_above"
+
+# Swap b and q
+b = "replay_macro"
+B = "record_macro"
+
+# Comment toggle
+"#" = "toggle_comments"
+
+# Collapse multiple selections and shrink primary
+esc = ["normal_mode", "collapse_selection", "keep_primary_selection"]
+
+# Half page movement is better
+pageup = ["half_page_up", "goto_window_center"]
+pagedown = ["half_page_down", "goto_window_center"]
+
+# Better selections with movement keys
+"S-left" = "extend_char_left"
+"S-right" = "extend_char_right"
+"S-up" = "extend_line_up"
+"S-down" = "extend_line_down"
+"S-home" = "extend_to_line_start"
+"S-end" = "extend_to_line_end"
+
+# Shift lines up/down
+"C-up" = [
+  "extend_to_line_bounds",
+  "delete_selection",
+  "move_line_up",
+  "paste_before"
+]
+
+"C-down" = [
+  "extend_to_line_bounds",
+  "delete_selection",
+  "move_line_down",
+  "paste_before"
+]
+
+"C-s" = "surround_add"
+
+"C-home" = "jump_view_left"
+"C-end" = "jump_view_right"
+
+
+[keys.select]
+q = ["extend_prev_word_start", "trim_selections"]
+Q = ["extend_prev_long_word_start", "trim_selections"]
+
+w = ["extend_next_word_end", "trim_selections"]
+W = ["extend_next_long_word_end", "trim_selections"]
+
+"[" = { "[" = "select_prev_sibling" }
+"]" = { "]" = "select_next_sibling" }
+
+b = "no_op"
+B = "no_op"
+
+# Half page movement is better
+pageup = ["half_page_up", "goto_window_center"]
+pagedown = ["half_page_down", "goto_window_center"]

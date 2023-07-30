@@ -75,7 +75,7 @@ export WINDOWMANAGER="bspwm"
 export TERMINAL="st"
 export BROWSER="firefox"
 export READER="zathura"
-export EDITOR="kak"
+export EDITOR="hx"
 export VIEWER="sxiv"
 
 export WM="bspwm"
