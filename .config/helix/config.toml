@@ -68,8 +68,8 @@ wrap-around = true
 
 [editor.statusline]
 left = ["selections", "mode", "spacer", "file-modification-indicator", "spinner"]
-center = ["version-control"]
-right = ["file-name", "separator", "file-type"]
+center = []
+right = ["file-name", "separator", "file-type", "separator", "spacer", "version-control"]
 
 separator = "│"
 
