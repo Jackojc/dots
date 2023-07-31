@@ -1,0 +1,4 @@
+[[language]]
+name = "cpp"
+auto-format = true
+indent = { tab-width = 4, unit = "\t" }

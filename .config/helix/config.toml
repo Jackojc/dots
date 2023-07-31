@@ -43,7 +43,7 @@ characters = { newline = "¬" }
 
 
 [editor.indent-guides]
-render = true
+render = false
 character = "▏"
 skip-levels = 0
 
